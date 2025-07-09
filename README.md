@@ -60,5 +60,45 @@ To view this output waveform, we use **GTKWave**.
 ---
 ### SKY130RTL D1SK2 L1 Lab1 introduction to lab
 ---
+### Toolflow and File Setup for Labs
 
+We will now set up the necessary toolflow and file structure to run the labs.
 
+#### Step 1: Create a Directory
+
+Create a directory named `VLSI` and navigate into it:
+
+```bash
+mkdir VLSI
+cd VLSI
+````
+
+#### Step 2: Clone the Required Repositories
+
+Clone the following repositories from GitHub:
+
+* **sky130RTLDesignAndSynthesisWorkshop**
+
+```bash
+git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+```
+
+* **vsdflow**
+
+```bash
+git clone https://github.com/kunalg123/vsdflow.git
+```
+
+After this, your directory structure should look like:
+
+```
+VLSI/
+├── sky130RTLDesignAndSynthesisWorkshop/
+└── vsdflow/
+```
+
+This completes the initial setup required for running the labs.
+
+![Screenshot 2025-07-09 143022](https://github.com/user-attachments/assets/e5cceec9-36a3-498b-a280-3b4e9be97b39)
+
+![Screenshot 2025-07-09 143738](https://github.com/user-attachments/assets/9b16df58-5cf3-4465-b7b4-6700127203ad)
