@@ -5,6 +5,9 @@
   - [SKY130RTL D1SK1 L1 Introduction to iverilog design test bench](#SKY130RTL-D1SK1-L1-Introduction-to-iverilog-design-test-bench)
  - [Labs using iverilog and gtkwave](#Labs-using-iverilog-and-gtkwave)
   - [SKY130RTL D1SK2 L1 Lab1 introduction to lab](#SKY130RTL-D1SK2-L1-Lab1-introduction-to-lab)
+  - [SKY130RTL D1SK2 L2 Lab2 Introduction iverilog gtkwave part1](#SKY130RTL-D1SK2-L2-Lab2-Introduction-iverilog-gtkwave-part1)
+  - [SKY130RTL D1SK2 L3 Lab2 Introduction iverilog gtkwave part2](#SKY130RTL-D1SK2-L3-Lab2-Introduction-iverilog-gtkwave-part2)
+    
 
 
 # Day 1 - Introduction to Verilog RTL design and Synthesis
@@ -102,3 +105,92 @@ This completes the initial setup required for running the labs.
 ![Screenshot 2025-07-09 143022](https://github.com/user-attachments/assets/e5cceec9-36a3-498b-a280-3b4e9be97b39)
 
 ![Screenshot 2025-07-09 143738](https://github.com/user-attachments/assets/9b16df58-5cf3-4465-b7b4-6700127203ad)
+
+The contents of sky130RTLDesignAndSynthesisWorkshop directory are shown below
+
+![Screenshot 2025-07-09 144919](https://github.com/user-attachments/assets/2f697cc0-57fc-4b92-9117-602ef47dccdd)
+
+The `lib` directory contains the standard cell library that we will use for synthesis.
+The `verilog_model` directory contains the Verilog models of all the standard cells present in the `.lib` file.
+
+![Screenshot 2025-07-09 145308](https://github.com/user-attachments/assets/34e65092-a36f-4a94-9ced-8a46ed362db3)
+
+![Screenshot 2025-07-09 145557](https://github.com/user-attachments/assets/915a4bdd-e194-45c5-a634-aec0d4b11516)
+
+The `verilog_files` folder contains all our lab experiments, including both the source files and the testbench files.
+
+![Screenshot 2025-07-09 145515](https://github.com/user-attachments/assets/e37cadf1-25dd-4c3a-8d8a-15160cb84add)
+
+---
+### SKY130RTL D1SK2 L2 Lab2 Introduction iverilog gtkwave part1
+---
+
+### Tool Installation
+
+Install the following tools required to run the labs:
+
+#### 1. Install **Icarus Verilog** (`iverilog`)
+
+```bash
+sudo apt-get install iverilog
+```
+
+#### 2. Install **GTKWave**
+
+```bash
+sudo apt-get install gtkwave
+```
+
+These tools will allow you to compile Verilog files and visualize waveform outputs.
+
+![Screenshot 2025-07-09 150942](https://github.com/user-attachments/assets/0f30c5ee-21e3-45c4-ba69-a85477202f3a)
+
+![Screenshot 2025-07-09 151053](https://github.com/user-attachments/assets/0864bae3-e7c2-40e7-8456-10f02e9ac3d3)
+
+### Simulate the Design: `good_mux`
+
+Follow the steps below to compile, simulate, and view the waveform for the `good_mux` design.
+
+#### 1. Compile the Design and Testbench
+
+```bash
+iverilog good_mux.v tb_good_mux.v
+```
+
+#### 2. Run the Simulation
+
+```bash
+./a.out
+```
+
+This will generate a waveform file named `tb_good_mux.vcd`.
+
+#### 3. View the Waveform
+
+```bash
+gtkwave tb_good_mux.vcd
+```
+
+The verilog code for the design good_mux.v is shown below
+
+![Screenshot 2025-07-09 151517](https://github.com/user-attachments/assets/aab406e3-8420-4069-9ed0-23897d87bd9d)
+
+The verilog code for the testbench tb_good_mux.v is shown below
+
+![Screenshot 2025-07-09 151553](https://github.com/user-attachments/assets/30be7049-31fe-4892-9a11-b4509f56c16a)
+
+results:
+
+![Screenshot 2025-07-09 151737](https://github.com/user-attachments/assets/8c56832a-1d8c-454c-b89b-78cada20f947)
+
+viewing the waveform 
+
+![Screenshot 2025-07-09 151853](https://github.com/user-attachments/assets/7b132bcf-8e75-4842-a5b1-e519a5c157d0)
+
+![Screenshot 2025-07-09 152147](https://github.com/user-attachments/assets/d208c04a-237f-44d9-b008-9e7926d5f996)
+
+---
+### SKY130RTL D1SK2 L3 Lab2 Introduction iverilog gtkwave part2
+---
+
+
