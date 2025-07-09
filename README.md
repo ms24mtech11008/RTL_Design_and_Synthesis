@@ -7,7 +7,8 @@
   - [SKY130RTL D1SK2 L1 Lab1 introduction to lab](#SKY130RTL-D1SK2-L1-Lab1-introduction-to-lab)
   - [SKY130RTL D1SK2 L2 Lab2 Introduction iverilog gtkwave part1](#SKY130RTL-D1SK2-L2-Lab2-Introduction-iverilog-gtkwave-part1)
   - [SKY130RTL D1SK2 L3 Lab2 Introduction iverilog gtkwave part2](#SKY130RTL-D1SK2-L3-Lab2-Introduction-iverilog-gtkwave-part2)
-    
+ - [Introduction to Yosys and Logic synthesis](#Introduction-to-Yosys-and-Logic-synthesis)
+  - [SKY130RTL D1SK3 L1 Introduction to yosys](#SKY130RTL-D1SK3-L1-Introduction-to-yosys)
 
 
 # Day 1 - Introduction to Verilog RTL design and Synthesis
@@ -274,3 +275,62 @@ endmodule
 * `i1` toggles every 55 ns.
 * Output `y` follows `i0` or `i1` based on the value of `sel`.
 * Waveform is dumped to `tb_good_mux.vcd` and can be viewed using GTKWave.
+
+---
+## Introduction to Yosys and Logic synthesis
+---
+### SKY130RTL D1SK3 L1 Introduction to yosys
+---
+
+## Introduction to Yosys
+
+**Yosys** is the synthesizer tool used in this course. It is responsible for converting RTL (Register Transfer Level) code into a gate-level **netlist** using standard cells.
+
+### Role of Synthesizer:
+
+A synthesizer takes a digital RTL design and a standard cell library (`.lib` file) and generates a netlist that represents the circuit using gates and cells from the library.
+
+### Yosys Synthesis Flow:
+
+1. **Inputs to Yosys**:
+
+   * The RTL design (`.v` file)
+   * The standard cell library (`.lib` file)
+
+![Screenshot 2025-07-09 155007](https://github.com/user-attachments/assets/a2b57e82-b6cb-489f-a5b2-fe5d23f89cf8)
+
+
+2. **Yosys Commands**:
+
+   * `read_verilog` – Reads the Verilog design file.
+   * `read_liberty` – Reads the `.lib` file containing timing and cell information.
+   * `write_verilog` – Writes out the synthesized netlist.
+
+![Screenshot 2025-07-09 155111](https://github.com/user-attachments/assets/ecfeb932-9879-41b6-958a-39ed83652fe3)
+
+3. **Output**:
+
+   * A netlist file representing the design using standard cells from the `.lib` library.
+
+### Netlist Verification:
+
+To verify if the synthesis process was successful and functionally correct:
+
+* Use the **same testbench** that was used for the original RTL simulation.
+* Apply the synthesized **netlist** and the **testbench** to the simulator (**Icarus Verilog**).
+* Generate the VCD (`.vcd`) file.
+* Load the VCD file in **GTKWave** and compare the waveform output.
+
+![Screenshot 2025-07-09 155345](https://github.com/user-attachments/assets/61b6d58e-e37e-4e12-b016-1ec309d89379)
+
+### Important Notes:
+
+* The stimulus in the testbench **must match** the one used during RTL simulation.
+* The **primary inputs and outputs** of the netlist remain the same as the RTL design.
+* Therefore, **the same testbench** can be reused for post-synthesis simulation.
+
+![Screenshot 2025-07-09 155551](https://github.com/user-attachments/assets/fae00675-36ce-46d9-a14c-be5a60da2f5d)
+
+---
+
+
