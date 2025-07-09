@@ -193,4 +193,84 @@ viewing the waveform
 ### SKY130RTL D1SK2 L3 Lab2 Introduction iverilog gtkwave part2
 ---
 
+### 1. `good_mux.v` (Design)
 
+```verilog
+module good_mux (input i0, input i1, input sel, output reg y);
+
+  always @(*) begin
+    if (sel)
+      y = i1;
+    else
+      y = i0;
+  end
+
+endmodule
+```
+
+### Explanation:
+
+* **Inputs**: `i0`, `i1`, and `sel` (all 1-bit signals)
+* **Output**: `y` (register type, 1-bit)
+* The `always @(*)` block watches all inputs.
+* If `sel = 1`, then `y = i1`; else `y = i0`.
+* This is a 2:1 multiplexer.
+
+---
+
+## 2.`tb_good_mux.v` (Testbench)
+
+```verilog
+`timescale 1ns / 1ps
+
+module tb_good_mux;
+
+  // Inputs
+  reg i0, i1, sel;
+
+  // Output
+  wire y;
+
+  // Instantiate the Unit Under Test (UUT)
+  good_mux uut (
+    .i0(i0),
+    .i1(i1),
+    .sel(sel),
+    .y(y)
+  );
+
+  initial begin
+    $dumpfile("tb_good_mux.vcd");
+    $dumpvars(0, tb_good_mux);
+
+    // Initialize Inputs
+    sel = 0;
+    i0 = 0;
+    i1 = 0;
+
+    // Run simulation for 300 ns
+    #300 $finish;
+  end
+
+  // Toggle sel every 75 ns
+  always #75 sel = ~sel;
+
+  // Toggle i0 every 10 ns
+  always #10 i0 = ~i0;
+
+  // Toggle i1 every 55 ns
+  always #55 i1 = ~i1;
+
+endmodule
+```
+
+---
+
+## Testbench Behavior:
+
+* Simulation runs for 300 ns.
+* `sel` toggles every 75 ns to switch between `i0` and `i1`.
+* `i0` toggles every 10 ns.
+* `i1` toggles every 55 ns.
+* Output `y` follows `i0` or `i1` based on the value of `sel`.
+* Waveform is dumped to `tb_good_mux.vcd` and can be viewed using GTKWave.
