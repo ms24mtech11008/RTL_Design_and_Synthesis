@@ -9,6 +9,7 @@
   - [SKY130RTL D1SK2 L3 Lab2 Introduction iverilog gtkwave part2](#SKY130RTL-D1SK2-L3-Lab2-Introduction-iverilog-gtkwave-part2)
  - [Introduction to Yosys and Logic synthesis](#Introduction-to-Yosys-and-Logic-synthesis)
   - [SKY130RTL D1SK3 L1 Introduction to yosys](#SKY130RTL-D1SK3-L1-Introduction-to-yosys)
+  - [SKY130RTL D1SK3 L2 introduction to logic synthesis part1](#SKY130RTL-D1SK3-L2-introduction-to-logic-synthesis-part1)
 
 
 # Day 1 - Introduction to Verilog RTL design and Synthesis
@@ -331,6 +332,8 @@ To verify if the synthesis process was successful and functionally correct:
 
 ![Screenshot 2025-07-09 155551](https://github.com/user-attachments/assets/fae00675-36ce-46d9-a14c-be5a60da2f5d)
 
+---
+### SKY130RTL D1SK3 L2 introduction to logic synthesis part1
 ---
 
 
