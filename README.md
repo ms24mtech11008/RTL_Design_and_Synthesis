@@ -10,6 +10,11 @@
  - [Introduction to Yosys and Logic synthesis](#Introduction-to-Yosys-and-Logic-synthesis)
   - [SKY130RTL D1SK3 L1 Introduction to yosys](#SKY130RTL-D1SK3-L1-Introduction-to-yosys)
   - [SKY130RTL D1SK3 L2 introduction to logic synthesis part1](#SKY130RTL-D1SK3-L2-introduction-to-logic-synthesis-part1)
+  - [SKY130RTL D1SK3 L3 introduction to logic synthesis part2](#SKY130RTL-D1SK3-L3-introduction-to-logic-synthesis-part2)
+ - [Labs using Yosys and Sky130 PDKs](#Labs-using-Yosys-and-Sky130-PDKs)
+  - [SKY130RTL D1SK4 L1 Lab3 Yosys 1 good mux Part1](#SKY130RTL-D1SK4-L1-Lab3-Yosys-1-good-mux-Part1)
+
+
 
 
 # Day 1 - Introduction to Verilog RTL design and Synthesis
@@ -407,6 +412,202 @@ To verify if the synthesis process was successful and functionally correct:
 ![Screenshot 2025-07-10 094117](https://github.com/user-attachments/assets/e531047d-079a-4be1-bd90-bbcd3cefbbfe)
 
 ---
+### SKY130RTL D1SK3 L3 introduction to logic synthesis part2
+---
 
+### **Are Faster Cells Sufficient?**
+
+At first glance, it might seem that using only **faster cells** is the key to achieving **maximum performance**. After all, higher clock speeds typically mean better performance. But this leads us to an important question:
+
+> If faster cells minimize delay, **why are slower cells needed at all?**
+
+---
+
+### **Why Do We Need Slow Cells?**
+
+To meet **timing constraints**, both **setup** and **hold** times must be satisfied:
+
+* For **setup time** (performance constraint), we want the data to arrive *before* the clock edge.
+* For **hold time** (reliability constraint), we want the data to **stay stable briefly after** the clock edge.
+
+![Screenshot 2025-07-10 095024](https://github.com/user-attachments/assets/66e3dea3-ce07-4e42-b216-b52dd5cd7e4c)
+
+If the combinational delay is **too short**, we may violate **hold time**:
+
+```
+Thold_B < Tcq_A + Tcomb
+```
+
+So:
+
+* We need **faster cells** to **reduce Tcomb** and meet setup timing.
+* We need **slower cells** to **increase Tcomb** and avoid hold time violations.
+
+The `.lib` file includes all these different **cell variants** to allow flexibility in achieving the correct balance.
+
+---
+
+### **Understanding Hold Time**
+
+* **Hold time** of a flip-flop is the **minimum time** after the clock edge during which data **must remain stable**.
+* If the input to flip-flop B changes **too quickly**, it might capture the **wrong data**.
+* Thus, **slower cells** can intentionally **increase delay** to help meet the hold constraint.
+
+---
+
+### **Faster vs. Slower Cells**
+
+* The **load** in a digital logic circuit is essentially a **capacitance**.
+* The **faster** we can **charge/discharge** this load, the **lower** the propagation delay.
+
+| Parameter        | Faster Cells          | Slower Cells              |
+| ---------------- | --------------------- | ------------------------- |
+| Transistor Width | Wider (more current)  | Narrower (less current)   |
+| Delay            | Lower                 | Higher                    |
+| Area             | Larger                | Smaller                   |
+| Power            | Higher                | Lower                     |
+| Use Case         | Improves setup timing | Helps fix hold violations |
+
+---
+
+### **Trade-Offs: Speed vs. Area/Power**
+
+Faster cells offer performance benefits but come at a **cost**:
+
+* **More area**
+* **More power consumption**
+* **Greater risk of hold time violations**
+
+Slower cells are:
+
+* **Power-efficient**
+* **Area-efficient**
+* **Useful in preventing hold violations**
+
+Hence, **faster cells are not always sufficient or ideal**.
+
+---
+
+### **Selection of Cells: Synthesizer Guidance**
+
+The **synthesis tool** decides which cells to use during logic synthesis. However, we must **guide** it to choose an **optimal mix** of fast and slow cells.
+
+* **Too many fast cells** → High power, large area, potential hold issues.
+* **Too many slow cells** → Fails to meet timing/performance goals.
+
+This guidance is provided using **constraints**:
+
+* Timing constraints (clock period, setup/hold margin)
+* Area and power constraints
+* Design objectives and priorities
+
+---
+
+### **Conclusion**
+
+The process of synthesis is not just about making the circuit work—it's about making it work **efficiently**. The selection between faster and slower cells is a **critical design decision**, and synthesis tools use **constraints** to make this trade-off in a balanced way.
+
+![Screenshot 2025-07-10 095118](https://github.com/user-attachments/assets/02fc26c7-9db8-4d52-8278-0edab170a5ef)
+
+---
+## Labs using Yosys and Sky130 PDKs
+---
+### SKY130RTL D1SK4 L1 Lab3 Yosys 1 good mux Part1
+---
+
+### **Introduction to Synthesizer: Yosys**
+
+**Yosys** is an open-source synthesis tool used for converting RTL code into a gate-level netlist using a given standard cell library.
+
+#### **Steps to Invoke and Use Yosys**
+
+1. **Start Yosys**
+
+   * Open a terminal and navigate to the working directory:
+
+     ```bash
+     cd verilog_files
+     ```
+   * Invoke the tool by typing:
+
+     ```bash
+     yosys
+     ```
+
+---
+
+#### **1. Read the Standard Cell Library**
+
+Before synthesis, the tool must understand the available logic cells. This is done by reading the `.lib` file:
+
+```yosys
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+
+---
+
+#### **2. Read the Verilog Design**
+
+Next, import the RTL design (example: a multiplexer design named `good_mux.v`):
+
+```yosys
+read_verilog good_mux.v
+```
+
+![Screenshot 2025-07-10 101837](https://github.com/user-attachments/assets/ee6362bf-f4a4-479a-aebf-9e94cdc53062)
+
+---
+
+#### **3. Perform Synthesis**
+
+Specify the top module of the design:
+
+```yosys
+synth -top good_mux
+```
+![Screenshot 2025-07-10 101929](https://github.com/user-attachments/assets/0c1476d1-7ab7-49a9-9289-118e98a896c4)
+
+This step translates the RTL to a gate-level representation using generic gates.
+
+---
+
+#### **4. Technology Mapping**
+
+Map the synthesized design to standard cells defined in the `.lib` file:
+
+```yosys
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+
+At this stage, the synthesis is complete and the result is a netlist using specific standard cells.
+
+---
+
+#### **5. Analyze the Output**
+
+* Compare the netlist with the original `good_mux.v`.
+* **Note:**
+
+  * The output netlist will not include internal signals.
+  * Only **3 inputs** and **1 output** are visible (as in the original RTL).
+  * The following **standard cells** are used:
+
+    * `clkbuf_1` (clock buffer/inverter)
+    * `nand2_1`
+    * `o21ai_0` (OR-AND-Invert cell)
+
+---
+
+#### **6. Visualize the Logic**
+
+To view a graphical representation of the synthesized logic, use the `show` command:
+
+```yosys
+show
+```
+
+This launches a viewer that displays the gate-level circuit as derived from the RTL.
+
+---
 
 
