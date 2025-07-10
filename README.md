@@ -19,7 +19,7 @@
  - [Introduction to timing .libs](#Introduction-to-timing-.libs)
   - [SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part1](#SKY130RTL-D2SK1-L2-Lab4-Introduction-to-dot-Lib-part1)
   - [SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part2](#SKY130RTL-D2SK1-L2-Lab4-Introduction-to-dot-Lib-part2)
-  - 
+  - [SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part3](#SKY130RTL-D2SK1-L2-Lab4-Introduction-to-dot-Lib-part3)
 
 
 
@@ -952,5 +952,102 @@ The data in the `.lib` file helps the synthesis tool:
 * Ensure that designs meet **setup**, **hold**, and **clock period** requirements
 
 ---
+### SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part3
+---
+Here is a structured explanation for **Example 2** on analyzing a smaller gate (AND gate) from the standard cell library. This version is formatted cleanly for use in reports, lab manuals, or documentation:
+
+---
+
+### **Example 2: Understanding a Simple Gate – AND Gate**
+
+![Screenshot 2025-07-10 125526](https://github.com/user-attachments/assets/9bd03fb9-e2b0-4fcd-acda-adc65f037fa8)
+
+#### **Cell Under Study: `sky130_fd_sc_hd__and2_0`**
+
+![Screenshot 2025-07-10 125955](https://github.com/user-attachments/assets/f24be0a0-75cc-439a-b81e-ceadd350cb7d)
+
+This is a **2-input AND gate** from the Sky130 standard cell library.
+
+* **Name**: `sky130_fd_sc_hd__and2_0`
+* **Function**: Performs logical AND on two inputs
+* **Inputs**: A, B
+* **Output**: Y
+* **Input Combinations**: Since it has 2 inputs, total possible combinations = 2² = **4**
+
+---
+
+### **Verilog Model**
+
+The behavior of this cell can be viewed by opening the Verilog model file:
+
+```bash
+:sp ../my_lib/verilog_model/sky130_fd_sc_hd.v
+```
+![Screenshot 2025-07-10 131129](https://github.com/user-attachments/assets/9d7f18e9-6af0-4fa1-b318-96f5b38fea76)
+
+In the Verilog model, you’ll find something like:
+
+![Screenshot 2025-07-10 131409](https://github.com/user-attachments/assets/3d0050b1-dfe1-4837-9aa0-6ba5b1069818)
+
+---
+### **Area Analysis**
+
+To compare the area of two AND gate variants (`and2_0` vs `and2_1`), open the `.lib` file and locate the corresponding `cell` blocks.
+
+> **Note:**
+> To split the GVim window vertically for side-by-side viewing, use the command:
+>
+> ```
+> :vsp
+> ```
+>
+> This is useful for comparing two cells (e.g., `and2_0` and `and2_1`) in the same `.lib` file.
+
+![Screenshot 2025-07-10 131816](https://github.com/user-attachments/assets/55cd3433-5d67-48d7-a0e1-a55507ed7250)
+
+Inside the `.lib` file (`sky130_fd_sc_hd__tt_025C_1v80.lib`), search for:
+
+```liberty
+cell (sky130_fd_sc_hd__and2_0) {
+    area : <value>;
+    ...
+}
+
+cell (sky130_fd_sc_hd__and2_1) {
+    area : <larger value>;
+    ...
+}
+```
+![Screenshot 2025-07-10 132314](https://github.com/user-attachments/assets/56b2f260-9359-4cd8-add5-23be44c5422e)
+
+This shows that:
+
+* `and2_1` has a **larger area** than `and2_0`.
+* The larger area implies **wider transistors** are used in `and2_1`.
+* **Wider transistors** can **source/sink more current**, leading to **faster switching**, but they occupy more silicon area and consume more power.
+
+#### **Comparison: `and2_0` vs `and2_1`**
+
+| Cell Name                 | Area (μm²) | Inference                    |
+| ------------------------- | ---------- | ---------------------------- |
+| `sky130_fd_sc_hd__and2_0` | Smaller    | Narrower transistors, slower |
+| `sky130_fd_sc_hd__and2_1` | Larger     | Wider transistors, faster    |
+
+This implies:
+
+* **Higher drive strength versions** (like `_1`, `_2`) use **wider transistors**.
+* Wider transistors can **charge/discharge load capacitance faster**, resulting in **lower delay**.
+* However, they **consume more area** and often more **power**.
+
+---
+
+### **Conclusion**
+
+By comparing `and2_0` and `and2_1` in the `.lib` file:
+
+* You observe the **trade-off between area and performance**.
+* Larger cells = **faster**, but **costlier** in silicon area.
+* Synthesis tools must choose the **right variant** based on timing, area, and power constraints.
+
 
 
