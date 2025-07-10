@@ -1315,3 +1315,69 @@ show
 
 Flattening simplifies the structure for downstream tools and allows better optimization, but it also removes modular boundaries, making the design harder to interpret manually.
 
+---
+
+### **Submodule-Level Synthesis**
+
+Let’s now perform **synthesis at the submodule level**, taking `sub_module1` (instance `u1`) as an example.
+
+#### **Yosys Commands:**
+
+```yosys
+read_liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog multiple_modules.v
+synth -top sub_module1
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+show
+```
+![Screenshot 2025-07-10 162957](https://github.com/user-attachments/assets/b79a96c2-df3b-4269-9438-6c37dd565e1b)
+
+![Screenshot 2025-07-10 163123](https://github.com/user-attachments/assets/07edd3cf-00ef-46de-9ec6-4465440bfd08)
+
+![Screenshot 2025-07-10 163216](https://github.com/user-attachments/assets/7c78eeea-f202-41cb-9852-51b393ee5558)
+
+![Screenshot 2025-07-10 163255](https://github.com/user-attachments/assets/14eaa288-2e57-420e-a0a4-a722261ae945)
+
+---
+
+### **What Do We See?**
+
+Since we’ve explicitly specified `sub_module1` as the top module, Yosys synthesizes **only this module**, which is a simple **AND gate**.
+
+* The visualization (`show`) displays just the **AND gate logic**.
+* You will **not see `sub_module2`** or the top-level module `multiple_modules`.
+
+---
+
+### **Why Perform Submodule-Level Synthesis?**
+
+Submodule-level synthesis is useful in several scenarios:
+
+#### **1. Reuse of Repeated Logic**
+
+* Consider a design where the top-level module contains **six instances of a multiplier**.
+* Instead of synthesizing the multiplier logic **six times**, we can:
+
+  * Synthesize the multiplier module **once**
+  * **Reuse** that synthesized instance multiple times in the top module
+* This improves **efficiency**, **reduces redundancy**, and saves **time and resources**.
+
+#### **2. Divide and Conquer Approach**
+
+* For **large or complex designs**, it's more practical to:
+
+  * Synthesize individual submodules independently
+  * Then integrate them into the full system
+* This approach is scalable and simplifies **debugging**, **timing analysis**, and **modular development**.
+
+---
+
+### **Conclusion**
+
+Submodule-level synthesis allows:
+
+* **Efficient handling** of repeated instances
+* Easier **modular design and optimization**
+* A scalable method for managing **large-scale digital systems**
+
+
