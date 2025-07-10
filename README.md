@@ -569,6 +569,8 @@ synth -top good_mux
 
 This step translates the RTL to a gate-level representation using generic gates.
 
+![Screenshot 2025-07-10 101957](https://github.com/user-attachments/assets/50c26202-08bc-45db-8e04-508c9e3238a2)
+
 ---
 
 #### **4. Technology Mapping**
@@ -578,6 +580,7 @@ Map the synthesized design to standard cells defined in the `.lib` file:
 ```yosys
 abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 ```
+![Screenshot 2025-07-10 102113](https://github.com/user-attachments/assets/7c8b46da-a69b-4e00-ae1f-1abdd597ce5f)
 
 At this stage, the synthesis is complete and the result is a netlist using specific standard cells.
 
@@ -585,16 +588,15 @@ At this stage, the synthesis is complete and the result is a netlist using speci
 
 #### **5. Analyze the Output**
 
+![Screenshot 2025-07-10 102151](https://github.com/user-attachments/assets/d2a1e221-0bfd-468e-9298-97eb9467711e)
+
 * Compare the netlist with the original `good_mux.v`.
 * **Note:**
 
   * The output netlist will not include internal signals.
   * Only **3 inputs** and **1 output** are visible (as in the original RTL).
   * The following **standard cells** are used:
-
-    * `clkbuf_1` (clock buffer/inverter)
-    * `nand2_1`
-    * `o21ai_0` (OR-AND-Invert cell)
+mux2_1
 
 ---
 
@@ -606,7 +608,11 @@ To view a graphical representation of the synthesized logic, use the `show` comm
 show
 ```
 
+![Screenshot 2025-07-10 102641](https://github.com/user-attachments/assets/ac6efe5e-b198-49cc-a005-fffeb38689a3)
+
 This launches a viewer that displays the gate-level circuit as derived from the RTL.
+
+![Screenshot 2025-07-10 102709](https://github.com/user-attachments/assets/472d982b-6b1f-41d2-82fb-cbb8a053e5bf)
 
 ---
 
