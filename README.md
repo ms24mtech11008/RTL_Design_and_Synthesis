@@ -1302,6 +1302,13 @@ This generates a **flattened netlist** named `multiple_modules_flat.v`.
 
 ![Screenshot 2025-07-10 160246](https://github.com/user-attachments/assets/f4402877-7346-4655-a41a-31982256573e)
 
+use command show to see the graphyical representation
+
+```yosys
+show
+```
+![Screenshot 2025-07-10 161512](https://github.com/user-attachments/assets/1dbf7f23-dbfd-4e28-a565-6736858ae9d5)
+
 ---
 
 ### **Conclusion**
