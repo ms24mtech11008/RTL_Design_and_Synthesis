@@ -1447,30 +1447,7 @@ Now let’s analyze what happens **after time = 0 ns**.
 
 ### **Waveform (Text-Based)**
 
-```
-Time (ns) →    0      1      2      3
-              |------|------|------
-A           ────────┐
-                   │
-              ─────┘─────────────── 1
-
-B           ────────┐
-                   │
-              ─────┘─────────────── 1
-
-C           ────────┐
-                   │
-              ─────┘─────────────── 0
-
-(A & B)     ────────────────┐
-                           │
-                    ───────┘──────── 1 (ready at 2 ns)
-
-Y           ────────┐  ↓  ┌──────────
-                   │     │
-                   └─────┘
-                  Glitch at 1 ns
-```
+![image](https://github.com/user-attachments/assets/287b99d2-b2ae-46ce-a503-28aa9ac7b920)
 
 ---
 
