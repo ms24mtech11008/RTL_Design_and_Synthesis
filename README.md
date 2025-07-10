@@ -15,7 +15,11 @@
   - [SKY130RTL D1SK4 L1 Lab3 Yosys 1 good mux Part1](#SKY130RTL-D1SK4-L1-Lab3-Yosys-1-good-mux-Part1)
   - [SKY130RTL D1SK4 L2 Lab3 Yosys 1 good mux Part2](#SKY130RTL-D1SK4-L2-Lab3-Yosys-1-good-mux-Part2)
   - [SKY130RTL D1SK4 L3 Lab3 Yosys 1 good mux Part3](#SKY130RTL-D1SK4-L3-Lab3-Yosys-1-good-mux-Part3)
-
+- [Day 2 - Timing libs, hierarchical vs flat synthesis and efficient flop coding styles](#Day-2---Timing-libs,-hierarchical-vs-flat-synthesis-and-efficient-flop-coding-styles)
+ - [Introduction to timing .libs](#Introduction-to-timing-.libs)
+  - [SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part1](#SKY130RTL-D2SK1-L2-Lab4-Introduction-to-dot-Lib-part1)
+  - [SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part2](#SKY130RTL-D2SK1-L2-Lab4-Introduction-to-dot-Lib-part2)
+  - 
 
 
 
@@ -753,4 +757,200 @@ endmodule
 * This netlist is **structural**, meaning it lists the components used and how they’re connected.
 * It's used for **place and route**, **static timing analysis**, and further backend steps.
 * The simplified netlist with `-noattr` is generally preferred for **manual inspection or debugging**.
+
+---
+# Day 2 - Timing libs, hierarchical vs flat synthesis and efficient flop coding styles
+---
+## Introduction to timing .libs
+---
+### SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part1
+---
+
+### **Understanding the Contents of a `.lib` File**
+
+The `.lib` file, also known as a **Liberty file**, contains detailed **timing, power, and functional information** about standard cells used during synthesis. Let’s break down the key elements from a typical `.lib` file.
+
+---
+
+![Screenshot 2025-07-10 115849](https://github.com/user-attachments/assets/cf4ef313-c43a-465a-81d5-98ab060e4ba0)
+
+#### **1. Library Declaration**
+
+```
+Library ("sky130_fd_sc_hd__tt_025C_1v80")
+```
+
+This line defines the **name of the library** being used.
+
+* `sky130_fd_sc_hd`: SkyWater 130nm standard cell library (high-density variant).
+* `tt`: Refers to the **PVT (Process-Voltage-Temperature) corner**, in this case, **typical process**.
+* `025C`: Indicates a **temperature of 25°C**.
+* `1v80`: Indicates the **supply voltage** is **1.80V**.
+
+---
+
+#### **2. What is a PVT Corner?**
+
+PVT stands for **Process, Voltage, and Temperature** — three key variables that influence how silicon behaves.
+
+| Parameter       | Meaning                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| **Process**     | Refers to **fabrication variation** (e.g., fast, slow, typical silicon).                               |
+| **Voltage**     | Varying supply voltages affect the switching speed and power.                                          |
+| **Temperature** | Higher temperatures cause **slower operation**, and lower temperatures can cause **faster switching**. |
+
+---
+
+#### **3. Why Do We Need PVT Corners?**
+
+Due to real-world variations during manufacturing and operating conditions, we need to ensure that our design:
+
+* Works correctly in **worst-case**, **best-case**, and **typical** conditions.
+* Is **functionally correct** and **timing-safe** under **all valid scenarios**.
+
+Examples of PVT corners:
+
+| Corner Name    | Description                                   |
+| -------------- | --------------------------------------------- |
+| `ss_125C_1v60` | Slow process, 125°C, 1.60V (worst-case delay) |
+| `ff_0C_1v95`   | Fast process, 0°C, 1.95V (best-case delay)    |
+| `tt_025C_1v80` | Typical case for normal operation             |
+
+---
+
+#### **Conclusion**
+
+The `.lib` file acts as a **technology reference** for the synthesis tool. It helps the tool:
+
+* Select appropriate **standard cells**.
+* Estimate **timing** and **power**.
+* Perform **technology mapping** based on **PVT-aware constraints**.
+
+A proper understanding of the `.lib` content ensures that the synthesized circuit will function correctly under all expected operating conditions.
+
+---
+### SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part2
+---
+
+### **Deep Dive into the `.lib` File**
+
+The `.lib` (Liberty) file contains **detailed information about standard cells** used during logic synthesis and static timing analysis. Let’s explore its major contents and structure.
+
+---
+
+![Screenshot 2025-07-10 115849](https://github.com/user-attachments/assets/0670d001-20e5-4a37-a067-d664b963a4ed)
+
+### **1. Units and Operating Conditions**
+
+The `.lib` file begins by defining **units** for various physical quantities:
+
+* **Time** (e.g., in nanoseconds)
+* **Voltage** (e.g., volts)
+* **Power** (e.g., microwatts)
+* **Current** (e.g., milliamperes)
+* **Resistance**, **Capacitance**, **Capacitive load** (typically in ohms, femtofarads, etc.)
+
+![Screenshot 2025-07-10 120836](https://github.com/user-attachments/assets/c4c8e7d5-4a7f-421e-9f67-98fa581fdca1)
+
+It also specifies the **operating conditions** under which the cell data is valid, including:
+
+* **Temperature**
+* **Supply voltage**
+* **Process corner**
+
+These parameters help the synthesis tool evaluate the performance of each cell under different environmental and manufacturing variations.
+
+---
+
+### **2. Multiple Cells and Cell Definitions**
+
+A typical `.lib` file contains **many standard cells**. Each cell begins with the keyword:
+
+```liberty
+cell (cell_name) {
+   ...
+}
+```
+
+For example:
+
+```liberty
+cell (sky130_fd_sc_hd__a2111o_1) {
+   ...
+}
+```
+![Screenshot 2025-07-10 120920](https://github.com/user-attachments/assets/0aff8fc7-6ea3-435b-a98b-a0cecae7a0d8)
+
+
+This marks the beginning of the definition for the cell `sky130_fd_sc_hd__a2111o_1`.
+
+---
+
+### **3. Flavours of Cells**
+
+* The **same logic function** may have **multiple variants** (or flavours), e.g., `_0`, `_1`, `_2`, etc.
+* These variants differ in **driving strength**, **delay**, **power consumption**, and **area**.
+* For example:
+
+  * `sky130_fd_sc_hd__a2111o_1`: Standard drive
+  * `sky130_fd_sc_hd__a2111o_2`: Higher drive strength
+
+---
+
+### **4. Example Cell: `sky130_fd_sc_hd__a2111o_1`**
+
+* This is a complex gate with **5 inputs**: `A1`, `A2`, `B1`, `C1`, `D1`.
+
+* The cell performs a specific logic operation defined in both `.lib` and equivalent Verilog model.
+
+![Screenshot 2025-07-10 123504](https://github.com/user-attachments/assets/6296668e-a456-456d-a440-16901512921d)
+
+* You can view the **Verilog model** of the library using:
+
+  ```bash
+  :sp ../my_lib/verilog_model/sky130_fd_sc_hd.v
+  ```
+
+![Screenshot 2025-07-10 123718](https://github.com/user-attachments/assets/d68fcb2b-ca2d-4ce1-89ec-ae044a519da1)
+
+* Since there are 5 inputs, and each can be 0 or 1:
+
+  * Total possible input combinations = 2⁵ = **32**
+  * The `.lib` includes **leakage power** data for **every combination**.
+
+![Screenshot 2025-07-10 123819](https://github.com/user-attachments/assets/0f349e96-2b9e-48b8-a8a2-7c610fd18b1f)
+
+---
+
+### **5. Key Information Inside Each Cell Block**
+
+Each cell definition includes:
+
+| Parameter           | Description                                                              |
+| ------------------- | ------------------------------------------------------------------------ |
+| `area`              | Physical area of the cell (in square microns)                            |
+| `pin`               | Definition block for each input/output port                              |
+| `input_capacitance` | Intrinsic capacitance of the input pin                                   |
+| `power`             | Power consumption info: internal power, leakage, dynamic                 |
+| `timing`            | Delay, transition time, and slope-related timing information             |
+| `function`          | Boolean logic function implemented by the cell                           |
+| `related_pin`       | Specifies which other pin affects timing of a given pin (for setup/hold) |
+
+![Screenshot 2025-07-10 124150](https://github.com/user-attachments/assets/45b75459-6780-4cd6-8089-39c057e4989a)
+
+![Screenshot 2025-07-10 124248](https://github.com/user-attachments/assets/3de573fb-476b-4e52-a604-5c662b47b56b)
+
+---
+
+### **6. Importance in Synthesis and Timing**
+
+The data in the `.lib` file helps the synthesis tool:
+
+* Estimate **propagation delays**
+* Analyze **power** and **leakage**
+* Select the **most optimal variant** of a cell based on constraints
+* Ensure that designs meet **setup**, **hold**, and **clock period** requirements
+
+---
+
 
