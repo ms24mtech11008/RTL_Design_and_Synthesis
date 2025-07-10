@@ -1386,10 +1386,6 @@ Submodule-level synthesis allows:
 ###
 ---
 
-Great — now the scenario is more dynamic. Let's walk through this updated situation carefully and visualize how a **glitch** occurs due to **converging transitions** and **gate delays**.
-
----
-
 ### **Given:**
 
 Expression:
