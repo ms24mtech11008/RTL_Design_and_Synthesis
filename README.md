@@ -1380,4 +1380,141 @@ Submodule-level synthesis allows:
 * Easier **modular design and optimization**
 * A scalable method for managing **large-scale digital systems**
 
+---
+##
+---
+###
+---
+
+### **Given Boolean Expression:**
+
+```
+Y = (A & B) | C
+```
+
+### **Gate Delays:**
+
+* **AND gate delay** = 2 ns
+* **OR gate delay** = 1 ns
+
+### **Logic Path:**
+
+* Inputs `A` and `B` go to the **AND gate**.
+* Its output goes to the **OR gate**, along with input `C`.
+* The final output `Y` comes from the OR gate.
+
+---
+
+### **Understanding the Scenario:**
+
+Suppose the input signals **A, B, and C are all initially HIGH (1)**. So:
+
+```
+A = 1, B = 1, C = 1
+=> (A & B) = 1
+=> Y = 1 | 1 = 1
+```
+
+Now let’s assume **C transitions from 1 → 0**, while **A and B remain HIGH**.
+So:
+
+* **(A & B)** = still 1
+* **C = 0**
+* Expected final output:
+
+  ```
+  Y = 1 | 0 = 1
+  ```
+
+But due to **gate delays**, something unexpected may happen momentarily.
+
+---
+
+### **Timing Breakdown:**
+
+1. **C drops from 1 → 0 at time = 0 ns**
+2. **OR gate sees this change immediately after 1 ns**, so:
+
+   * At **1 ns**, OR gate sees:
+
+     * Output of AND gate: not yet updated (still pending)
+     * C = 0
+   * But if the **AND gate output arrives slightly after**, say at 2 ns...
+   * Then from **1 ns to 2 ns**, OR gate may see both inputs as 0 momentarily.
+3. So:
+
+   * Between **1 ns to 2 ns**, OR may evaluate `0 | 0 = 0`
+   * After **2 ns**, AND gate output (which is 1) reaches the OR gate
+   * Then OR evaluates `1 | 0 = 1` again
+
+---
+
+### **Result: Glitch**
+
+* **Y goes from 1 → 0 → 1**, a **brief dip (glitch)**.
+* This glitch is also called a **static-1 hazard**, because:
+
+  * Output is supposed to remain **1**
+  * But due to unequal arrival times of signals, it **momentarily drops to 0**
+
+---
+
+### **Why Does This Happen?**
+
+* The glitch occurs because **C (direct input)** reaches the OR gate **faster** than the **AND gate output**, which takes **longer (2 ns)**.
+* There's a **timing mismatch** between the two paths (C path: 1 ns, A\&B path: 2 ns)
+* This causes the OR gate to **temporarily see both inputs as 0**, leading to the incorrect dip in output.
+  
+### **Waveform Timeline**
+
+```
+Time (ns) →  0     1     2     3     4     
+             |-----|-----|-----|-----|
+A           ─────────────────────────── 1 (stable)
+B           ─────────────────────────── 1 (stable)
+C           ────────┐                   
+                  │                   
+              ─────┘─────────────────── 0 (C drops at 0 ns)
+
+(A & B)      ─────────────────────────── 1 (delayed change not applicable here)
+              ↑ output ready at 2 ns
+
+Input to OR:                         
+  AND out     ────────?─────────────── (ready at 2 ns)
+  C           ────────┐                   
+                    │                   
+                ─────┘─────────────────
+
+Y           ────────┐     ┌────────────
+                    │     │
+                    └─────┘
+                    Glitch
+
+```
+
+---
+
+### **Explanation of the Glitch:**
+
+* At **0 ns**, C drops from 1 to 0.
+* The OR gate sees this drop at **1 ns** (due to its 1 ns delay).
+* At this moment (1 ns), the output of the AND gate hasn’t arrived yet (takes 2 ns).
+* So from **1 ns to 2 ns**, the OR gate sees:
+
+  * C = 0
+  * (A & B) output = not arrived (defaults to 0 for a moment)
+* So the OR gate computes `0 | 0 = 0`, causing **Y to drop to 0** → **Glitch**
+* At **2 ns**, the AND output arrives as 1
+* Now OR computes `1 | 0 = 1` → Y goes back to 1
+
+---
+
+### **What Kind of Glitch Is This?**
+
+This is called a **Static-1 Hazard**:
+
+* The output is **supposed to stay at 1**
+* But it **temporarily drops to 0** due to unequal delay paths
+
+---?
 
