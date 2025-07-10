@@ -1445,7 +1445,7 @@ Now let’s analyze what happens **after time = 0 ns**.
 
 ---
 
-### **Waveform (Text-Based)**
+### **Waveform**
 
 ![image](https://github.com/user-attachments/assets/287b99d2-b2ae-46ce-a503-28aa9ac7b920)
 
