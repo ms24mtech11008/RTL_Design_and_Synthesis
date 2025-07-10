@@ -1300,7 +1300,7 @@ This generates a **flattened netlist** named `multiple_modules_flat.v`.
 
 ![Screenshot 2025-07-10 160427](https://github.com/user-attachments/assets/2dace79d-f0c1-41c2-bf16-4638393dbcb8)
 
-![Screenshot 2025-07-10 160154](https://github.com/user-attachments/assets/0488aa09-4148-4b31-aa6a-fd31f494b296)
+![Screenshot 2025-07-10 160246](https://github.com/user-attachments/assets/f4402877-7346-4655-a41a-31982256573e)
 
 ---
 
