@@ -1,4 +1,4 @@
-![Screenshot 2025-07-10 141008](https://github.com/user-attachments/assets/fb4e4cac-404d-4eb7-a1c6-d238060058aa)# RTL_Design_and_Synthesis
+# RTL_Design_and_Synthesis
 ## Table of contents
 - [Day 1 - Introduction to Verilog RTL design and Synthesis](#Day-1---Introduction-to-Verilog-RTL-design-and-Synthesis)
  - [Introduction to open-source simulator iverilog](#Introduction-to-open-source-simulator-iverilog)
