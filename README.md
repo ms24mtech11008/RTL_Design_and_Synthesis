@@ -1,4 +1,4 @@
-# RTL_Design_and_Synthesis
+![Screenshot 2025-07-10 141008](https://github.com/user-attachments/assets/fb4e4cac-404d-4eb7-a1c6-d238060058aa)# RTL_Design_and_Synthesis
 ## Table of contents
 - [Day 1 - Introduction to Verilog RTL design and Synthesis](#Day-1---Introduction-to-Verilog-RTL-design-and-Synthesis)
  - [Introduction to open-source simulator iverilog](#Introduction-to-open-source-simulator-iverilog)
@@ -20,6 +20,8 @@
   - [SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part1](#SKY130RTL-D2SK1-L2-Lab4-Introduction-to-dot-Lib-part1)
   - [SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part2](#SKY130RTL-D2SK1-L2-Lab4-Introduction-to-dot-Lib-part2)
   - [SKY130RTL D2SK1 L2 Lab4 Introduction to dot Lib part3](#SKY130RTL-D2SK1-L2-Lab4-Introduction-to-dot-Lib-part3)
+ - [Hierarchical vs Flat Synthesis](#Hierarchical-vs-Flat-Synthesis)
+  - [SKY130RTL D2SK2 L1 Lab05 Hier synthesis flat synthesis part1](#SKY130RTL-D2SK2-L1-Lab05-Hier-synthesis-flat-synthesis-part1)
 
 
 
@@ -1048,6 +1050,168 @@ By comparing `and2_0` and `and2_1` in the `.lib` file:
 * You observe the **trade-off between area and performance**.
 * Larger cells = **faster**, but **costlier** in silicon area.
 * Synthesis tools must choose the **right variant** based on timing, area, and power constraints.
+
+---
+## Hierarchical vs Flat Synthesis
+---
+### SKY130RTL D2SK2 L1 Lab05 Hier synthesis flat synthesis part1
+---
+### **What is Hierarchical vs. Flat Synthesis?**
+
+In digital design, a system can be built using **multiple submodules**. The way these are handled during synthesis can follow either a **hierarchical** or **flat** approach.
+
+#### **Hierarchical Synthesis**
+
+* In **hierarchical synthesis**, the **submodules are preserved** as independent entities during synthesis.
+* Each module is synthesized separately, and then connected at the top level.
+* **Benefits**:
+
+  * Faster synthesis for large designs
+  * Useful for modular debugging and reuse
+* **Drawbacks**:
+
+  * Limited global optimization across module boundaries
+
+#### **Flat Synthesis**
+
+* In **flat synthesis**, all submodules are **inlined into the top-level module**, forming a single flattened netlist.
+* This allows the synthesizer to perform **global optimizations**.
+* **Benefits**:
+
+  * Better optimization for area, timing, and power
+* **Drawbacks**:
+
+  * More memory and time-consuming
+  * Harder to trace logic back to original modules
+
+---
+
+### **Example Design: `multiple_modules.v`**
+
+This file is located in the `verilog_files` directory and defines a small hierarchical design using two submodules.
+
+#### **Code**
+
+![Screenshot 2025-07-10 140014](https://github.com/user-attachments/assets/b1150e7a-e510-463b-a751-c58587950dca)
+
+```verilog
+// OR gate module
+module sub_module2 (input a, input b, output y);
+  assign y = a | b;
+endmodule
+
+// AND gate module
+module sub_module1 (input a, input b, output y);
+  assign y = a & b;
+endmodule
+
+// Top-level module using two submodules
+module multiple_modules (input a, input b, input c, output y);
+  wire net1;
+
+  sub_module1 u1 (.a(a), .b(b), .y(net1));  // net1 = a & b
+  sub_module2 u2 (.a(net1), .b(c), .y(y));  // y = net1 | c => y = (a & b) | c
+
+endmodule
+```
+![Screenshot 2025-07-10 135806](https://github.com/user-attachments/assets/246af06f-d3e2-4162-82a8-aa1b4988be72)
+
+### **Synthesis of `multiple_modules.v`**
+
+Let’s now synthesize the `multiple_modules.v` file.
+
+![Screenshot 2025-07-10 140800](https://github.com/user-attachments/assets/c255ac8a-9774-44e3-9264-f2a216745a5b)
+
+![Screenshot 2025-07-10 141008](https://github.com/user-attachments/assets/0882e82d-f664-4f39-affa-84bed7c929c7)
+
+![Screenshot 2025-07-10 141112](https://github.com/user-attachments/assets/b912493e-8afe-4f09-bc69-e2a7adf2619e)
+
+This design includes two submodules:
+
+* `sub_module1` implements an **AND** gate
+* `sub_module2` implements an **OR** gate
+
+The top-level module, `multiple_modules`, instantiates:
+
+* One instance of `sub_module1` (named `u1`)
+* One instance of `sub_module2` (named `u2`)
+
+The report shows:
+
+* `sub_module1` contains **one AND gate**
+* `sub_module2` contains **one OR gate**
+* The top module contains **one instance of each submodule**
+
+Overall, the entire design consists of:
+
+* **One AND gate**
+* **One OR gate**
+
+Now, Linkimg the design to the library
+In Yosys, this is done using the following command:
+
+```yosys
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+![Screenshot 2025-07-10 142103](https://github.com/user-attachments/assets/f730f208-60a0-49df-b9b9-fb43767f1dd9)
+
+### **Visualizing the Synthesized Design: Hierarchical View**
+
+After synthesis and linking, use the following Yosys command to view the synthesized logic:
+
+```yosys
+show multiple_modules
+```
+![Screenshot 2025-07-10 142511](https://github.com/user-attachments/assets/8aa2017e-3d17-4e3b-b29b-9ca131fc7192)
+
+This command opens a graphical representation of the design.
+
+---
+
+### **What Do You See?**
+
+![Screenshot 2025-07-10 142551](https://github.com/user-attachments/assets/da2cc977-5573-4381-816b-8ee66d8c60af)
+
+Instead of seeing a logic-level **block diagram** composed of **AND** and **OR** gates, the view shows two **instantiations**:
+
+* `u1`: Instance of `sub_module1`
+* `u2`: Instance of `sub_module2`
+
+These are preserved **as separate blocks**, not broken down into their internal logic (AND/OR).
+
+---
+
+### **Why Does This Happen?**
+
+This is an example of a **hierarchical design**.
+
+* The synthesis has preserved the **module hierarchy**.
+* The submodules (`sub_module1` and `sub_module2`) are shown as **black boxes** or **instances** inside the top module.
+* You don’t see the gates (like AND, OR) because they are **inside the submodules**, and those were **not flattened**.
+
+---
+
+### **What We Expected vs. What We See**
+
+| Expectation                     | Observation                       |
+| ------------------------------- | --------------------------------- |
+| AND and OR gates shown directly | Only u1 and u2 instances visible  |
+| Flat gate-level logic diagram   | Hierarchical module-level diagram |
+
+This highlights the **difference between flat and hierarchical synthesis**.
+
+* **Flat synthesis**: Would have shown individual AND and OR gates.
+* **Hierarchical synthesis**: Keeps module boundaries intact, and shows only instances like `u1` and `u2`.
+
+---
+
+### **Synthesis Behavior**
+
+* If you synthesize this design **hierarchically**, `sub_module1` and `sub_module2` will appear as **separate blocks** in the netlist.
+* If you synthesize it **flat**, the synthesis tool will **merge** all logic into the `multiple_modules` block and eliminate submodule boundaries.
+
+---
+
 
 
 
