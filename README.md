@@ -336,4 +336,77 @@ To verify if the synthesis process was successful and functionally correct:
 ### SKY130RTL D1SK3 L2 introduction to logic synthesis part1
 ---
 
+### **Logic Synthesis Overview**
+
+#### **1. RTL Design**
+
+* RTL (Register Transfer Level) design is the **behavioral representation** of a digital system based on its required specification.
+* It defines how data moves between registers and how operations are performed on that data.
+
+![Screenshot 2025-07-10 093911](https://github.com/user-attachments/assets/14da95b2-b608-4591-9b49-6265b82af104)
+
+![Screenshot 2025-07-10 093941](https://github.com/user-attachments/assets/97dbaded-68ba-4c5a-a742-81c2c2251a0c)
+
+#### **2. What is Logic Synthesis?**
+
+* Logic synthesis is the **process of converting RTL code into a digital logic circuit**.
+* This involves translating behavioral descriptions into a network of logic gates.
+* The transition from RTL to gate-level design is called **synthesis**.
+* The final output of this process is a **netlist**, which describes the gates and their interconnections.
+
+#### **3. Inputs and Outputs of Synthesis**
+
+* **Inputs:**
+
+  * RTL Design (written in Verilog or VHDL)
+  * Technology Library (`.lib` file)
+* **Output:**
+
+  * Gate-level netlist (`.v` file)
+
+![Screenshot 2025-07-10 094007](https://github.com/user-attachments/assets/cd388e51-8760-4ff2-9dcc-bbf54b26d40c)
+
+#### **4. What is a `.lib` File?**
+
+* A `.lib` file is a **collection of logic cells** provided by a standard cell library.
+* It includes basic gates like **AND, OR, NOT**, and their **variants**:
+
+  * Different **input configurations** (e.g., 2-input OR, 3-input OR)
+  * Different **speed-power tradeoffs** (e.g., **slow**, **medium**, **fast** cells)
+
+![Screenshot 2025-07-10 094022](https://github.com/user-attachments/assets/a81e341a-c57e-4682-8bab-8d948ff7abf7)
+
+#### **5. Why Different Flavours of Gates?**
+
+* The **combinational delay** in a logic path directly affects the **maximum speed** of a digital circuit.
+
+![Screenshot 2025-07-10 094036](https://github.com/user-attachments/assets/e0f4f50a-053c-40fc-9b0f-62439c696b37)
+
+* The clock cycle must account for:
+
+  ```
+  Tclk > Tcq_A + Tcomb + Tsetup_B
+  ```
+
+  * **Tcq\_A** = Clock-to-Q delay of DFF A
+  * **Tcomb** = Delay of the combinational logic
+  * **Tsetup\_B** = Setup time of DFF B
+
+* To **minimize Tcomb**, we use **faster cells** from the `.lib` file.
+
+* This helps reduce the required **clock period (Tclk)** and hence **increase the operating frequency**.
+
+#### **6. Maximum Clock Frequency**
+
+* The **minimum clock period** determines the **maximum frequency**:
+
+  ```
+  fclk(max) = 1 / Tclk(min)
+  ```
+
+![Screenshot 2025-07-10 094117](https://github.com/user-attachments/assets/e531047d-079a-4be1-bd90-bbcd3cefbbfe)
+
+---
+
+
 
