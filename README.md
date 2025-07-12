@@ -1463,3 +1463,41 @@ Now let’s analyze what happens **after time = 0 ns**.
 
 ---
 
+Here is a clean and well-structured version of your explanation, ideal for lecture notes or a lab manual:
+
+---
+
+### **Why We Need a Flip-Flop in Digital Circuits**
+
+In a **purely combinational circuit**, outputs respond directly to input changes — including glitches caused by signal delays. If there is no mechanism to control when outputs are sampled or updated, **glitches may propagate continuously**, preventing the output from ever settling. This is undesirable, especially in sequential digital systems.
+
+---
+
+### **Role of Flip-Flops**
+
+To solve this problem, we introduce a **flip-flop** (typically a **D flip-flop**) — a **storage element** used to:
+
+* **Capture and hold** the output of a combinational block
+* **Restrict glitches** from propagating endlessly
+* **Synchronize signal transitions** using a **clock edge**
+
+The **D flip-flop updates its output only at a specific clock edge** (usually rising or falling), so:
+
+* Even if the combinational logic is glitchy in between, the flip-flop **ignores** those changes
+* It passes **only the final, stable value** to the next stage
+* Thus, each stage in the circuit receives **stable inputs**, allowing the system to function reliably
+
+---
+
+### **Why Initialization Is Important**
+
+If the **initial state** of a flip-flop is unknown (i.e., not set or reset), the output of the combinational logic **may evaluate incorrectly**, producing garbage values.
+
+To avoid this:
+
+* We **initialize** the flip-flop using a **reset** or **set** signal during startup
+* This ensures the system starts from a **known, predictable state**
+
+---
+SKY130RTL D2SK3 L2 Why Flops and Flop coding styles part2
+---
