@@ -1463,10 +1463,6 @@ Now let’s analyze what happens **after time = 0 ns**.
 
 ---
 
-Here is a clean and well-structured version of your explanation, ideal for lecture notes or a lab manual:
-
----
-
 ### **Why We Need a Flip-Flop in Digital Circuits**
 
 In a **purely combinational circuit**, outputs respond directly to input changes — including glitches caused by signal delays. If there is no mechanism to control when outputs are sampled or updated, **glitches may propagate continuously**, preventing the output from ever settling. This is undesirable, especially in sequential digital systems.
@@ -1501,3 +1497,8 @@ To avoid this:
 ---
 SKY130RTL D2SK3 L2 Why Flops and Flop coding styles part2
 ---
+![WhatsApp Image 2025-07-12 at 19 07 29_9fdbf700](https://github.com/user-attachments/assets/543a755b-8899-45fe-b755-19e9146c9769)
+
+![WhatsApp Image 2025-07-12 at 19 07 34_c758e502](https://github.com/user-attachments/assets/9265c24c-d36d-4ccc-a20e-c920d1046173)
+
+![WhatsApp Image 2025-07-12 at 19 08 27_07462e6b](https://github.com/user-attachments/assets/10fe12ad-56d8-4694-ae1d-5ee622bcf00d)
