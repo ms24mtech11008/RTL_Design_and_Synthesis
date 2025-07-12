@@ -1525,6 +1525,22 @@ Zooming at the point when reset changes from low to high
 
 <img width="3839" height="2159" alt="Screenshot 2025-07-12 193027" src="https://github.com/user-attachments/assets/a0b06d49-72ec-4183-945d-3c2c39eede47" />
 
-
 **D FlipFlop with Synchronous reset**
+
+<img width="3838" height="2106" alt="Screenshot 2025-07-12 195332" src="https://github.com/user-attachments/assets/7a5b9b03-d367-4b54-bb5c-5d585e65f7eb" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-12 195852" src="https://github.com/user-attachments/assets/0277190a-6ed1-4939-8b17-eec084109245" />
+
+<img width="3838" height="2160" alt="Screenshot 2025-07-12 195827" src="https://github.com/user-attachments/assets/0b63e386-56fc-43c8-9d71-673fd61c1a4b" />
+
 **D FlipFlop with Synchronous and Asynchronous reset**
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-12 200247" src="https://github.com/user-attachments/assets/5b8a06e7-8593-4c84-ab5e-35fb73502564" />
+
+<img width="3839" height="2119" alt="Screenshot 2025-07-12 200439" src="https://github.com/user-attachments/assets/1aa67ed3-0d37-43ad-bf9c-8b0cc78cff28" />
+
+<img width="3839" height="2109" alt="Screenshot 2025-07-12 200550" src="https://github.com/user-attachments/assets/f68a6757-f7cd-4638-a6d7-e47125c42df0" />
+
+<img width="3839" height="2114" alt="Screenshot 2025-07-12 201051" src="https://github.com/user-attachments/assets/bc43c50d-c700-401d-822d-ada4910fd15e" />
+
+<img width="3839" height="2117" alt="Screenshot 2025-07-12 201122" src="https://github.com/user-attachments/assets/89bc27d5-1c87-46c2-920d-4f6f2c1216ac" />
