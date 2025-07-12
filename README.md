@@ -1515,7 +1515,15 @@ Now lets simulate the following flops
 
 **D FlipFlop with Asynchronous reset**
 
+<img width="3838" height="2160" alt="Screenshot 2025-07-12 192545" src="https://github.com/user-attachments/assets/7f568421-7b4f-4b29-9b02-aa18e8f39465" />
+
 Zoomed out waveform
+
+<img width="3839" height="2159" alt="Screenshot 2025-07-12 192743" src="https://github.com/user-attachments/assets/6a8769d8-7a36-4282-8ca2-9ec1612007e5" />
+
+Zooming at the point when reset changes from low to high
+
+<img width="3839" height="2159" alt="Screenshot 2025-07-12 193027" src="https://github.com/user-attachments/assets/a0b06d49-72ec-4183-945d-3c2c39eede47" />
 
 
 **D FlipFlop with Synchronous reset**
