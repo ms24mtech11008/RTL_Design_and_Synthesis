@@ -23,6 +23,8 @@
  - [Hierarchical vs Flat Synthesis](#Hierarchical-vs-Flat-Synthesis)
   - [SKY130RTL D2SK2 L1 Lab05 Hier synthesis flat synthesis part1](#SKY130RTL-D2SK2-L1-Lab05-Hier-synthesis-flat-synthesis-part1)
   - [SKY130RTL D2SK2 L2 Lab05 Hier synthesis flat synthesis part2](#SKY130RTL-D2SK2-L2-Lab05-Hier-synthesis-flat-synthesis-part2)
+  - [SKY130RTL D2SK3 L3 Lab flop synthesis simulations part1](#SKY130RTL-D2SK3-L3-Lab-flop-synthesis-simulations-part1)
+  - 
 
 
 
@@ -1502,3 +1504,19 @@ SKY130RTL D2SK3 L2 Why Flops and Flop coding styles part2
 ![WhatsApp Image 2025-07-12 at 19 07 34_c758e502](https://github.com/user-attachments/assets/9265c24c-d36d-4ccc-a20e-c920d1046173)
 
 ![WhatsApp Image 2025-07-12 at 19 08 27_07462e6b](https://github.com/user-attachments/assets/10fe12ad-56d8-4694-ae1d-5ee622bcf00d)
+
+---
+### SKY130RTL D2SK3 L3 Lab flop synthesis simulations part1
+---
+Now lets simulate the following flops 
+1) D FlipFlop with Asynchronous reset
+2) D FlipFlop with Synchronous reset
+3) D FlipFlop with Synchronous and Asynchronous reset
+
+**D FlipFlop with Asynchronous reset**
+
+Zoomed out waveform
+
+
+**D FlipFlop with Synchronous reset**
+**D FlipFlop with Synchronous and Asynchronous reset**
