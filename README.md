@@ -1553,3 +1553,6 @@ Zooming at the point when reset changes from low to high
 <img width="3838" height="2124" alt="Screenshot 2025-07-13 102732" src="https://github.com/user-attachments/assets/e88e694c-1b3f-45c5-81b1-e0c78c726900" />
 
 <img width="3838" height="2151" alt="Screenshot 2025-07-13 102838" src="https://github.com/user-attachments/assets/49bacf1e-eb9c-46ed-b7cc-938f6ac6b1b6" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-13 103540" src="https://github.com/user-attachments/assets/c9f01b1a-979f-4065-a6dd-a7940cbfb6b8" />
+
