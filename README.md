@@ -24,6 +24,7 @@
   - [SKY130RTL D2SK2 L1 Lab05 Hier synthesis flat synthesis part1](#SKY130RTL-D2SK2-L1-Lab05-Hier-synthesis-flat-synthesis-part1)
   - [SKY130RTL D2SK2 L2 Lab05 Hier synthesis flat synthesis part2](#SKY130RTL-D2SK2-L2-Lab05-Hier-synthesis-flat-synthesis-part2)
   - [SKY130RTL D2SK3 L3 Lab flop synthesis simulations part1](#SKY130RTL-D2SK3-L3-Lab-flop-synthesis-simulations-part1)
+  - [SKY130RTL D2SK3 L4 Lab flop synthesis simulations part2](#SKY130RTL-D2SK3-L4-Lab-flop-synthesis-simulations-part2)
   - 
 
 
@@ -1555,4 +1556,14 @@ Zooming at the point when reset changes from low to high
 <img width="3838" height="2151" alt="Screenshot 2025-07-13 102838" src="https://github.com/user-attachments/assets/49bacf1e-eb9c-46ed-b7cc-938f6ac6b1b6" />
 
 <img width="3838" height="2115" alt="Screenshot 2025-07-13 103540" src="https://github.com/user-attachments/assets/c9f01b1a-979f-4065-a6dd-a7940cbfb6b8" />
+
+---
+### SKY130RTL D2SK3 L4 Lab flop synthesis simulations part2
+---
+Now let's synthesize the following D flipflops
+1) D FlipFlop with Asynchronous reset
+2) D FlipFlop with Synchronous reset
+3) D FlipFlop with Synchronous and Asynchronous reset
+4) D FlipFlop with Asynchronous set
+
 
