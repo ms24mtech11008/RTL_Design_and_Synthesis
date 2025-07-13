@@ -27,6 +27,12 @@
   - [SKY130RTL D2SK3 L4 Lab flop synthesis simulations part2](#SKY130RTL-D2SK3-L4-Lab-flop-synthesis-simulations-part2)
   - [SKY130RTL D2SK3 L5 Interesting optimisations part1](#SKY130RTL-D2SK3-L5-Interesting-optimisations-part1)
   - [SKY130RTL D2SK3 L6 Interesting optimisations part2](#SKY130RTL-D2SK3-L6-Interesting-optimisations-part2)
+- [Day 3 - Combinational and sequential optimizations](#Day-3---Combinational-and-sequential-optimizations)
+ - [Introduction to optimizations](#Introduction-to-optimizations)
+  - [SKY130RTL D3SK1 L1 Introduction to optimisations part1](#SKY130RTL-D3SK1-L1-Introduction-to-optimisations-part1)
+  - 
+
+
 
 
 
@@ -1835,3 +1841,11 @@ This optimization avoids the multiplier entirely by using a shift and add struct
 <img width="3838" height="2115" alt="Screenshot 2025-07-13 141235" src="https://github.com/user-attachments/assets/ed4d3fdc-936d-4c32-84b6-504dc2c13990" />
 
 <img width="3838" height="2101" alt="Screenshot 2025-07-13 141303" src="https://github.com/user-attachments/assets/48b2b334-cc6a-4563-88fc-fb5eb6d655f2" />
+
+---
+# Day 3 - Combinational and sequential optimizations
+---
+## Introduction to optimizations
+---
+### SKY130RTL D3SK1 L1 Introduction to optimisations part1
+---
