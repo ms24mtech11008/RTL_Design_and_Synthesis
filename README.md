@@ -1,10 +1,10 @@
 # RTL_Design_and_Synthesis
 ## Table of contents
 - [Day 1 - Introduction to Verilog RTL design and Synthesis](#Day-1---Introduction-to-Verilog-RTL-design-and-Synthesis)
- - [Introduction to open-source simulator iverilog](#Introduction-to-open-source-simulator-iverilog)
-  - [SKY130RTL D1SK1 L1 Introduction to iverilog design test bench](#SKY130RTL-D1SK1-L1-Introduction-to-iverilog-design-test-bench)
- - [Labs using iverilog and gtkwave](#Labs-using-iverilog-and-gtkwave)
-  - [SKY130RTL D1SK2 L1 Lab1 introduction to lab](#SKY130RTL-D1SK2-L1-Lab1-introduction-to-lab)
+   - [Introduction to open-source simulator iverilog](#Introduction-to-open-source-simulator-iverilog)
+    - [SKY130RTL D1SK1 L1 Introduction to iverilog design test bench](#SKY130RTL-D1SK1-L1-Introduction-to-iverilog-design-test-bench)
+   - [Labs using iverilog and gtkwave](#Labs-using-iverilog-and-gtkwave)
+    - [SKY130RTL D1SK2 L1 Lab1 introduction to lab](#SKY130RTL-D1SK2-L1-Lab1-introduction-to-lab)
   - [SKY130RTL D1SK2 L2 Lab2 Introduction iverilog gtkwave part1](#SKY130RTL-D1SK2-L2-Lab2-Introduction-iverilog-gtkwave-part1)
   - [SKY130RTL D1SK2 L3 Lab2 Introduction iverilog gtkwave part2](#SKY130RTL-D1SK2-L3-Lab2-Introduction-iverilog-gtkwave-part2)
  - [Introduction to Yosys and Logic synthesis](#Introduction-to-Yosys-and-Logic-synthesis)
@@ -30,7 +30,7 @@
 - [Day 3 - Combinational and sequential optimizations](#Day-3---Combinational-and-sequential-optimizations)
  - [Introduction to optimizations](#Introduction-to-optimizations)
   - [SKY130RTL D3SK1 L1 Introduction to optimisations part1](#SKY130RTL-D3SK1-L1-Introduction-to-optimisations-part1)
-  - 
+  - [SKY130RTL D3SK1 L2 Introduction to optimisations part2](#SKY130RTL-D3SK1-L2-Introduction-to-optimisations-part2)
 
 
 
