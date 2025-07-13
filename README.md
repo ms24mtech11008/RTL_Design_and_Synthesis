@@ -1751,4 +1751,62 @@ This is a classic **strength reduction optimization** applied during synthesis.
 ---
 ### SKY130RTL D2SK3 L6 Interesting optimisations part2
 ---
+### **Special case: Optimizing `y = a * 9` for `a[2:0]`**
 
+We are considering the case:
+
+```verilog
+input  [2:0] a;
+output [5:0] y;
+
+assign y = a * 9;
+```
+
+---
+
+### **Understanding the Multiplier**
+
+Multiplying by 9 can be decomposed into a shift and add:
+
+```
+9 = 8 + 1 = (1 << 3) + 1
+```
+
+So:
+
+```
+a * 9 = (a << 3) + a
+```
+
+This means:
+
+* `a << 3` is equivalent to appending **three 0s** at the right → forms `{a, 000}`
+* Adding back `a` aligns it at LSB
+* The total effect is **replicating `a` twice** in adjacent positions
+
+---
+
+### **Binary Form View**
+
+Let `a = 3'babc`
+
+* `a << 3` = `{a, 000}`
+* Adding `a` to that gives: `{a, a}` → bits of `a` repeated
+
+So:
+
+```verilog
+y = (a << 3) + a = {a, a} = {aa}
+```
+
+---
+
+### **Conclusion**
+
+Multiplying a 3-bit input `a` by 9 is equivalent to:
+
+```
+y = {a, a}
+```
+
+This optimization avoids the multiplier entirely by using a shift and add structure, and the result is simply **concatenating `a` with itself**.
