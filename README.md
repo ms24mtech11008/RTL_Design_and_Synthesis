@@ -31,6 +31,10 @@
   - [Introduction to optimizations](#Introduction-to-optimizations)
     - [SKY130RTL D3SK1 L1 Introduction to optimisations part1](#SKY130RTL-D3SK1-L1-Introduction-to-optimisations-part1)
     - [SKY130RTL D3SK1 L2 Introduction to optimisations part2](#SKY130RTL-D3SK1-L2-Introduction-to-optimisations-part2)
+    - [SKY130RTL D3SK1 L3 Introduction to optimisations part3](#SKY130RTL-D3SK1-L3-Introduction-to-optimisations-part3)
+  - [Combinational logic optimizations](#Combinational-logic-optimizations)
+    - [SKY130RTL D3SK2 L1 Lab06 Combinational Logic Optimisations part1](#SKY130RTL-D3SK2-L1-Lab06-Combinational-Logic-Optimisations-part1)
+    - [SKY130RTL D3SK2 L2 Lab06 Combinational Logic Optimisations part2](#SKY130RTL-D3SK2-L2-Lab06-Combinational-Logic-Optimisations-part2)
 
 
 
@@ -1897,6 +1901,10 @@ Optimizing combinational logic reduces hardware cost and improves power efficien
 ---
 ### SKY130RTL D3SK1 L2 Introduction to optimisations part2
 ---
+and
+---
+### SKY130RTL D3SK1 L3 Introduction to optimisations part3
+---
 
 ### **Sequential Logic Optimization**
 
@@ -1936,4 +1944,11 @@ Y=1 always irrespective of clock or reset and this is because of sequential cons
 ### **Conclusion**
 
 Sequential logic optimization helps improve timing, reduce area, and minimize power consumption. While basic techniques like **sequential constant propagation** are performed early in synthesis, **advanced methods** such as **retiming** and **FSM state optimization** are used in high-performance, layout-aware flows.
+
+---
+## Combinational logic optimizations
+---
+### SKY130RTL D3SK2 L1 Lab06 Combinational Logic Optimisations part1
+---
+
 
