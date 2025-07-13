@@ -1650,6 +1650,16 @@ To resolve this mismatch, the synthesis tool automatically inserts an **inverter
 
 ### **2) D FlipFlop with Synchronous reset**
 
+<img width="3838" height="2061" alt="Screenshot 2025-07-13 114542" src="https://github.com/user-attachments/assets/7d48c1ca-72ee-4871-999f-5b156cd2e58e" />
+
+<img width="3838" height="2067" alt="Screenshot 2025-07-13 115048" src="https://github.com/user-attachments/assets/4796ed88-1bc8-4e81-90ed-3c98209c53e9" />
+
+<img width="3838" height="2067" alt="Screenshot 2025-07-13 115134" src="https://github.com/user-attachments/assets/be259f87-b277-4631-a772-954cb767fdd7" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-13 115459" src="https://github.com/user-attachments/assets/c086a530-c32d-48f8-bc1c-d636bd6d74cb" />
+
+![WhatsApp Image 2025-07-13 at 12 02 40_087389d9](https://github.com/user-attachments/assets/c59f3058-e53e-4170-9d0e-751c0b3e2ddc)
+
 
 ### **3) D FlipFlop with Synchronous and Asynchronous reset**
 ### **4) D FlipFlop with Asynchronous set**
