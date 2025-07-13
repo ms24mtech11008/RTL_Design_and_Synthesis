@@ -1699,6 +1699,7 @@ module mul2 (input [2:0] a, output [3:0] y);
     assign y = a * 2;
 endmodule
 ```
+![WhatsApp Image 2025-07-13 at 13 35 47_f902f42b](https://github.com/user-attachments/assets/ba22a63b-9d97-4c37-a37e-9f3385906d83)
 
 This module multiplies a 3-bit input `a` by 2 and gives a 4-bit output `y`.
 
@@ -1750,3 +1751,4 @@ This is a classic **strength reduction optimization** applied during synthesis.
 ---
 ### SKY130RTL D2SK3 L6 Interesting optimisations part2
 ---
+
