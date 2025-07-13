@@ -1607,8 +1607,22 @@ abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 <img width="3838" height="2121" alt="Screenshot 2025-07-13 111052" src="https://github.com/user-attachments/assets/125cdfae-6a0d-4f49-9a24-8e824de3fa56" />
 
+**Why the Tool Inserted an Inverter**
+
+In the Verilog code, the D flip-flop is written with an **active-high reset** condition:
+
+```verilog
+if (reset)
+    q <= 0;
+```
+
+However, the standard cell library may only contain **flip-flops with active-low reset** functionality.
+
+To resolve this mismatch, the synthesis tool automatically inserts an **inverter** in front of the reset signal. This converts the active-high reset logic used in the RTL to match the **active-low reset behavior** expected by the physical flip-flop cell in the library.
+
 ---
-**Why It's Important**
+
+**Why `dfflibmap` is Important**
 
 * Without `dfflibmap`, the flip-flop may **not be mapped** correctly to a physical cell.
 * This can result in either:
