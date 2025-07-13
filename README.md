@@ -1680,22 +1680,72 @@ To resolve this mismatch, the synthesis tool automatically inserts an **inverter
 ---
 ### SKY130RTL D2SK3 L5 Interesting optimisations part1
 ---
+### **Optimization Insight: Multiplication by Constant Power of 2**
 
+We are examining an important optimization that synthesis tools automatically apply.
 
+We will consider two Verilog RTL files: `mul2.v` and `mul8.v`. Open them together using:
 
+```
+gvim mul*.v -o
+```
 
+---
 
+### **`mul2.v` – Multiply by 2**
 
+```verilog
+module mul2 (input [2:0] a, output [3:0] y);
+    assign y = a * 2;
+endmodule
+```
 
+This module multiplies a 3-bit input `a` by 2 and gives a 4-bit output `y`.
 
+---
 
+### **Optimization Insight**
 
+At first glance, the multiplication operator (`*`) may suggest the need for a **hardware multiplier**. However, multiplying by 2 (or any power of 2) is simply a **bitwise left shift**(Hence after synthesizing the top module you will see that there are 0 cells inferred)
 
+Example:
 
+* $5 \times 4 = 20$
+* $0101 \times 4 = 10100$ → This is just **shifting left by 2 bits**
 
+Hence:
 
+* Multiplication by 2 = shift left by 1 bit
+* Multiplication by 4 = shift left by 2 bits
+* Multiplication by $2^n$ = shift left by $n$ bits
 
+---
 
+### **Effect of Synthesis on `mul2`**
+
+When we synthesize this module, the synthesis tool recognizes that:
+
+```verilog
+y = a * 2;
+```
+
+is equivalent to:
+
+```verilog
+y = a << 1;
+```
+
+<img width="3838" height="2103" alt="Screenshot 2025-07-13 130142" src="https://github.com/user-attachments/assets/fa4ce826-996e-4f65-a6df-891769bad102" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-13 130240" src="https://github.com/user-attachments/assets/f6dc1964-e1ed-4225-975b-2fc4331aa905" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-13 130428" src="https://github.com/user-attachments/assets/18f5fa98-f838-4f3d-8aa6-ff692964e1a8" />
+
+<img width="3839" height="2108" alt="Screenshot 2025-07-13 130547" src="https://github.com/user-attachments/assets/d22303dc-2e1d-4c09-ab47-3723ba06804d" />
+
+So instead of generating a multiplier, the tool simply wires the bits accordingly — **no actual multiplier hardware is required**.
+
+This is a classic **strength reduction optimization** applied during synthesis.
 
 ---
 ### SKY130RTL D2SK3 L6 Interesting optimisations part2
