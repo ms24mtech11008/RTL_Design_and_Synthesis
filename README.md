@@ -1515,7 +1515,11 @@ Now lets simulate the following flops
 3) D FlipFlop with Synchronous and Asynchronous reset
 4) D FlipFlop with Asynchronous set
 
-**D FlipFlop with Asynchronous reset**
+**1) D FlipFlop with Asynchronous reset**
+
+<img width="2468" height="657" alt="Screenshot 2025-07-13 113250" src="https://github.com/user-attachments/assets/4b925fc8-c33b-4a61-8a35-faaae9858344" />
+
+<img width="1531" height="1841" alt="Screenshot 2025-07-13 113344" src="https://github.com/user-attachments/assets/87e626f9-622f-446a-a2bb-756d769e7167" />
 
 <img width="3838" height="2160" alt="Screenshot 2025-07-12 192545" src="https://github.com/user-attachments/assets/7f568421-7b4f-4b29-9b02-aa18e8f39465" />
 
@@ -1527,7 +1531,11 @@ Zooming at the point when reset changes from low to high
 
 <img width="3839" height="2159" alt="Screenshot 2025-07-12 193027" src="https://github.com/user-attachments/assets/a0b06d49-72ec-4183-945d-3c2c39eede47" />
 
-**D FlipFlop with Synchronous reset**
+**2) D FlipFlop with Synchronous reset**
+
+<img width="3075" height="591" alt="Screenshot 2025-07-13 113434" src="https://github.com/user-attachments/assets/b941fd73-e33b-4740-b05c-4da861c43bfb" />
+
+<img width="1607" height="1617" alt="Screenshot 2025-07-13 113510" src="https://github.com/user-attachments/assets/fd59a134-d7b6-4225-95fa-4aee701c3d00" />
 
 <img width="3838" height="2106" alt="Screenshot 2025-07-12 195332" src="https://github.com/user-attachments/assets/7a5b9b03-d367-4b54-bb5c-5d585e65f7eb" />
 
@@ -1535,7 +1543,11 @@ Zooming at the point when reset changes from low to high
 
 <img width="3838" height="2160" alt="Screenshot 2025-07-12 195827" src="https://github.com/user-attachments/assets/0b63e386-56fc-43c8-9d71-673fd61c1a4b" />
 
-**D FlipFlop with Synchronous and Asynchronous reset**
+**3) D FlipFlop with Synchronous and Asynchronous reset**
+
+<img width="3340" height="670" alt="Screenshot 2025-07-13 113544" src="https://github.com/user-attachments/assets/6898f427-eef1-4c65-98d9-b30dc03d22e2" />
+
+<img width="1760" height="1676" alt="Screenshot 2025-07-13 113624" src="https://github.com/user-attachments/assets/514cdab4-30d3-4c70-8359-c33bbe6d97fe" />
 
 <img width="3838" height="2115" alt="Screenshot 2025-07-12 200247" src="https://github.com/user-attachments/assets/5b8a06e7-8593-4c84-ab5e-35fb73502564" />
 
@@ -1547,7 +1559,11 @@ Zooming at the point when reset changes from low to high
 
 <img width="3839" height="2117" alt="Screenshot 2025-07-12 201122" src="https://github.com/user-attachments/assets/89bc27d5-1c87-46c2-920d-4f6f2c1216ac" />
 
-**D FlipFlop with Asynchronous set**
+**4) D FlipFlop with Asynchronous set**
+
+<img width="2588" height="705" alt="Screenshot 2025-07-13 113700" src="https://github.com/user-attachments/assets/e49ecf70-45ec-4c57-999e-143490f427f1" />
+
+<img width="1516" height="1616" alt="Screenshot 2025-07-13 113740" src="https://github.com/user-attachments/assets/762bf398-92db-4314-9daa-7a13a3195ac6" />
 
 <img width="3838" height="2117" alt="Screenshot 2025-07-13 102619" src="https://github.com/user-attachments/assets/7ef519f8-8ec5-4a18-b372-f10ebb13f472" />
 
@@ -1566,7 +1582,7 @@ Now let's synthesize the following D flipflops
 3) D FlipFlop with Synchronous and Asynchronous reset
 4) D FlipFlop with Asynchronous set
 
-### **D FlipFlop with Asynchronous reset**
+### **1) D FlipFlop with Asynchronous reset**
 
 **Why We Use `dfflibmap` in Synthesis Flow**
 
@@ -1632,3 +1648,8 @@ To resolve this mismatch, the synthesis tool automatically inserts an **inverter
 
 ---
 
+### **2) D FlipFlop with Synchronous reset**
+
+
+### **3) D FlipFlop with Synchronous and Asynchronous reset**
+### **4) D FlipFlop with Asynchronous set**
