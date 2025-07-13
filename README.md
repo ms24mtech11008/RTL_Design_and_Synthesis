@@ -1566,4 +1566,55 @@ Now let's synthesize the following D flipflops
 3) D FlipFlop with Synchronous and Asynchronous reset
 4) D FlipFlop with Asynchronous set
 
+### **D FlipFlop with Asynchronous reset**
+
+**Why We Use `dfflibmap` in Synthesis Flow**
+
+When performing logic synthesis using tools like **Yosys**, we typically use a standard cell library (`.lib` file) that contains both **combinational** and **sequential** cells (like D flip-flops). However, in many design flows, **flip-flops are provided in a separate library** from the main logic gates.
+
+To handle this, we use the Yosys command:
+
+```bash
+dfflibmap -liberty ../lib/your_flipflop_library.lib
+```
+
+---
+**What `dfflibmap` Does**
+
+* It maps generic D flip-flop constructs (like `always @(posedge clk)` in RTL) to **specific standard cells** in the library.
+* This is essential for **correct technology mapping** — otherwise, the tool may not know which flip-flop cell to use.
+* It ensures **timing-aware synthesis** using the correct sequential elements.
+
+---
+**Typical Flow Including `dfflibmap`**
+
+```bash
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog design.v
+synth -top <top_module>
+dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+<img width="3838" height="2160" alt="Screenshot 2025-07-13 105556" src="https://github.com/user-attachments/assets/4e7d1d83-c8c9-4942-b8bc-863e49795d1e" />
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-13 110713" src="https://github.com/user-attachments/assets/0f6acf5a-fac9-4114-9edb-78b861526ab7" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-13 110824" src="https://github.com/user-attachments/assets/0ce6792d-545c-48dc-bd62-4254c6b4a9da" />
+
+<img width="3838" height="2160" alt="Screenshot 2025-07-13 110938" src="https://github.com/user-attachments/assets/1984c97e-5658-46d7-83e4-6aabaa3f86fd" />
+
+<img width="3838" height="2112" alt="Screenshot 2025-07-13 111120" src="https://github.com/user-attachments/assets/aa77cee2-4a2e-4ec1-a876-155920014233" />
+
+<img width="3838" height="2121" alt="Screenshot 2025-07-13 111052" src="https://github.com/user-attachments/assets/125cdfae-6a0d-4f49-9a24-8e824de3fa56" />
+
+---
+**Why It's Important**
+
+* Without `dfflibmap`, the flip-flop may **not be mapped** correctly to a physical cell.
+* This can result in either:
+
+  * **Synthesis failure**
+  * Or an **incomplete netlist** (no physical representation for your DFF)
+
+---
 
