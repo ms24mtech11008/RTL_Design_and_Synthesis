@@ -1893,3 +1893,47 @@ Two major techniques:
 ### **Conclusion**
 
 Optimizing combinational logic reduces hardware cost and improves power efficiency. Techniques like **constant propagation**, **K-map**, and **Quine–McCluskey** are fundamental to achieving these improvements during synthesis.
+
+---
+### SKY130RTL D3SK1 L2 Introduction to optimisations part2
+---
+
+### **Sequential Logic Optimization**
+
+Sequential logic optimization targets designs that include **flip-flops, latches, and state machines**. The objective is to reduce **area**, **power**, or **improve timing** while maintaining the same sequential behavior.
+
+---
+
+### **Types of Sequential Logic Optimization**
+
+#### **1. Basic Optimization**
+
+* **Sequential Constant Propagation**
+  Similar to constant propagation in combinational logic but applied across clocked elements.
+  If a flip-flop is fed by a constant or becomes constant due to logic conditions, it and related logic may be eliminated.
+
+![WhatsApp Image 2025-07-13 at 17 09 18_0e221334](https://github.com/user-attachments/assets/2e3200ee-1d8b-4c8f-bdd2-9367d01e2c55)
+
+Y=1 always irrespective of clock or reset and this is because of sequential constant propagation  so effectively we do t need any of these gates
+---
+
+#### **2. Advanced Optimizations** *(Not covered in lab)*
+
+* **State Optimization**
+  Minimizing the number of states or encoding them more efficiently in a finite state machine (FSM).
+  For example, using Gray code or one-hot encoding to reduce switching activity or logic size.
+
+* **Retiming**
+  Moving flip-flops across combinational logic boundaries without changing functionality to balance path delays.
+  Helps in meeting timing constraints by redistributing the pipeline stages.
+
+* **Sequential Logic Cloning (Floorplan-Aware Synthesis)**
+  Duplicating certain sequential elements to reduce routing congestion or balance timing across regions of a chip.
+  Typically applied during physical-aware synthesis when layout information is available.
+
+---
+
+### **Conclusion**
+
+Sequential logic optimization helps improve timing, reduce area, and minimize power consumption. While basic techniques like **sequential constant propagation** are performed early in synthesis, **advanced methods** such as **retiming** and **FSM state optimization** are used in high-performance, layout-aware flows.
+
