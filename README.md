@@ -1817,3 +1817,6 @@ y = {a, a}
 ```
 
 This optimization avoids the multiplier entirely by using a shift and add structure, and the result is simply **concatenating `a` with itself**.
+
+**NOTE: only the name of the .v file is mul8 but its multiplying with 9**
+
