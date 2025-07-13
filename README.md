@@ -1744,6 +1744,13 @@ y = a << 1;
 
 <img width="3839" height="2108" alt="Screenshot 2025-07-13 130547" src="https://github.com/user-attachments/assets/d22303dc-2e1d-4c09-ab47-3723ba06804d" />
 
+<img width="3845" height="2124" alt="Screenshot 2025-07-13 135730" src="https://github.com/user-attachments/assets/162f1019-a2b7-4979-ba1a-a90fdae5f1f0" />
+
+<img width="3838" height="2160" alt="Screenshot 2025-07-13 135854" src="https://github.com/user-attachments/assets/9be00ada-7640-4f5d-b34d-7567eff7e051" />
+
+<img width="3838" height="2119" alt="Screenshot 2025-07-13 135927" src="https://github.com/user-attachments/assets/d7b99870-8f64-43b2-969a-22eb2d831449" />
+
+
 So instead of generating a multiplier, the tool simply wires the bits accordingly — **no actual multiplier hardware is required**.
 
 This is a classic **strength reduction optimization** applied during synthesis.
