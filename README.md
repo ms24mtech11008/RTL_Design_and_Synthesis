@@ -1856,12 +1856,15 @@ The goal of combinational logic optimization is to simplify logic circuits to re
 
 Optimized logic is essential for efficient hardware implementation.
 
----
-
 ### **Key Techniques for Optimization**
 
 #### **1. Constant Propagation (Direct Optimization)**
 
+If a signal is driven by a constant value (0 or 1), parts of the logic can be simplified at compile time.
+``
+assign y = a & 1'b0;  // optimized to y = 0
+assign z = b | 1'b1;  // optimized to z = 1
+``
 ![WhatsApp Image 2025-07-13 at 16 36 20_b498fd2f](https://github.com/user-attachments/assets/b67bc0f4-f0e6-4db8-ac3b-9508a9481da1)
 
 ![WhatsApp Image 2025-07-13 at 16 37 45_13ec31f5](https://github.com/user-attachments/assets/0c2791a8-4da2-4ef6-afc6-2c076d5991ac)
