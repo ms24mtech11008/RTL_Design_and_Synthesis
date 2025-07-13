@@ -25,7 +25,8 @@
   - [SKY130RTL D2SK2 L2 Lab05 Hier synthesis flat synthesis part2](#SKY130RTL-D2SK2-L2-Lab05-Hier-synthesis-flat-synthesis-part2)
   - [SKY130RTL D2SK3 L3 Lab flop synthesis simulations part1](#SKY130RTL-D2SK3-L3-Lab-flop-synthesis-simulations-part1)
   - [SKY130RTL D2SK3 L4 Lab flop synthesis simulations part2](#SKY130RTL-D2SK3-L4-Lab-flop-synthesis-simulations-part2)
-  - 
+  - [SKY130RTL D2SK3 L5 Interesting optimisations part1](#SKY130RTL-D2SK3-L5-Interesting-optimisations-part1)
+  - [SKY130RTL D2SK3 L6 Interesting optimisations part2](#SKY130RTL-D2SK3-L6-Interesting-optimisations-part2)
 
 
 
@@ -1660,6 +1661,42 @@ To resolve this mismatch, the synthesis tool automatically inserts an **inverter
 
 ![WhatsApp Image 2025-07-13 at 12 02 40_087389d9](https://github.com/user-attachments/assets/c59f3058-e53e-4170-9d0e-751c0b3e2ddc)
 
-
 ### **3) D FlipFlop with Synchronous and Asynchronous reset**
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-13 120630" src="https://github.com/user-attachments/assets/51686b36-e79e-4eff-bdde-b92a202d6422" />
+
+<img width="3842" height="2115" alt="Screenshot 2025-07-13 120721" src="https://github.com/user-attachments/assets/b7ff9eac-5a56-4488-9b9f-fef035c6a7bf" />
+
+<img width="3838" height="2103" alt="Screenshot 2025-07-13 120939" src="https://github.com/user-attachments/assets/a70f7166-1cd3-4644-9917-7e51966cd8d1" />
+
 ### **4) D FlipFlop with Asynchronous set**
+
+<img width="3838" height="2065" alt="Screenshot 2025-07-13 121208" src="https://github.com/user-attachments/assets/80861ad3-04be-4107-8379-45b9a3f811f6" />
+
+<img width="3845" height="2101" alt="Screenshot 2025-07-13 121305" src="https://github.com/user-attachments/assets/4c864882-cf1f-40bf-ba3c-a7d831d1b163" />
+
+<img width="3838" height="2106" alt="Screenshot 2025-07-13 121533" src="https://github.com/user-attachments/assets/1b949a1b-248e-4292-962e-31de0dff0e38" />
+
+---
+### SKY130RTL D2SK3 L5 Interesting optimisations part1
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+### SKY130RTL D2SK3 L6 Interesting optimisations part2
+---
