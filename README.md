@@ -1820,3 +1820,18 @@ This optimization avoids the multiplier entirely by using a shift and add struct
 
 **NOTE: only the name of the .v file is mul8 but its multiplying with 9**
 
+<img width="3831" height="2110" alt="Screenshot 2025-07-13 140429" src="https://github.com/user-attachments/assets/ea1204de-137c-4eea-bcf3-bc728cf91e65" />
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-13 140602" src="https://github.com/user-attachments/assets/1fc2160b-d684-4599-a41f-1b6a7c99bd64" />
+
+<img width="3840" height="2115" alt="Screenshot 2025-07-13 140659" src="https://github.com/user-attachments/assets/2754d618-75f2-4186-92ca-e6bceebe2010" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-13 140805" src="https://github.com/user-attachments/assets/7b6f4fa1-2b01-4726-8c90-5e66b3b7dc45" />
+
+<img width="3838" height="2112" alt="Screenshot 2025-07-13 140901" src="https://github.com/user-attachments/assets/c34f47c8-489c-4d3e-b81b-344a5f5b0771" />
+
+<img width="3833" height="2106" alt="Screenshot 2025-07-13 141000" src="https://github.com/user-attachments/assets/b431d822-70b3-4281-8f66-39b626a0b994" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-13 141235" src="https://github.com/user-attachments/assets/ed4d3fdc-936d-4c32-84b6-504dc2c13990" />
+
+<img width="3838" height="2101" alt="Screenshot 2025-07-13 141303" src="https://github.com/user-attachments/assets/48b2b334-cc6a-4563-88fc-fb5eb6d655f2" />
