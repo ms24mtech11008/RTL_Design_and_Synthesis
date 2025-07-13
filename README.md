@@ -3,7 +3,7 @@
 - [Day 1 - Introduction to Verilog RTL design and Synthesis](#Day-1---Introduction-to-Verilog-RTL-design-and-Synthesis)
   - [Introduction to open-source simulator iverilog](#Introduction-to-open-source-simulator-iverilog)
     - [SKY130RTL D1SK1 L1 Introduction to iverilog design test bench](#SKY130RTL-D1SK1-L1-Introduction-to-iverilog-design-test-bench)
-    - [Labs using iverilog and gtkwave](#Labs-using-iverilog-and-gtkwave)
+  - [Labs using iverilog and gtkwave](#Labs-using-iverilog-and-gtkwave)
     - [SKY130RTL D1SK2 L1 Lab1 introduction to lab](#SKY130RTL-D1SK2-L1-Lab1-introduction-to-lab)
     - [SKY130RTL D1SK2 L2 Lab2 Introduction iverilog gtkwave part1](#SKY130RTL-D1SK2-L2-Lab2-Introduction-iverilog-gtkwave-part1)
     - [SKY130RTL D1SK2 L3 Lab2 Introduction iverilog gtkwave part2](#SKY130RTL-D1SK2-L3-Lab2-Introduction-iverilog-gtkwave-part2)
