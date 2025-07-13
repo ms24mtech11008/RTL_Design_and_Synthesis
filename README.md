@@ -1849,3 +1849,44 @@ This optimization avoids the multiplier entirely by using a shift and add struct
 ---
 ### SKY130RTL D3SK1 L1 Introduction to optimisations part1
 ---
+
+### **Combinational Logic Optimization**
+
+The goal of combinational logic optimization is to simplify logic circuits to reduce **area**, **power**, and sometimes **delay**, without altering the functionality of the design.
+
+Optimized logic is essential for efficient hardware implementation.
+
+---
+
+### **Key Techniques for Optimization**
+
+#### **1. Constant Propagation (Direct Optimization)**
+
+![WhatsApp Image 2025-07-13 at 16 36 20_b498fd2f](https://github.com/user-attachments/assets/b67bc0f4-f0e6-4db8-ac3b-9508a9481da1)
+
+![WhatsApp Image 2025-07-13 at 16 37 45_13ec31f5](https://github.com/user-attachments/assets/0c2791a8-4da2-4ef6-afc6-2c076d5991ac)
+
+#### **2. Boolean Logic Optimization**
+
+This involves algebraic simplification of logic expressions using Boolean identities.
+
+Two major techniques:
+
+##### a) **Karnaugh Map (K-Map)**
+
+* Visual method used for manual simplification of Boolean expressions (typically for up to 4 or 5 variables).
+* Identifies common groups (1s) in a truth table to reduce logic expressions.
+
+##### b) **Quine–McCluskey Method**
+
+* Tabular algorithmic approach to minimize Boolean functions.
+* Suitable for automation and systematic minimization.
+* Handles more variables than K-map and provides a deterministic minimal form.
+
+![WhatsApp Image 2025-07-13 at 16 44 28_f0e6ada4](https://github.com/user-attachments/assets/5f4d517d-4086-4433-ba5b-5af10cd64d27)
+
+---
+
+### **Conclusion**
+
+Optimizing combinational logic reduces hardware cost and improves power efficiency. Techniques like **constant propagation**, **K-map**, and **Quine–McCluskey** are fundamental to achieving these improvements during synthesis.
