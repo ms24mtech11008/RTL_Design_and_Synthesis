@@ -1512,6 +1512,7 @@ Now lets simulate the following flops
 1) D FlipFlop with Asynchronous reset
 2) D FlipFlop with Synchronous reset
 3) D FlipFlop with Synchronous and Asynchronous reset
+4) D FlipFlop with Asynchronous set
 
 **D FlipFlop with Asynchronous reset**
 
@@ -1544,3 +1545,11 @@ Zooming at the point when reset changes from low to high
 <img width="3839" height="2114" alt="Screenshot 2025-07-12 201051" src="https://github.com/user-attachments/assets/bc43c50d-c700-401d-822d-ada4910fd15e" />
 
 <img width="3839" height="2117" alt="Screenshot 2025-07-12 201122" src="https://github.com/user-attachments/assets/89bc27d5-1c87-46c2-920d-4f6f2c1216ac" />
+
+**D FlipFlop with Asynchronous set**
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-13 102619" src="https://github.com/user-attachments/assets/7ef519f8-8ec5-4a18-b372-f10ebb13f472" />
+
+<img width="3838" height="2124" alt="Screenshot 2025-07-13 102732" src="https://github.com/user-attachments/assets/e88e694c-1b3f-45c5-81b1-e0c78c726900" />
+
+<img width="3838" height="2151" alt="Screenshot 2025-07-13 102838" src="https://github.com/user-attachments/assets/49bacf1e-eb9c-46ed-b7cc-938f6ac6b1b6" />
