@@ -46,6 +46,8 @@
   - [GLS, Synthesis-Simulation mismatch and Blocking/Non-blocking statements](#GLS,-Synthesis-Simulation-mismatch-and-Blocking/Non-blocking-statements)
     - [SKY130RTL D4SK1 L1 GLS Concepts And Flow Using Iverilog](#SKY130RTL-D4SK1-L1-GLS-Concepts-And-Flow-Using-Iverilog)
     - [SKY130RTL D4SK1 L2 Synthesis Simulation Mismatch](#SKY130RTL-D4SK1-L2-Synthesis-Simulation-Mismatch)
+    - [SKY130RTL D4SK1 L3 Blocking And NonBlocking Statements In Verilog](#SKY130RTL-D4SK1-L3-Blocking-And-NonBlocking-Statements-In-Verilog)
+    - 
 
 
 
@@ -2767,7 +2769,13 @@ Gate Level Simulation using `iverilog` ensures:
 ---
 ### SKY130RTL D4SK1 L2 Synthesis Simulation Mismatch
 ---
-### **Synthesis-Simulation Mismatch: Missing Sensitivity List**
+### **Synthesis-Simulation Mismatch**
+
+1) Missing Sensitivity List
+2) Blocking vs non blocking assignments
+3) Non standard verilog coding 
+
+### **1) Missing Sensitivity List**
 
 #### **Issue Overview:**
 
@@ -2832,4 +2840,124 @@ end
 * This ensures that the always block is evaluated whenever any of the involved signals change, leading to correct and expected simulation behavior.
 
 ---
+### SKY130RTL D4SK1 L3 Blocking And NonBlocking Statements In Verilog
+---
+### **2) Blocking vs non blocking assignments**
+---
+### **Blocking (`=`) vs Non-blocking (`<=`) Assignments in Verilog**
+
+#### **1. Inside an `always` block:**
+
+* **Blocking (`=`):**
+  Executes statements **sequentially** — each statement blocks the next until it's done. This models **combinational** logic or procedural code flow.
+
+* **Non-blocking (`<=`):**
+  All right-hand side (RHS) expressions are **evaluated in parallel** at the start of the time step, and the values are assigned to the left-hand side (LHS) **at the end of the time step**. This models **sequential logic** (flip-flops).
+
+---
+
+### **2. Caveats with Blocking Assignments in Sequential Logic**
+
+Let’s analyze two versions of the code provided:
+
+---
+
+#### **Correct Use of Blocking (Modeling Two DFFs):**
+
+```verilog
+module code (
+    input clk,
+    input reset,
+    input d,
+    output reg q
+);
+
+reg q0;
+
+always @(posedge clk, posedge reset)
+begin
+    if (reset)
+    begin
+        q0 = 1'b0;
+        q = 1'b0;
+    end
+    else
+    begin
+        q = q0;
+        q0 = d;
+    end
+end
+
+endmodule
+```
+
+* In the `else` block:
+
+  * `q = q0;` is executed **first**
+  * Then `q0 = d;` is executed
+* Since `q` gets the **previous value** of `q0`, this mimics two separate flip-flops:
+
+  * `q0` stores `d`
+  * `q` stores the previous `q0`
+
+This correctly models **two D flip-flops**.
+
+---
+
+#### **Incorrect Ordering – Leads to Single Flip-Flop:**
+
+```verilog
+module code (
+    input clk,
+    input reset,
+    input d,
+    output reg q
+);
+
+reg q0;
+
+always @(posedge clk, posedge reset)
+begin
+    if (reset)
+    begin
+        q0 = 1'b0;
+        q = 1'b0;
+    end
+    else
+    begin
+        q0 = d;
+        q = q0;
+    end
+end
+
+endmodule
+```
+
+* In this version:
+
+  * `q0 = d;` is executed **before**
+  * `q = q0;` — now `q` just copies `d` because `q0` was already updated.
+* So both `q` and `q0` carry the **same value** → only **one flip-flop** inferred.
+
+This leads to incorrect synthesis where **only one DFF** is inferred, despite needing two.
+
+---
+
+### **Conclusion:**
+
+| **Aspect**        | **Blocking (`=`)**               | **Non-blocking (`<=`)**       |
+| ----------------- | -------------------------------- | ----------------------------- |
+| Evaluation        | Sequential                       | Parallel                      |
+| Common Use Case   | Combinational logic              | Sequential logic (flip-flops) |
+| Assignment Timing | Immediate                        | End of time step              |
+| Pitfall           | Can result in incorrect hardware | Safer for clocked logic       |
+
+---
+
+### **Best Practice:**
+
+* Use **non-blocking (`<=`)** for **sequential** logic (in `always @(posedge clk)` blocks).
+* Use **blocking (`=`)** only for **combinational** logic (in `always @(*)` blocks).
+
+This ensures clarity in simulation and synthesizes accurate and intended hardware.
 
