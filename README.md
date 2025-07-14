@@ -39,7 +39,9 @@
     - [SKY130RTL D3SK3 L1 Lab07 Sequential Logic Optimisations part1](#SKY130RTL-D3SK3-L1-Lab07-Sequential-Logic-Optimisations-part1)
     - [SKY130RTL D3SK3 L2 Lab07 Sequential Logic Optimisations part2](#SKY130RTL-D3SK3-L2-Lab07-Sequential-Logic-Optimisations-part2)
     - [SKY130RTL D3SK3 L3 Lab07 Sequential Logic Optimisations part3](#SKY130RTL-D3SK3-L3-Lab07-Sequential-Logic-Optimisations-part3)
-  - [
+  - [Sequential optimzations for unused outputs](#Sequential-optimzations-for-unused-outputs)
+    - [SKY130RTL D3SK4 L1 Seq optimisation unused outputs part1](#SKY130RTL-D3SK4-L1-Seq-optimisation-unused-outputs-part1)
+    - [SKY130RTL D3SK4 L2 Seq optimisation unused outputs part2](#SKY130RTL-D3SK4-L2-Seq-optimisation-unused-outputs-part2)
 
 
 
@@ -2496,4 +2498,8 @@ The synthesis tool **cannot collapse `q1` into a constant**, because it's part o
 
 <img width="3838" height="2117" alt="Screenshot 2025-07-14 134543" src="https://github.com/user-attachments/assets/56d6ed61-1d06-4ad4-84a5-1f29e3e6965a" />
 
+---
+## Sequential optimzations for unused outputs
+---
+### SKY130RTL D3SK4 L1 Seq optimisation unused outputs part1
 ---
