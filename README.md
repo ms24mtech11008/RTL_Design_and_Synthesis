@@ -2675,3 +2675,91 @@ This contrasts with the earlier case where `q = count[0]`, in which the tool eli
 ---
 ### SKY130RTL D4SK1 L1 GLS Concepts And Flow Using Iverilog
 ---
+
+### **Introduction to Gate Level Simulation (GLS)**
+
+When we write RTL code, we verify its functional correctness using a **testbench**. This process is known as **RTL simulation**.
+
+In **Gate Level Simulation**, we run the **same testbench**, but instead of simulating the RTL code, we simulate the **netlist** — the gate-level version of the design generated after synthesis.
+
+---
+
+### **Why GLS is Needed**
+
+1. **Logical Verification After Synthesis**
+   Although the netlist is functionally equivalent to the RTL, synthesis tools may perform optimizations. GLS ensures that **no logical errors** were introduced during synthesis.
+
+2. **Timing Verification**
+   RTL simulation is functional but does not model actual delays. GLS helps verify that the **timing constraints are met**, especially when run with **delay annotation** (typically from SDF files). This ensures that the circuit works as expected **at the target clock frequency**.
+
+---
+
+### **Key Points**
+
+* **Testbench Compatibility**:
+  Since the netlist has the same ports as the RTL, it fits directly into the RTL testbench without changes.
+
+* **Timing-Accurate Simulation**:
+  With delay annotation, GLS reflects the real-world delays caused by gates, wires, and interconnects.
+
+---
+
+### **Summary**
+
+Gate Level Simulation is the step where:
+
+* We **validate the post-synthesis design**.
+* Ensure **logical correctness**.
+* Check **timing** with annotated delays.
+* All using the **same testbench** written for RTL.
+
+It serves as the final check before proceeding to physical design or fabrication.
+
+### **Gate Level Simulation (GLS) using Icarus Verilog (iverilog)**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-14 164037" src="https://github.com/user-attachments/assets/510e839f-bb80-4507-a03d-7ac33d2a68c3" />
+
+#### **Components in the Setup:**
+
+1. **Design**
+   This is the synthesized **netlist**, which contains only logic gates.
+
+2. **Gate Level Verilog Models**
+   These define the behavior of standard cells (like AND, OR, DFF, etc.).
+   They are essential because the netlist uses gate-level primitives, and `iverilog` needs to understand their functionality during simulation.
+
+3. **Testbench**
+   Provides stimulus to the design and checks the outputs.
+   The same testbench used for RTL simulation can be reused, since the netlist ports match those of the RTL.
+
+4. **iverilog**
+   Compiles the testbench, the synthesized gate-level netlist, and the gate-level Verilog models.
+   It generates a **VCD file** (Value Change Dump), which records the transitions of signals during simulation.
+
+5. **gtkwave**
+   This tool is used to visualize the signal waveforms from the VCD file.
+   It helps in analyzing the behavior of the design over time.
+
+---
+
+### **Key Note (from the Diagram)**
+
+> If the gate-level models are delay-annotated, then Gate Level Simulation can be used for **timing validation**, in addition to logic verification.
+
+---
+
+### **Important Point**
+
+* The netlist alone is not sufficient for simulation — it does not describe the internal behavior of gates.
+* **Gate-level models must be included** so that `iverilog` can understand and simulate the logic elements used in the netlist.
+
+---
+
+### **Conclusion**
+
+Gate Level Simulation using `iverilog` ensures:
+
+* Functional correctness after synthesis.
+* Timing verification (if delays are annotated).
+* A clear path from RTL to hardware by simulating exactly what was synthesized.
+
