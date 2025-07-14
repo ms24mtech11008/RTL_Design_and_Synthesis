@@ -2142,6 +2142,8 @@ endmodule
 * `dff_const` infers a D flip-flop because the output `q` depends on control signals and stores state.
 * `dff_const2` does not infer a flip-flop because the output is constant and requires no sequential behavior. The synthesis tool will optimize it into a simple wire driving logic high.
 
+![WhatsApp Image 2025-07-14 at 12 19 10_92af4d1a](https://github.com/user-attachments/assets/a0f67b35-8a6c-4403-8658-8b78936ee68c)
+
 Now let's verify simulating and also synthesize the modules:
 
 ### **1) Simulation of dff_const1 and dff_const2**
@@ -2183,3 +2185,116 @@ Now let's verify simulating and also synthesize the modules:
 <img width="3838" height="2115" alt="Screenshot 2025-07-14 125536" src="https://github.com/user-attachments/assets/7f0b1324-42a5-4783-9462-fd5e21cb6f10" />
 
 ---
+### SKY130RTL D3SK3 L2 Lab07 Sequential Logic Optimisations part2
+---
+and
+---
+### SKY130RTL D3SK3 L3 Lab07 Sequential Logic Optimisations part3
+---
+
+<img width="3838" height="2103" alt="Screenshot 2025-07-14 131951" src="https://github.com/user-attachments/assets/e259240e-bbb8-4eea-b43d-d4550341ff99" />
+
+
+Let's analyze the Verilog code carefully and explain **why this infers two D flip-flops**, even though `q1` appears to take on a constant value.
+
+---
+
+### **Given Module:**
+
+```verilog
+module dff_const3 (
+    input clk,
+    input reset,
+    output reg q
+);
+
+reg q1;
+
+always @(posedge clk or posedge reset) begin
+    if (reset) begin
+        q  <= 1'b1;
+        q1 <= 1'b0;
+    end else begin
+        q1 <= 1'b1;
+        q  <= q1;
+    end
+end
+
+endmodule
+```
+![WhatsApp Image 2025-07-14 at 13 18 23_d1d19859](https://github.com/user-attachments/assets/67df6e14-08f3-41c4-86d7-45cc17893da5)
+
+---
+
+### **Line-by-line Behavior**
+
+#### When `reset` is high:
+
+* `q` is set to `1`
+* `q1` is set to `0`
+
+#### On rising edge of `clk` (if reset is low):
+
+* `q1` is set to `1`
+* `q` is assigned the value of `q1` **from the previous clock cycle** (because assignments in non-blocking (`<=`) style happen in parallel and are registered only at the end of the block).
+
+---
+
+### **Key Insight:**
+
+Although `q1` is **assigned a constant `1'b1` every cycle**, **`q` depends on the value of `q1`** from the **previous clock cycle**:
+
+```verilog
+q <= q1;
+```
+
+That means:
+
+* `q1` must **hold** its value between clock cycles.
+* `q` must **read** that held value.
+* Hence, both `q1` and `q` **require state**.
+
+---
+
+### **Why Two Flip-Flops Are Inferred**
+
+Even though `q1` is always set to `1'b1` in the `else` block:
+
+* `q1` is still **used as a register** (i.e., its value is needed across cycles for `q <= q1;`)
+* This means it **cannot** be replaced by a constant logic high (`1'b1`) during synthesis.
+* The tool **cannot optimize `q1` away** because its **past value is used** (delayed assignment behavior).
+
+So:
+
+* `q1` → needs a flip-flop to store `1` across cycles.
+* `q` → also needs a flip-flop, since it depends on `q1`.
+
+---
+
+### **Conclusion**
+
+Even though `q1` is assigned a constant value (`1'b1`), the fact that `q <= q1;` creates a **sequential dependency** on `q1`’s previous value. Therefore:
+
+* The tool **cannot propagate the constant** through `q1`
+* It **infers two flip-flops**: one for `q1`, one for `q`
+
+This is a classic case where **sequential constant propagation fails** due to **temporal dependency**.
+
+### **Simulation of the module dff_const3**
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-14 132703" src="https://github.com/user-attachments/assets/479ef4b5-653f-495f-b074-2e79439bcd86" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 132831" src="https://github.com/user-attachments/assets/45b35e4f-2259-4360-a338-a1539b1dd166" />
+
+### **Synthesizing the module dff_const3**
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 132950" src="https://github.com/user-attachments/assets/2c75a4af-85fa-400a-b29b-549f4a327f1f" />
+
+<img width="3838" height="2119" alt="Screenshot 2025-07-14 133040" src="https://github.com/user-attachments/assets/5a6d471a-5568-40e7-a8c6-b85ca7cd06f6" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 133125" src="https://github.com/user-attachments/assets/421ee75d-53ec-494e-a427-f7e0bed90d99" />
+
+<img width="3838" height="2112" alt="Screenshot 2025-07-14 133204" src="https://github.com/user-attachments/assets/081c5a5e-d12e-4bfc-92f0-51b4ed7be5ed" />
+
+<img width="3838" height="2112" alt="Screenshot 2025-07-14 133241" src="https://github.com/user-attachments/assets/b4412237-29e2-42f4-a1d1-1ddf07a74b14" />
+
