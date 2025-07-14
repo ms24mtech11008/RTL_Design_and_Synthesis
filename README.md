@@ -2767,3 +2767,69 @@ Gate Level Simulation using `iverilog` ensures:
 ---
 ### SKY130RTL D4SK1 L2 Synthesis Simulation Mismatch
 ---
+### **Synthesis-Simulation Mismatch: Missing Sensitivity List**
+
+#### **Issue Overview:**
+
+This is a common source of simulation and synthesis mismatch in Verilog designs. The simulator responds to activity or changes on signals. If a signal is not listed in the sensitivity list of an `always` block, then changes in that signal will not trigger re-evaluation of the block during simulation.
+
+---
+
+<img width="2010" height="2050" alt="Screenshot 2025-07-14 185705" src="https://github.com/user-attachments/assets/1fa9b864-4439-4b9a-ad71-11b1b34f26a5" />
+ 
+#### **Problematic Code:**
+
+```verilog
+module mux (
+    input i0, input i1,
+    input sel,
+    output reg y
+);
+
+always @(sel)  // Incorrect sensitivity list
+begin
+    if (sel)
+        y = i1;
+    else
+        y = i0;
+end
+
+endmodule
+```
+
+In this code:
+
+* The `always` block is only sensitive to `sel`.
+* If `i0` or `i1` changes while `sel` remains constant, the block is not re-evaluated.
+* As a result, `y` does not reflect the changes in `i0` or `i1`, even though it should.
+* This causes the output `y` to appear static or incorrectly held, which resembles latch-like behavior.
+* It behaves as a latch instead of MUX.
+
+---
+
+#### **Simulator vs Synthesis Behavior:**
+
+* **Simulator** behaves based on signal changes. Since `i0` and `i1` are not in the sensitivity list, their changes are ignored.
+* **Synthesis tools**, however, infer the correct multiplexer logic because they analyze the complete logic structure.
+
+This results in a mismatch: the synthesized hardware behaves correctly, but the simulated output does not.
+
+---
+
+#### **Corrected Code:**
+
+```verilog
+always @(*)  // Correct sensitivity list
+begin
+    if (sel)
+        y = i1;
+    else
+        y = i0;
+end
+```
+
+* Using `@(*)` instructs the simulator to automatically include all right-hand side signals (`sel`, `i0`, `i1`) in the sensitivity list.
+* This ensures that the always block is evaluated whenever any of the involved signals change, leading to correct and expected simulation behavior.
+
+---
+
