@@ -42,7 +42,9 @@
   - [Sequential optimzations for unused outputs](#Sequential-optimzations-for-unused-outputs)
     - [SKY130RTL D3SK4 L1 Seq optimisation unused outputs part1](#SKY130RTL-D3SK4-L1-Seq-optimisation-unused-outputs-part1)
     - [SKY130RTL D3SK4 L2 Seq optimisation unused outputs part2](#SKY130RTL-D3SK4-L2-Seq-optimisation-unused-outputs-part2)
-
+- [Day 4 - GLS, blocking vs non-blocking and Synthesis-Simulation mismatch](#Day-4---GLS,-blocking-vs-non-blocking-and-Synthesis-Simulation-mismatch)
+  - [GLS, Synthesis-Simulation mismatch and Blocking/Non-blocking statements](#GLS,-Synthesis-Simulation-mismatch-and-Blocking/Non-blocking-statements)
+    - [SKY130RTL D4SK1 L1 GLS Concepts And Flow Using Iverilog](#SKY130RTL-D4SK1-L1-GLS-Concepts-And-Flow-Using-Iverilog)
 
 
 
@@ -2665,9 +2667,9 @@ This contrasts with the earlier case where `q = count[0]`, in which the tool eli
 <img width="3840" height="2160" alt="Screenshot 2025-07-14 161623" src="https://github.com/user-attachments/assets/51ba39da-fe9b-4850-bcd8-5faa296b452a" />
 
 ---
-#
+# Day 4 - GLS, blocking vs non-blocking and Synthesis-Simulation mismatch
 ---
-##
+## GLS, Synthesis-Simulation mismatch and Blocking/Non-blocking statements
 ---
-### 
+### SKY130RTL D4SK1 L1 GLS Concepts And Flow Using Iverilog
 ---
