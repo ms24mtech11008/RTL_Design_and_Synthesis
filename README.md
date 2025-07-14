@@ -1950,5 +1950,93 @@ Sequential logic optimization helps improve timing, reduce area, and minimize po
 ---
 ### SKY130RTL D3SK2 L1 Lab06 Combinational Logic Optimisations part1
 ---
+and
+---
+### SKY130RTL D3SK2 L2 Lab06 Combinational Logic Optimisations part2
+---
 
+We will be using the following files for our lab based on optimization.
 
+<img width="3838" height="2112" alt="Screenshot 2025-07-14 100626" src="https://github.com/user-attachments/assets/35800109-8bf5-4840-ba25-ab2e5e1d92bb" />
+
+The verilog codes for the above modules is shown in the image below
+
+<img width="3839" height="2114" alt="Screenshot 2025-07-14 103317" src="https://github.com/user-attachments/assets/58440671-bf1b-4418-818f-b978ab4f595d" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 103534" src="https://github.com/user-attachments/assets/ef08f7ad-ba51-4935-8b54-3f8e27791cec" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 103447" src="https://github.com/user-attachments/assets/a1c1f596-be4d-449c-b7b0-f4d37ef3b2f2" />
+
+Trying to understand the optimization of the above verilog codes
+
+![WhatsApp Image 2025-07-14 at 09 52 49_9df564a5](https://github.com/user-attachments/assets/946270bf-ff6c-4170-8578-b58fb39f5e3d)
+
+![WhatsApp Image 2025-07-14 at 09 55 34_8f8c91e1](https://github.com/user-attachments/assets/41deff88-861f-4e21-87a7-ef01a6adb1ad)
+
+![WhatsApp Image 2025-07-14 at 09 56 38_ed01a8e8](https://github.com/user-attachments/assets/bb452a6c-fce0-4043-9333-5e9355494c65)
+
+Now, Synthesizing the above 
+
+### **1) opt_check.v**
+
+<img width="3834" height="2115" alt="Screenshot 2025-07-14 100755" src="https://github.com/user-attachments/assets/e3c475d8-34ff-49cd-a18f-a17666d91b34" />
+
+<img width="3838" height="2119" alt="Screenshot 2025-07-14 101040" src="https://github.com/user-attachments/assets/de84bd95-c929-4c83-9191-05343ffe3cf5" />
+
+<img width="3834" height="2106" alt="Screenshot 2025-07-14 101134" src="https://github.com/user-attachments/assets/4e374180-5369-47a6-9834-dc87c4cf1fc9" />
+
+### **2) opt_check2.v**
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-14 101242" src="https://github.com/user-attachments/assets/a0c5221a-ded5-4639-9b71-cb0234d743f4" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 101357" src="https://github.com/user-attachments/assets/ddf17f65-f508-48b5-85ff-735bee7e86b7" />
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-14 101451" src="https://github.com/user-attachments/assets/89f95452-16c8-45ee-bacf-dd4c7933f88e" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 101524" src="https://github.com/user-attachments/assets/3d7ae64a-b4ff-41be-a9b0-b2f5a573e3ce" />
+
+### **3) opt_check3.v**
+
+<img width="3838" height="2106" alt="Screenshot 2025-07-14 101745" src="https://github.com/user-attachments/assets/94467df5-3998-4307-855b-8ed93a30d7f7" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 101830" src="https://github.com/user-attachments/assets/266fdb8f-7e55-4560-bb12-3fbab8bd3388" />
+
+<img width="3838" height="2112" alt="Screenshot 2025-07-14 101930" src="https://github.com/user-attachments/assets/8bc023a4-11fb-4b02-87ff-6f3ccf5ea078" />
+
+<img width="3838" height="2106" alt="Screenshot 2025-07-14 102015" src="https://github.com/user-attachments/assets/2d2926e7-6ad4-44a8-bf1e-5c954c6ca83f" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 102050" src="https://github.com/user-attachments/assets/f0107cb2-81af-493d-881f-66d623adfd18" />
+
+### **4) opt_check4.v**
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-14 102200" src="https://github.com/user-attachments/assets/5c895160-377b-447d-8c91-74d4b7d1f758" />
+
+<img width="3838" height="2106" alt="Screenshot 2025-07-14 102255" src="https://github.com/user-attachments/assets/984a68b6-8f94-44ee-bb5d-7735809cb62b" />
+
+<img width="3838" height="2121" alt="Screenshot 2025-07-14 102403" src="https://github.com/user-attachments/assets/6472e1c1-63f1-423c-bcb8-168b048bc4e0" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 102442" src="https://github.com/user-attachments/assets/9f4d66b1-40b3-455b-aa39-d9d9e991090d" />
+
+### **5) multiple_module_opt.v**
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 102553" src="https://github.com/user-attachments/assets/08dc9078-384f-4b83-a5f3-c40ecbcf8e8d" />
+
+<img width="3838" height="2112" alt="Screenshot 2025-07-14 102712" src="https://github.com/user-attachments/assets/6fd17120-1e00-457a-9ef5-960b03660c4f" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 102804" src="https://github.com/user-attachments/assets/1f51d314-fcb2-4c15-a4c6-3fa28e2f7f39" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 102836" src="https://github.com/user-attachments/assets/afaf0980-8e90-4fc2-a170-c2aeccb5b224" />
+
+### **6) multiple_module_opt2.v**
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-14 102933" src="https://github.com/user-attachments/assets/f2334d20-c7fa-45ee-a823-983642639348" />
+
+<img width="3838" height="2106" alt="Screenshot 2025-07-14 103026" src="https://github.com/user-attachments/assets/0f7889fc-8770-4f72-a837-ea23cb4ab87f" />
+
+<img width="3838" height="2121" alt="Screenshot 2025-07-14 103129" src="https://github.com/user-attachments/assets/a9b95430-2c07-417b-9df6-918acefe707b" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 103208" src="https://github.com/user-attachments/assets/c234e3c7-b6c2-40f1-9258-2e577a0d813d" />
+
+---
+## 
+---
