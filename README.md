@@ -47,7 +47,10 @@
     - [SKY130RTL D4SK1 L1 GLS Concepts And Flow Using Iverilog](#SKY130RTL-D4SK1-L1-GLS-Concepts-And-Flow-Using-Iverilog)
     - [SKY130RTL D4SK1 L2 Synthesis Simulation Mismatch](#SKY130RTL-D4SK1-L2-Synthesis-Simulation-Mismatch)
     - [SKY130RTL D4SK1 L3 Blocking And NonBlocking Statements In Verilog](#SKY130RTL-D4SK1-L3-Blocking-And-NonBlocking-Statements-In-Verilog)
-    - 
+    - [SKY130RTL D4SK1 L4 Caveats With Blocking Statements](#SKY130RTL-D4SK1-L4-Caveats-With-Blocking-Statements)
+  - [
+      
+    
 
 
 
@@ -2960,4 +2963,199 @@ This leads to incorrect synthesis where **only one DFF** is inferred, despite ne
 * Use **blocking (`=`)** only for **combinational** logic (in `always @(*)` blocks).
 
 This ensures clarity in simulation and synthesizes accurate and intended hardware.
+
+---
+### SKY130RTL D4SK1 L4 Caveats With Blocking Statements
+---
+
+### Version 1 – With Non-blocking Assignments
+
+```verilog
+module code (
+    input clk,
+    input reset,
+    input d,
+    output reg q
+);
+
+reg q0;
+
+always @(posedge clk or posedge reset)
+begin
+    if (reset)
+    begin
+        q0 <= 1'b0;
+        q <= 1'b0;
+    end
+    else
+    begin
+        q <= q0;
+        q0 <= d;
+    end
+end
+
+endmodule
+```
+
+**Explanation:**
+
+* When non-blocking assignments (`<=`) are used, both `q <= q0;` and `q0 <= d;` are evaluated in parallel. The right-hand side (RHS) values are captured first, and the assignments happen at the end of the clock edge.
+* Therefore:
+
+  * `q` receives the previous value of `q0`
+  * `q0` receives the new value of `d`
+* This infers two D flip-flops:
+
+  * One for storing `d` (q0)
+  * One for storing `q0` (q)
+* This properly represents a two-stage pipeline.
+
+---
+
+### Version 2 – Reversed Assignment Order
+
+```verilog
+module code (
+    input clk,
+    input reset,
+    input d,
+    output reg q
+);
+
+reg q0;
+
+always @(posedge clk or posedge reset)
+begin
+    if (reset)
+    begin
+        q0 <= 1'b0;
+        q <= 1'b0;
+    end
+    else
+    begin
+        q0 <= d;
+        q <= q0;
+    end
+end
+
+endmodule
+```
+
+**Explanation:**
+
+* Although the order of statements is reversed, non-blocking assignments ensure correctness.
+* Both RHS expressions are evaluated before any assignment:
+
+  * `q0` gets the current value of `d`
+  * `q` gets the previous value of `q0`
+* This again infers two flip-flops, and the behavior is consistent with expected pipeline logic.
+
+---
+
+### Summary Table
+
+| Code Version      | Blocking (`=`)    | Non-blocking (`<=`) |
+| ----------------- | ----------------- | ------------------- |
+| `q = q0; q0 = d;` | Correct           | Correct             |
+| `q0 = d; q = q0;` | Incorrect (1 DFF) | Correct (2 DFFs)    |
+
+---
+
+### Conclusion:
+
+Using non-blocking assignments (`<=`) in sequential logic:
+
+* Ensures the right number of flip-flops are inferred
+* Maintains logical correctness regardless of statement order
+* Prevents unintended synthesis mismatches
+* Leads to clean simulation results and consistent behavior across design tools
+
+This is the recommended style for writing clocked logic in Verilog.
+
+---
+### **synthesis-simulation mismatch**
+
+The code you provided illustrates a **synthesis-simulation mismatch** caused by using **blocking assignments (`=`)** in the wrong order.
+
+### **Objective:**
+
+Implement the logic:
+`y = (a | b) & c`
+That is, the output of an **OR gate** with inputs `a` and `b` is connected to one input of an **AND gate**, and `c` is the other input.
+
+---
+
+### **Version 1 – Incorrect Order (Causes Mismatch)**
+
+```verilog
+module code (
+    input a, b, c,
+    output reg y
+);
+
+reg q0;
+
+always @(*)
+begin
+    y = q0 & c;   // Uses old value of q0
+    q0 = a | b;   // New value computed after y
+end
+
+endmodule
+```
+
+#### **Problem:**
+
+* `y` is computed **before** `q0` is updated.
+* Since blocking assignments execute sequentially, `q0` still holds the **previous** value when used in `y = q0 & c`.
+* In simulation, this behaves as though `q0` is a **register** or **flip-flop**, even though there's no clock — this is **not synthesizable** as intended.
+* Synthesis tools will still treat `q0` as combinational, leading to a **mismatch** between simulation and synthesized hardware.
+
+---
+
+### **Version 2 – Correct Order**
+
+```verilog
+module code (
+    input a, b, c,
+    output reg y
+);
+
+reg q0;
+
+always @(*)
+begin
+    q0 = a | b;   // Compute q0 first
+    y = q0 & c;   // Then use q0 to compute y
+end
+
+endmodule
+```
+
+#### **Explanation:**
+
+* Here, `q0` is assigned **before** it is used to compute `y`.
+* Since this is combinational logic and uses blocking assignments in the **correct order**, the circuit will simulate and synthesize correctly.
+* The synthesized circuit will now have:
+
+  * One OR gate computing `q0 = a | b`
+  * One AND gate computing `y = q0 & c`
+
+This matches the intended logic `y = (a | b) & c`.
+
+---
+
+### **Conclusion:**
+
+| Aspect                | Incorrect Version              | Correct Version                      |          |                         |
+| --------------------- | ------------------------------ | ------------------------------------ | -------- | ----------------------- |
+| Assignment Order      | `y = q0 & c;` before \`q0 = a  | b;\`                                 | \`q0 = a | b;`before`y = q0 & c;\` |
+| Behavior              | Uses old/undefined `q0`        | Uses current value of `q0`           |          |                         |
+| Simulation Result     | May appear as sequential logic | Matches intended combinational logic |          |                         |
+| Synthesis Result      | Combinational logic            | Combinational logic                  |          |                         |
+| Match Between Sim/Syn | No                             | Yes                                  |          |                         |
+
+**Best Practice:**
+When using **blocking assignments** in **combinational `always @(*)` blocks**, always ensure the **data dependencies** are ordered correctly.
+Alternatively, avoid intermediate variables if not needed, or write the logic in a single expression.
 
