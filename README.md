@@ -35,6 +35,11 @@
   - [Combinational logic optimizations](#Combinational-logic-optimizations)
     - [SKY130RTL D3SK2 L1 Lab06 Combinational Logic Optimisations part1](#SKY130RTL-D3SK2-L1-Lab06-Combinational-Logic-Optimisations-part1)
     - [SKY130RTL D3SK2 L2 Lab06 Combinational Logic Optimisations part2](#SKY130RTL-D3SK2-L2-Lab06-Combinational-Logic-Optimisations-part2)
+  - [Sequential logic optimizations](#Sequential-logic-optimizations)
+    - [SKY130RTL D3SK3 L1 Lab07 Sequential Logic Optimisations part1](#SKY130RTL-D3SK3-L1-Lab07-Sequential-Logic-Optimisations-part1)
+    - [SKY130RTL D3SK3 L2 Lab07 Sequential Logic Optimisations part2](#SKY130RTL-D3SK3-L2-Lab07-Sequential-Logic-Optimisations-part2)
+    - [SKY130RTL D3SK3 L3 Lab07 Sequential Logic Optimisations part3](#SKY130RTL-D3SK3-L3-Lab07-Sequential-Logic-Optimisations-part3)
+  - [
 
 
 
@@ -2038,5 +2043,143 @@ Now, Synthesizing the above
 <img width="3838" height="2115" alt="Screenshot 2025-07-14 103208" src="https://github.com/user-attachments/assets/c234e3c7-b6c2-40f1-9258-2e577a0d813d" />
 
 ---
-## 
+## Sequential logic optimizations
+---
+### SKY130RTL D3SK3 L1 Lab07 Sequential Logic Optimisations part1
+---
+we will be working on the following verilog codes
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-14 122438" src="https://github.com/user-attachments/assets/0c2597b4-6917-4a11-b9a2-0cd011d833f4" />
+
+### **1) dff_const1.v and dff_const2.v**
+
+The image below shows the verilog codes
+
+<img width="3838" height="2101" alt="Screenshot 2025-07-14 122735" src="https://github.com/user-attachments/assets/5f801ad7-6a26-4f69-8159-75427e1e27a2" />
+
+## Module 1: `dff_const`
+
+```verilog
+module dff_const1 (
+    input clk,
+    input reset,
+    output reg q
+);
+
+always @(posedge clk or posedge reset) begin
+    if (reset)
+        q <= 1'b0;
+    else
+        q <= 1'b1;
+end
+
+endmodule
+```
+
+### What it describes:
+
+* An asynchronous reset D flip-flop:
+
+  * When `reset` is high: `q` is set to `0` immediately.
+  * When `reset` is low: on the rising edge of `clk`, `q` is set to `1`.
+
+### Why this infers a flip-flop:
+
+* `q` changes only on the rising edge of the clock or when reset is applied.
+* It requires state storage: `q` holds its value between clock cycles.
+* Therefore, synthesis infers a D flip-flop with asynchronous reset.
+
+---
+
+## Module 2: `dff_const2`
+
+```verilog
+module dff_const2 (
+    input clk,
+    input reset,
+    output reg q
+);
+
+always @(posedge clk or posedge reset) begin
+    if (reset)
+        q <= 1'b1;
+    else
+        q <= 1'b1;
+end
+
+endmodule
+```
+
+### What it describes:
+
+* Regardless of whether reset is high or not, and regardless of clock, `q` is always set to `1`.
+
+### Why this does not infer a flip-flop:
+
+* `q` is never functionally dependent on `clk` or `reset`. It is always assigned the constant value `1`.
+* The synthesis tool detects that the output is fixed and will optimize it as:
+
+  ```verilog
+  assign q = 1'b1;
+  ```
+* Since there's no dynamic or conditional behavior, no memory element (flip-flop) is required.
+
+---
+
+## Comparison Summary
+
+| Feature          | `dff_const1`              | `dff_const2`                  |
+| ---------------- | ------------------------ | ----------------------------- |
+| Depends on clock | Yes                      | No (value is always 1)        |
+| Output changes   | Yes (based on clk/reset) | No (always 1)                 |
+| Storage required | Yes (flip-flop needed)   | No (constant logic only)      |
+| Synthesis result | D flip-flop inferred     | Constant logic (no flip-flop) |
+
+---
+
+## Final Verdict
+
+* `dff_const` infers a D flip-flop because the output `q` depends on control signals and stores state.
+* `dff_const2` does not infer a flip-flop because the output is constant and requires no sequential behavior. The synthesis tool will optimize it into a simple wire driving logic high.
+
+Now let's verify simulating and also synthesize the modules:
+
+### **1) Simulation of dff_const1 and dff_const2**
+
+<img width="3838" height="2119" alt="Screenshot 2025-07-14 123655" src="https://github.com/user-attachments/assets/fe23ed7a-ed19-4610-9883-15c02a9bb97c" />
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-14 123801" src="https://github.com/user-attachments/assets/8d74cb70-6b60-4721-83c2-f1ec4770c270" />
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-14 123929" src="https://github.com/user-attachments/assets/68b111a1-840a-49e4-934e-61180864f836" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 124020" src="https://github.com/user-attachments/assets/7f6e90e0-9e6c-49b0-a5e5-4141cd389f6c" />
+
+### **1) Synthesis of dff_const and dff_const2**
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-14 124455" src="https://github.com/user-attachments/assets/aa0aeed8-39da-43aa-8ddb-9a1580c30888" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 124626" src="https://github.com/user-attachments/assets/5873095f-6ed8-4c9a-9ce6-69a12ef394aa" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 124716" src="https://github.com/user-attachments/assets/ebc55d04-9837-4106-b813-c148f15c1a8f" />
+
+<img width="3838" height="2119" alt="Screenshot 2025-07-14 124759" src="https://github.com/user-attachments/assets/fa1341bd-74a1-46dc-ac05-89e2846f851b" />
+
+<img width="3834" height="2124" alt="Screenshot 2025-07-14 124834" src="https://github.com/user-attachments/assets/ddc1990f-ad3c-410c-9d02-1e27da3f7f2c" />
+
+<img width="3838" height="2112" alt="Screenshot 2025-07-14 124944" src="https://github.com/user-attachments/assets/c3cf71b8-9858-4f92-863b-ccc2ec1c381b" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 125014" src="https://github.com/user-attachments/assets/022077bb-2dc7-4dd5-ac79-2f86b537ad4d" />
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-14 125130" src="https://github.com/user-attachments/assets/1f85a921-3fc9-45bb-bdf4-bf57236eb5d0" />
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-14 125220" src="https://github.com/user-attachments/assets/bdab9025-bae1-4e59-923d-5116a153d4f6" />
+
+<img width="3838" height="2112" alt="Screenshot 2025-07-14 125312" src="https://github.com/user-attachments/assets/f109412a-af2e-40c0-bdfa-23bc6fbc916c" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-14 125349" src="https://github.com/user-attachments/assets/cea71c59-fa95-4212-87d7-c7ca12be82b0" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 125501" src="https://github.com/user-attachments/assets/72b98285-442a-4dd7-913a-b8db4e762645" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 125536" src="https://github.com/user-attachments/assets/7f0b1324-42a5-4783-9462-fd5e21cb6f10" />
+
 ---
