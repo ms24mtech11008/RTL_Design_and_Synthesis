@@ -48,7 +48,9 @@
     - [SKY130RTL D4SK1 L2 Synthesis Simulation Mismatch](#SKY130RTL-D4SK1-L2-Synthesis-Simulation-Mismatch)
     - [SKY130RTL D4SK1 L3 Blocking And NonBlocking Statements In Verilog](#SKY130RTL-D4SK1-L3-Blocking-And-NonBlocking-Statements-In-Verilog)
     - [SKY130RTL D4SK1 L4 Caveats With Blocking Statements](#SKY130RTL-D4SK1-L4-Caveats-With-Blocking-Statements)
-  - [
+  - [Labs on GLS and Synthesis-Simulation Mismatch](#Labs-on-GLS-and-Synthesis-Simulation-Mismatch)
+    - [SKY130RTL D4SK2 L1 Lab GLS Synth Sim Mismatch part1](#SKY130RTL-D4SK2-L1-Lab-GLS-Synth-Sim-Mismatch-part1)
+    - [
       
     
 
@@ -3158,4 +3160,10 @@ This matches the intended logic `y = (a | b) & c`.
 **Best Practice:**
 When using **blocking assignments** in **combinational `always @(*)` blocks**, always ensure the **data dependencies** are ordered correctly.
 Alternatively, avoid intermediate variables if not needed, or write the logic in a single expression.
+
+---
+## Labs on GLS and Synthesis-Simulation Mismatch
+---
+### SKY130RTL D4SK2 L1 Lab GLS Synth Sim Mismatch part1
+---
 
