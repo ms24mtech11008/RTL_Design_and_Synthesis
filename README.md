@@ -2573,6 +2573,8 @@ Even though the RTL describes a 3-bit counter, the synthesis tool:
 
 This demonstrates how synthesis tools perform **output-driven optimization**, and reinforces why **unused logic should be avoided in real designs** unless intentionally preserved through constraints.
 
+![WhatsApp Image 2025-07-14 at 15 57 20_b26d6045](https://github.com/user-attachments/assets/4c27b082-0c12-4dfa-ba29-4825ad0ea786)
+
 <img width="3838" height="2115" alt="Screenshot 2025-07-14 160829" src="https://github.com/user-attachments/assets/8fecb373-7e7b-4752-800f-94af6ed4cfd6" />
 
 <img width="3838" height="2106" alt="Screenshot 2025-07-14 160925" src="https://github.com/user-attachments/assets/44bdca4c-f7e3-4ac7-81e3-c52c1fb54771" />
