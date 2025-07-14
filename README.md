@@ -2503,3 +2503,171 @@ The synthesis tool **cannot collapse `q1` into a constant**, because it's part o
 ---
 ### SKY130RTL D3SK4 L1 Seq optimisation unused outputs part1
 ---
+
+<img width="3839" height="2110" alt="Screenshot 2025-07-14 160419" src="https://github.com/user-attachments/assets/ef4b6e56-1752-4b07-8c2f-c7d84e1bab7e" />
+
+### **Verilog Code: `counter_opt`**
+
+```verilog
+module counter_opt (
+    input clk,
+    input reset,
+    output q
+);
+
+reg [2:0] count;
+assign q = count[0];
+
+always @(posedge clk or posedge reset) begin
+    if (reset)
+        count <= 3'b000;
+    else
+        count <= count + 1;
+end
+
+endmodule
+```
+
+---
+
+### **What the Code Does**
+
+* This is a **3-bit up counter**.
+* Internally, it increments `count` on every clock cycle.
+* However, **only `count[0]`** is exposed as the output (`q`).
+* The other two bits `count[1]` and `count[2]` are **never used** in any computation or output.
+
+---
+
+### **Synthesis Tool Behavior**
+
+* The synthesis tool performs **optimization** based on what parts of the logic contribute to the **primary outputs**.
+* Since `count[1]` and `count[2]` are **not used**:
+
+  * They do **not affect any observable behavior**.
+  * So the tool will **remove the logic** related to them.
+* As a result, the tool infers:
+
+  * **Only one D flip-flop**, for `count[0]`
+  * The remaining two flip-flops are **optimized out**
+
+---
+
+### **Key Principle:**
+
+> **Any internal logic or signal that does not influence a primary output or observable side-effect will be eliminated during synthesis.**
+
+This is called **unused logic optimization** or **dead code elimination**.
+
+---
+
+### **Conclusion**
+
+Even though the RTL describes a 3-bit counter, the synthesis tool:
+
+* Recognizes that only `count[0]` contributes to the output.
+* Eliminates `count[1]` and `count[2]`.
+* Implements **only a 1-bit counter** with a **single flip-flop**.
+
+This demonstrates how synthesis tools perform **output-driven optimization**, and reinforces why **unused logic should be avoided in real designs** unless intentionally preserved through constraints.
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-14 160829" src="https://github.com/user-attachments/assets/8fecb373-7e7b-4752-800f-94af6ed4cfd6" />
+
+<img width="3838" height="2106" alt="Screenshot 2025-07-14 160925" src="https://github.com/user-attachments/assets/44bdca4c-f7e3-4ac7-81e3-c52c1fb54771" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-14 161016" src="https://github.com/user-attachments/assets/0468e9fa-933d-4836-9971-34c2dc81483a" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-14 161105" src="https://github.com/user-attachments/assets/93dc7bbf-2a44-4ea2-a637-32e55b20a817" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-14 161144" src="https://github.com/user-attachments/assets/80e08ff3-e7c6-414b-9c97-c2876e4c398f" />
+
+If assign q= (count[2:0] == 3'100)
+
+<img width="3838" height="2106" alt="Screenshot 2025-07-14 160719" src="https://github.com/user-attachments/assets/1f2c46db-3c7e-4e94-b009-9e0cc0c2640d" />
+
+```verilog
+q = (count[2:0] == 3'b100);
+```
+
+**forces all 3 D flip-flops to be inferred**, using synthesis reasoning.
+
+---
+
+### **Updated Code**
+
+```verilog
+module counter_opt (
+    input clk,
+    input reset,
+    output q
+);
+
+reg [2:0] count;
+assign q = (count == 3'b100);
+
+always @(posedge clk or posedge reset) begin
+    if (reset)
+        count <= 3'b000;
+    else
+        count <= count + 1;
+end
+
+endmodule
+```
+
+---
+
+### **What Changed?**
+
+In this version:
+
+* The output `q` is no longer just `count[0]`.
+* Instead, it is a **combinational comparison** of the entire 3-bit `count` value with `3'b100`.
+* So now, `q` depends on **all three bits**: `count[0]`, `count[1]`, and `count[2]`.
+
+---
+
+### **Impact on Synthesis**
+
+* Since the output `q` uses **all 3 bits**, the synthesis tool **cannot remove** any part of the `count` register.
+* Each bit of `count` is **functionally necessary** to compute `q`.
+* As a result:
+
+  * All **3 D flip-flops** for `count[2:0]` are preserved.
+  * No optimization of unused bits is possible.
+
+---
+
+### **Conclusion**
+
+> When all bits of a register contribute to an output (like in a comparison), the synthesis tool must keep the full register, and all associated flip-flops are inferred.
+
+This contrasts with the earlier case where `q = count[0]`, in which the tool eliminated unused flip-flops due to **partial usage** of the register.
+
+---
+
+### **Summary**
+
+| Output Expression       | Flip-Flops Inferred | Reason                                                  |
+| ----------------------- | ------------------- | ------------------------------------------------------- |
+| `q = count[0]`          | 1                   | Only `count[0]` is needed; others optimized away        |
+| `q = (count == 3'b100)` | 3                   | All 3 bits are used in output; no optimization possible |
+
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-14 161332" src="https://github.com/user-attachments/assets/d2052269-97ce-4ca2-9b35-53186e23fcf1" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-14 161417" src="https://github.com/user-attachments/assets/e8c29857-926e-433d-8c06-7ebb6d9cac35" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-14 161459" src="https://github.com/user-attachments/assets/f939f550-bd13-4fb1-9fbc-506d0062e6d9" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-14 161534" src="https://github.com/user-attachments/assets/4ba9271f-356b-4157-8586-5bc2da7f9184" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-14 161623" src="https://github.com/user-attachments/assets/51ba39da-fe9b-4850-bcd8-5faa296b452a" />
+
+---
+#
+---
+##
+---
+### 
+---
