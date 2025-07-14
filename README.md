@@ -45,6 +45,7 @@
 - [Day 4 - GLS, blocking vs non-blocking and Synthesis-Simulation mismatch](#Day-4---GLS,-blocking-vs-non-blocking-and-Synthesis-Simulation-mismatch)
   - [GLS, Synthesis-Simulation mismatch and Blocking/Non-blocking statements](#GLS,-Synthesis-Simulation-mismatch-and-Blocking/Non-blocking-statements)
     - [SKY130RTL D4SK1 L1 GLS Concepts And Flow Using Iverilog](#SKY130RTL-D4SK1-L1-GLS-Concepts-And-Flow-Using-Iverilog)
+    - [SKY130RTL D4SK1 L2 Synthesis Simulation Mismatch](#SKY130RTL-D4SK1-L2-Synthesis-Simulation-Mismatch)
 
 
 
@@ -2763,3 +2764,6 @@ Gate Level Simulation using `iverilog` ensures:
 * Timing verification (if delays are annotated).
 * A clear path from RTL to hardware by simulating exactly what was synthesized.
 
+---
+### SKY130RTL D4SK1 L2 Synthesis Simulation Mismatch
+---
