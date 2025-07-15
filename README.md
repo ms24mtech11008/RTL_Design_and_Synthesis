@@ -3161,6 +3161,8 @@ This matches the intended logic `y = (a | b) & c`.
 When using **blocking assignments** in **combinational `always @(*)` blocks**, always ensure the **data dependencies** are ordered correctly.
 Alternatively, avoid intermediate variables if not needed, or write the logic in a single expression.
 
+Due to errors like the above, we must do GLS and verify that our design will work as expected. Next, we will perform labs based on GLS.
+---
 ---
 ## Labs on GLS and Synthesis-Simulation Mismatch
 ---
