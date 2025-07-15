@@ -3249,4 +3249,6 @@ Now that we have generated the netlist, lets do GLS. so the inputs to the iveril
 
 <img width="3838" height="2108" alt="Screenshot 2025-07-15 162841" src="https://github.com/user-attachments/assets/58e16398-1297-4797-b00c-831882261e2b" />
 
+<img width="3839" height="2119" alt="Screenshot 2025-07-15 162315" src="https://github.com/user-attachments/assets/f9bc52dd-abfd-4054-afb7-e6381c3166e7" />
 
+Compare the Waveforms. We find it to be same as that we simulated earlier hence the functionality is verified.
