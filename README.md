@@ -3363,5 +3363,31 @@ I'm attaching below our previous simulation so that we can easily see the differ
 <img width="3838" height="2117" alt="Screenshot 2025-07-15 175428" src="https://github.com/user-attachments/assets/337d4b88-41b4-479e-ad20-4b75a902a3a1" />
 
 ---
+### **Simulating, Synthesizing and Gate Level Synthesis of good_mux and comparing the waveforms**
+---
+<img width="3838" height="2117" alt="Screenshot 2025-07-15 181253" src="https://github.com/user-attachments/assets/9bcf6be5-17fc-4ef1-8a3d-d98cbcd3712b" />
 
+<img width="3838" height="2119" alt="Screenshot 2025-07-15 181356" src="https://github.com/user-attachments/assets/7e92dcd3-0f4c-4255-a54a-09f23a787e07" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-15 181509" src="https://github.com/user-attachments/assets/56934095-e93a-4321-a28c-d30ff584a25a" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-15 181554" src="https://github.com/user-attachments/assets/4563ec38-15d4-41dc-8699-dbbafca466fb" />
+
+<img width="3838" height="2121" alt="Screenshot 2025-07-15 181626" src="https://github.com/user-attachments/assets/3fe06d20-32fe-4cf6-856f-e4069584569b" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-15 181701" src="https://github.com/user-attachments/assets/25f98b68-550b-4913-a38d-de93293a54b1" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-15 181747" src="https://github.com/user-attachments/assets/cecbed5f-1d99-4423-b269-5b680504ce1e" />
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-15 181816" src="https://github.com/user-attachments/assets/b34f4503-e563-4e7a-8162-1ae6f4486164" />
+
+<img width="3844" height="2119" alt="Screenshot 2025-07-15 181930" src="https://github.com/user-attachments/assets/ed966d33-0f06-4a86-93ba-7abf84cb3592" />
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-15 182012" src="https://github.com/user-attachments/assets/f8feec19-efa9-4eb5-930c-73561fa99456" />
+
+---
+##
+---
+###
+---
 
