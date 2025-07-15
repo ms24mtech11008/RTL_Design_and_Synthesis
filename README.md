@@ -50,7 +50,8 @@
     - [SKY130RTL D4SK1 L4 Caveats With Blocking Statements](#SKY130RTL-D4SK1-L4-Caveats-With-Blocking-Statements)
   - [Labs on GLS and Synthesis-Simulation Mismatch](#Labs-on-GLS-and-Synthesis-Simulation-Mismatch)
     - [SKY130RTL D4SK2 L1 Lab GLS Synth Sim Mismatch part1](#SKY130RTL-D4SK2-L1-Lab-GLS-Synth-Sim-Mismatch-part1)
-    - [
+    - [SKY130RTL D4SK2 L2 Lab GLS Synth Sim Mismatch part2](#SKY130RTL-D4SK2-L2-Lab-GLS-Synth-Sim-Mismatch-part2)
+  - [
       
     
 
@@ -3255,4 +3256,112 @@ Compare the Waveforms. We find it to be same as that we simulated earlier hence 
 I'm just attaching the image of the previous simulation for quick comparison
 
 <img width="3838" height="2110" alt="Screenshot 2025-07-15 160609" src="https://github.com/user-attachments/assets/cca44af1-7496-4c9a-bb1b-f15f59b0f94f" />
+
+---
+### SKY130RTL D4SK2 L2 Lab GLS Synth Sim Mismatch part2
+---
+
+### **Issue: Incorrect Sensitivity List in `bad_mux`**
+
+```verilog
+module bad_mux ( 
+    input i0, input i1,
+    input sel,
+    output reg y
+);
+
+always @(sel)  // Incorrect sensitivity list
+begin
+    if (sel)
+        y <= i1;
+    else
+        y <= i0;
+end
+
+endmodule
+```
+
+#### **What's wrong?**
+
+* The `always` block is triggered **only when `sel` changes**.
+* If `i0` or `i1` change but `sel` remains the same, the block **won’t execute**, and `y` will not update.
+* This causes simulation to hold the old value of `y`, which is interpreted as **sequential behavior**, not combinational logic.
+* Synthesis tools may infer a **latch** or unintended **flip-flop**, depending on the context.
+
+---
+
+### **Correct Version: `good_mux` with Proper Sensitivity List**
+
+```verilog
+module good_mux ( 
+    input i0, input i1,
+    input sel,
+    output reg y
+);
+
+always @(*)  // Correct sensitivity list
+begin
+    if (sel)
+        y <= i1;
+    else
+        y <= i0;
+end
+
+endmodule
+```
+
+#### **Why is this correct?**
+
+* `always @(*)` tells the simulator to **automatically include all inputs** used in the block in the sensitivity list.
+* So `i0`, `i1`, and `sel` are all tracked.
+* Any change in these signals causes the block to re-evaluate, correctly modeling a **combinational multiplexer**.
+* This avoids mismatches between simulation and synthesis.
+
+---
+
+### **Conclusion:**
+
+| Design     | Sensitivity List | Behavior             | Synthesis Result          |
+| ---------- | ---------------- | -------------------- | ------------------------- |
+| `bad_mux`  | `@(sel)`         | Misses input changes | May infer a latch         |
+| `good_mux` | `@(*)`           | Tracks all inputs    | Correct combinational mux |
+
+**Always use `@(*)` for combinational logic** to prevent simulation-synthesis mismatches.
+
+---
+### **Simulating, Synthesizing and Gate Level Synthesis of bad_mux and comparing the waveforms**
+---
+<img width="3838" height="2115" alt="Screenshot 2025-07-15 175321" src="https://github.com/user-attachments/assets/45c7094c-6f63-4388-9606-bc2b67e0a7df" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-15 175428" src="https://github.com/user-attachments/assets/a164b1c2-94df-48f5-a216-b936bc339f6e" />
+
+You can see in above waveform that even when sel=0, Y is not following i0.
+
+Synthesizing bad_mux
+
+<img width="3838" height="2121" alt="Screenshot 2025-07-15 175628" src="https://github.com/user-attachments/assets/af29ebd7-8d0e-476f-ba43-0938c35150df" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-15 175727" src="https://github.com/user-attachments/assets/436a897c-19cf-4866-8b63-b04113d4f77e" />
+
+<img width="3838" height="2124" alt="Screenshot 2025-07-15 175820" src="https://github.com/user-attachments/assets/db994ad4-1d26-4312-8527-413a70703015" />
+
+<img width="3838" height="2106" alt="Screenshot 2025-07-15 175846" src="https://github.com/user-attachments/assets/6fd105a8-3519-4e96-9f29-44a64fbe891f" />
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-15 175943" src="https://github.com/user-attachments/assets/eaaec0e0-23f1-40d9-be66-b1692336272a" />
+
+<img width="3838" height="2103" alt="Screenshot 2025-07-15 180012" src="https://github.com/user-attachments/assets/08f146e7-fa37-4f3b-b0b2-2468700477cd" />
+
+Now, let's do the Gate level Simulation my giving netlist as input to iverilog along with the verilog models and compare the resulatant waveform with our previous simulation
+
+<img width="3847" height="2115" alt="Screenshot 2025-07-15 180447" src="https://github.com/user-attachments/assets/258505c3-230b-4e9b-ad42-9582c054bd4c" />
+
+<img width="3838" height="2101" alt="Screenshot 2025-07-15 180533" src="https://github.com/user-attachments/assets/4a7acffb-4477-484e-85a4-5fe11edf88b7" />
+
+The GLS shows a proper functionality of an MUX, but still our simulation and GLS are not the same hence we see a Simulation Mismatch.
+I'm attaching below our previous simulation so that we can easily see the difference.
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-15 175428" src="https://github.com/user-attachments/assets/337d4b88-41b4-479e-ad20-4b75a902a3a1" />
+
+---
+
 
