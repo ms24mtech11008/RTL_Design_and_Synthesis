@@ -3168,4 +3168,60 @@ Due to errors like the above, we must do GLS and verify that our design will wor
 ---
 ### SKY130RTL D4SK2 L1 Lab GLS Synth Sim Mismatch part1
 ---
+### **1) Simulating and synthesizing ternary_operator_mux.v**
+
+The **ternary operator** is commonly used in Verilog to implement a **2:1 multiplexer (MUX)** in a concise, combinational form.
+
+---
+
+### **Syntax of Ternary Operator:**
+
+```verilog
+<condition> ? <true_value> : <false_value>;
+```
+
+This reads as:
+**If** `<condition>` is true, **then** return `<true_value>`, **else** return `<false_value>`.
+
+---
+
+### **Example: 2:1 MUX using Ternary Operator**
+
+```verilog
+module mux (
+    input wire i0,
+    input wire i1,
+    input wire sel,
+    output wire y
+);
+
+assign y = sel ? i1 : i0;
+
+endmodule
+```
+
+---
+
+### **Explanation:**
+
+* When `sel = 1`, output `y = i1`
+* When `sel = 0`, output `y = i0`
+
+This is equivalent to:
+
+```verilog
+if (sel)
+    y = i1;
+else
+    y = i0;
+```
+
+but written in a more compact, **combinational-friendly** form.
+
+---
+
+### **Note:**
+
+* Ternary operators should be used **only in continuous assignments** (`assign`) or **inside `always @(*)` blocks** for combinational logic.
+* For sequential logic (with clock), use `if-else` inside `always @(posedge clk)` blocks instead.
 
