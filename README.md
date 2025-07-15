@@ -3225,3 +3225,28 @@ but written in a more compact, **combinational-friendly** form.
 * Ternary operators should be used **only in continuous assignments** (`assign`) or **inside `always @(*)` blocks** for combinational logic.
 * For sequential logic (with clock), use `if-else` inside `always @(posedge clk)` blocks instead.
 
+Now, lets start the simulation of ternary_operator_mux.v
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-15 160426" src="https://github.com/user-attachments/assets/68a94076-d0f4-48ef-8657-dd1f2a463c63" />
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-15 160609" src="https://github.com/user-attachments/assets/0be1969c-73be-4a5d-a951-7561211e477e" />
+
+Now we will synthesize the module and generate a netlist and then later proceed with GLS
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-15 160718" src="https://github.com/user-attachments/assets/098f211e-937f-4cad-bef3-4e120113c537" />
+
+<img width="3838" height="2119" alt="Screenshot 2025-07-15 160819" src="https://github.com/user-attachments/assets/0a43338c-1b5a-4c37-9817-3cf64319709d" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-15 160904" src="https://github.com/user-attachments/assets/ee36d169-90a3-4c01-84ea-73dfe63a40be" />
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-15 160954" src="https://github.com/user-attachments/assets/c6bc4fe9-e100-4a76-a373-ede41bcec7a1" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-15 161317" src="https://github.com/user-attachments/assets/204e2419-ccc1-4d27-85ea-32a63652d49a" />
+
+<img width="3838" height="1989" alt="Screenshot 2025-07-15 161404" src="https://github.com/user-attachments/assets/104b558a-b3a6-4fcd-99c4-5afdcd7baa97" />
+
+Now that we have generated the netlist, lets do GLS. so the inputs to the iverilog will be our verilog models, netlist and testbench
+
+<img width="3838" height="2108" alt="Screenshot 2025-07-15 162841" src="https://github.com/user-attachments/assets/58e16398-1297-4797-b00c-831882261e2b" />
+
+
