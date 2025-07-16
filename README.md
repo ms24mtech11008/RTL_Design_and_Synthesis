@@ -51,7 +51,11 @@
   - [Labs on GLS and Synthesis-Simulation Mismatch](#Labs-on-GLS-and-Synthesis-Simulation-Mismatch)
     - [SKY130RTL D4SK2 L1 Lab GLS Synth Sim Mismatch part1](#SKY130RTL-D4SK2-L1-Lab-GLS-Synth-Sim-Mismatch-part1)
     - [SKY130RTL D4SK2 L2 Lab GLS Synth Sim Mismatch part2](#SKY130RTL-D4SK2-L2-Lab-GLS-Synth-Sim-Mismatch-part2)
-  - [
+  - [Labs on synth-sim mismatch for blocking statement](#Labs-on-synth-sim-mismatch-for-blocking-statement)
+    - [SKY130RTL D4SK3 L1 Lab Synth sim mismatch blocking statement part1](#SKY130RTL-D4SK3-L1-Lab-Synth-sim-mismatch-blocking-statement-part1)
+    - 
+
+
       
     
 
@@ -3386,8 +3390,102 @@ I'm attaching below our previous simulation so that we can easily see the differ
 <img width="3838" height="2108" alt="Screenshot 2025-07-15 182012" src="https://github.com/user-attachments/assets/f8feec19-efa9-4eb5-930c-73561fa99456" />
 
 ---
-##
+## Labs on synth-sim mismatch for blocking statement
 ---
-###
+### SKY130RTL D4SK3 L1 Lab Synth sim mismatch blocking statement part1
+---
+### **Incorrect Version (Simulation-Synthesis Mismatch)**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-16 092340" src="https://github.com/user-attachments/assets/fff91cd7-fd93-45cb-9d0a-65423eca1e1d" />
+
+```verilog
+module blocking_caveat ( 
+    input a, b, c,
+    output reg d 
+);
+
+reg x; 
+
+always @(*)
+begin
+    d = x & c;   //  Uses old value of x
+    x = a | b;   // x is updated *after* d is computed
+end
+
+endmodule
+```
+<img width="3840" height="2160" alt="Screenshot 2025-07-16 092736" src="https://github.com/user-attachments/assets/0cdcc173-0f61-4526-b6ee-39c5d9ac2a71" />
+
+#### Problem:
+
+* In a **blocking assignment (`=`)**, the operations are executed **in order**, like software instructions.
+* Here, `d` is assigned **before** `x` is updated, so it uses the **old or garbage value** of `x`.
+* In simulation, this will cause `d` to produce incorrect results.
+* In synthesis, the tool might optimize and connect the logic correctly, causing a **mismatch** between simulation and real hardware.
+
 ---
 
+### **Correct Version (Proper Combinational Logic)**
+
+```verilog
+module blocking_caveat ( 
+    input a, b, c,
+    output reg d 
+);
+
+reg x; 
+
+always @(*)
+begin
+    x = a | b;   //  Compute x first
+    d = x & c;   //  Then use x to compute d
+end
+
+endmodule
+```
+
+#### Why This is Correct:
+
+* `x` is computed **before** being used in `d`.
+* This ensures that `d` always uses the **updated value** of `x`.
+* Simulation behavior will **match** synthesis, and the logic will behave as intended.
+
+### Summary Table
+
+| Version     | Order of Assignments       | Behavior                | Synthesis-Simulation Match         |      |
+| ----------- | -------------------------- | ----------------------- | -----------------------------------| -----|
+|  Incorrect | `d = x & c;`, then \`x = a | b;\`                    | `d` uses stale `x`, behaves wrongly |  No  |
+|  Correct   | \`x = a                    | b;`, then `d = x & c;\` | `d` uses fresh `x`, works correctly |  Yes |
+
+
+Now let's simulate the module blocking_caveat and see if the output is as expected.
+---
+### Simulation and Synthesis of blocking_caveat followed by GLS**
+---
+<img width="3838" height="2112" alt="Screenshot 2025-07-15 190507" src="https://github.com/user-attachments/assets/8bcd0a7f-a6f7-4af7-8a35-fe08a7a9e55b" />
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-15 190615" src="https://github.com/user-attachments/assets/1dd53fa9-b115-48d4-934f-728eea81b7af" />
+
+The marked point in the waveform is not following d = (a | b) & c; because x, which is (a | b), is storing old values.
+
+Now, let's do the synthesis, generate our netlist and perform GLS and verify the results
+
+<img width="3838" height="2124" alt="Screenshot 2025-07-16 091308" src="https://github.com/user-attachments/assets/0f6f4086-5456-4e7e-b35f-5bd7f93637fc" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-16 091607" src="https://github.com/user-attachments/assets/872a49ac-7080-4a3a-8887-f1a0acac12c2" />
+
+<img width="3838" height="2112" alt="Screenshot 2025-07-16 091652" src="https://github.com/user-attachments/assets/821fd3e2-ddfc-4863-b183-9527dab8e522" />
+
+<img width="3838" height="2115" alt="Screenshot 2025-07-16 091730" src="https://github.com/user-attachments/assets/01cf23e7-065c-4d99-8c46-b530e08897e4" />
+
+<img width="3838" height="2121" alt="Screenshot 2025-07-16 091828" src="https://github.com/user-attachments/assets/a8a34bcb-1835-4584-be7e-fd436dd3d224" />
+
+<img width="3838" height="2117" alt="Screenshot 2025-07-16 091904" src="https://github.com/user-attachments/assets/af713938-fa2a-4ed2-93da-9ac05994bd39" />
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-16 092043" src="https://github.com/user-attachments/assets/17889d04-8367-4143-a72a-8d850575c2ad" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-16 092236" src="https://github.com/user-attachments/assets/c6148df2-793d-4b44-8bee-c94103b634b9" />
+
+The marked point in the waveform is following d = (a | b) & c
+
+<img width="3838" height="2110" alt="Screenshot 2025-07-15 190615" src="https://github.com/user-attachments/assets/1dd53fa9-b115-48d4-934f-728eea81b7af" />
