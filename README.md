@@ -3510,4 +3510,22 @@ So we can clearly Synthesis simulation mismatch due to blocking statements.
 ### SKY130RTL D5SK1 L1 IF CASE Constructs part1
 ---
 
+![WhatsApp Image 2025-07-16 at 19 11 01_39c4a7a8](https://github.com/user-attachments/assets/cc42eac0-5922-4aeb-9e33-9538ab752340)
+
+**Caution While Using the `if` Construct:**
+
+In digital design, using the `if` construct carelessly can lead to the inference of unintended latches. This typically happens due to incomplete conditional logic. Consider the following code:
+
+```verilog
+if (cond1)
+    y = a;
+else if (cond2)
+    y = b;
+```
+
+In this example, there is no `else` clause specifying what should happen when neither `cond1` nor `cond2` is true. As a result, the synthesizer assumes that the value of `y` must be retained in such cases, and to do this, it infers a latch. The latch holds the previous value of `y`, effectively forming a feedback path and creating a combinational loop. Internally, the output of the latch is connected to the multiplexer (MUX) handling `cond2`, and the MUX controlling `cond1` sends its output to one input of the latch. The enable signal for the latch is derived from the logical OR of `cond1` and `cond2`. To avoid such latch inference, always ensure that all possible conditions are covered using a complete `if-else` structure or use a `case` statement when applicable.
+
+![WhatsApp Image 2025-07-16 at 19 28 26_0c4c6f91](https://github.com/user-attachments/assets/9a4d8774-8fff-40cb-8821-3381cbc09435)
+
+---
 
