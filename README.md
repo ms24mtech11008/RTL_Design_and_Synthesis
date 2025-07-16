@@ -53,10 +53,16 @@
     - [SKY130RTL D4SK2 L2 Lab GLS Synth Sim Mismatch part2](#SKY130RTL-D4SK2-L2-Lab-GLS-Synth-Sim-Mismatch-part2)
   - [Labs on synth-sim mismatch for blocking statement](#Labs-on-synth-sim-mismatch-for-blocking-statement)
     - [SKY130RTL D4SK3 L1 Lab Synth sim mismatch blocking statement part1](#SKY130RTL-D4SK3-L1-Lab-Synth-sim-mismatch-blocking-statement-part1)
+    - [SKY130RTL D4SK3 L2 Lab Synth sim mismatch blocking statement part2](#SKY130RTL-D4SK3-L2-Lab-Synth-sim-mismatch-blocking-statement-part2)
+- [Day 5 - Optimization in synthesis](#Day-5---Optimization-in-synthesis)
+  - [If Case constructs](#If-Case-constructs)
+    - [SKY130RTL D5SK1 L1 IF CASE Constructs part1](#SKY130RTL-D5SK1-L1-IF-CASE-Constructs-part1)
     - 
 
 
-      
+
+
+  
     
 
 
@@ -3495,3 +3501,13 @@ I'm attaching below our previous simulation so that we can easily see the differ
 <img width="3838" height="2110" alt="Screenshot 2025-07-15 190615" src="https://github.com/user-attachments/assets/1dd53fa9-b115-48d4-934f-728eea81b7af" />
 
 So we can clearly Synthesis simulation mismatch due to blocking statements.
+
+---
+# Day 5 - Optimization in synthesis
+---
+## If Case constructs
+---
+### SKY130RTL D5SK1 L1 IF CASE Constructs part1
+---
+
+
