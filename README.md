@@ -3488,4 +3488,6 @@ Now, let's do the synthesis, generate our netlist and perform GLS and verify the
 
 The marked point in the waveform is following d = (a | b) & c
 
+I'm attaching below our previous simulation so that we can easily see the difference.
+
 <img width="3838" height="2110" alt="Screenshot 2025-07-15 190615" src="https://github.com/user-attachments/assets/1dd53fa9-b115-48d4-934f-728eea81b7af" />
