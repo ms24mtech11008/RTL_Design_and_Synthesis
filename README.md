@@ -3528,4 +3528,213 @@ In this example, there is no `else` clause specifying what should happen when ne
 ![WhatsApp Image 2025-07-16 at 19 28 26_0c4c6f91](https://github.com/user-attachments/assets/9a4d8774-8fff-40cb-8821-3381cbc09435)
 
 ---
+### Sky130RTL D5SK1 L2 IF CASE Constructs part2
+---
+
+Consider the example of a counter:
+
+```verilog
+always @ (posedge clk, posedge reset)
+begin
+    if (reset)
+        count <= 3'b00;
+    else if (en)
+        count <= count + 1;
+end
+```
+
+Although the code is not complete, it is functionally correct.
+
+Now, let’s analyze the hardware implementation. (It’s always important to visualize the hardware.)
+
+When the `enable` signal is active, the counter increments by 1 (`count + 1`). However, when `enable` is inactive, the counter holds its current value. This is the expected behavior and aligns with how a counter is supposed to function.
+
+It’s important to note that **inferred latches are acceptable in sequential circuits**, where retaining previous state is intentional. However, **in combinational circuits, inferred latches are generally undesirable**, as they can lead to unintended behavior.
+
+<img width="1854" height="1491" alt="image" src="https://github.com/user-attachments/assets/817604bf-2eb2-4d99-8c3a-d750a244af17" />
+
+**Case Statement:**
+
+* Both `if` and `case` statements are used inside an `always` block and must be assigned to a variable declared as `reg`.
+* The `case` statement is typically used for multi-way branching, similar to the `switch-case` construct in C.
+* It is well-suited for implementing **multiplexers**, **finite state machines (FSMs)**, and **decoders**.
+* All branches of the `case` are evaluated **in parallel**, unlike `if`, which checks conditions sequentially.
+* To prevent **unintended latch inference**, it is important to **always include a `default` case**.
+
+Example:
+
+```verilog
+always @(sel or c1 or c2)
+begin
+  case (sel)
+    2'b00: out = c1;
+    2'b01: out = c2;
+    default: out = 1'b0;
+  endcase
+end
+```
+<img width="954" height="938" alt="image" src="https://github.com/user-attachments/assets/f1972dfe-c0e4-422d-84f2-39d368b724a8" />
+
+To avoid latch inference, we include a `default` case in the `case` statement.
+
+Example:
+
+```verilog
+reg [1:0] sel;
+
+always @(*) 
+begin
+  case (sel)
+    2'b00: begin
+      out = c1;
+    end
+    2'b01: begin
+      out = c2;
+    end
+    default: begin
+      out = 1'b0;
+    end
+  endcase
+end
+```
+
+Including the `default` ensures all possible values of `sel` are covered, thereby avoiding **inferred latches**.
+
+---
+
+### Partial Assignment in `case`:
+
+When controlling multiple outputs within a `case`, **partial assignments** can lead to latch inference.
+
+Example:
+
+```verilog
+reg [1:0] sel;
+reg x, y;
+
+always @(*)
+begin
+  case (sel)
+    2'b00: begin
+      x = a;
+      y = b;
+    end
+    2'b01: begin
+      x = c;
+      // y is not assigned here
+    end
+    default: begin
+      x = d;
+      y = b;
+    end
+  endcase
+end
+```
+
+In this example, for `sel = 2'b01`, only `x` is assigned, and `y` is left unassigned in that case. As a result, **`y` retains its previous value**, which causes the synthesis tool to **infer a latch** for `y`.
+
+To avoid this, ensure **all outputs are assigned in every case branch**, including the `default`.
+
+<img width="596" height="713" alt="image" src="https://github.com/user-attachments/assets/956e6738-6e8c-4bc5-a3ab-4531f5527afd" />
+
+### **Comparison between `if` and `case` statements:**
+
+#### **`if` Statement:**
+
+```verilog
+if        // Highest priority
+else if
+else if
+else      // Lowest priority
+```
+
+* In the case of `if`, **only one condition is evaluated as true**, based on priority from top to bottom.
+* The evaluation follows a **sequential priority order**, and once a true condition is found, the rest are skipped.
+* This is ideal when **priority-based decisions** are required.
+
+---
+
+#### **`case` Statement:**
+
+```verilog
+case (sel)
+  2'b00:
+  2'b01:
+  2'b10:
+  2'b1?:   // '?' indicates a don't care bit (can be 0 or 1)
+endcase
+```
+
+* In `case`, **all cases are evaluated in parallel**.
+* It is essential to **avoid overlapping patterns**, as shown in the bad example above.
+* For instance, both `2'b10` and `2'b1?` can match `2'b10`, causing **multiple branches to be valid at once**, which can lead to **unpredictable or incorrect behavior**.
+* Therefore, **always ensure non-overlapping conditions** in `case` statements to maintain correctness.
+e know if you’d like the same kind of comparison for synthesis results or behavioral use.
+
+---
+## Labs on "Incomplete If Case"
+---
+### Sky130RTL D5SK2 L1 Lab Incomplete IF part1
+---
+Here’s your content reframed clearly and concisely, without altering the technical meaning:
+
+We will now observe how **synthesis tools** and **simulators** behave when there are **incomplete `if` and `case` statements**.
+
+The necessary files for this demonstration are mentioned below
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 175357" src="https://github.com/user-attachments/assets/c7e55ee5-64c8-4631-bd0d-1b08bd4ff457" />
+
+### **incomp_if**
+
+In this case, the `if` statement gets translated into a **multiplexer (MUX)**.
+
+Here, the **select line** is `i0`.
+
+* When `i0 = 1`, the output `y` is assigned the value `1`.
+* However, since the `else` part is missing, when `i0 = 0`, there is **no new assignment**, so the output **retains its previous value** — this results in **latch inference**.
+
+The behavior of this MUX **resembles a D-latch**, with **latch enable** controlled by `i0`.
+It acts like a **positive level-sensitive latch**:
+
+* When `i0` is high (`1`), the input (`i1`) is passed to output `y`.
+* When `i0` is low (`0`), the output `y` **holds its previous value**, effectively **latching** it.
+
+<img width="666" height="490" alt="image" src="https://github.com/user-attachments/assets/082e7fe4-a7d3-41ef-b40d-3cc098a590ae" />
+
+<img width="497" height="378" alt="image" src="https://github.com/user-attachments/assets/03114c82-5aef-4345-ae06-cf9deccffdd7" />
+
+### Let’s examine the **simulation and synthesis** behavior:
+
+#### **Simulation:**
+
+```bash
+iverilog incomp_if.v tb_incomp_if.v
+./a.out
+gtkwave tb_incomp_if.vcd
+```
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 175452" src="https://github.com/user-attachments/assets/e117ef76-b5f4-453e-afc3-8cc617bb212f" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 175603" src="https://github.com/user-attachments/assets/d27fc1c9-9ddb-4dc1-838e-22fd1a19291f" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 175750" src="https://github.com/user-attachments/assets/74dcc004-cdf6-467f-bd53-e9c69097430e" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 175852" src="https://github.com/user-attachments/assets/27eed2d0-1b77-4bd4-96fd-b30cedfb2d16" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 180052" src="https://github.com/user-attachments/assets/da2fbd10-b0ed-449b-a549-88f4b6c52683" />
+
+In the simulation output:
+
+* When `i0` is **high (1)**, the output `y` follows the input `i1`.
+* When `i0` is **low (0)**, `y` **latches** onto the last value of `i1` and remains **constant**, even though `i1` might change.
+
+This clearly shows that the absence of an `else` block causes the simulator to treat the output as a **latch**.
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 180729" src="https://github.com/user-attachments/assets/c7016d2c-830d-459e-98c3-3a829bd10be3" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 180825" src="https://github.com/user-attachments/assets/d2d7f2b5-7352-46af-aeac-b42498b8398d" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 180913" src="https://github.com/user-attachments/assets/f0d41ca7-9f99-486b-9916-590a5add3e82" />
+
+
 
