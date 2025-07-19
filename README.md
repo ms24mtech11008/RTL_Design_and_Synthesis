@@ -4283,3 +4283,19 @@ This behaves exactly like a 4:1 multiplexer.
 
 <img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/019d5223-ab6b-4615-af32-f49adb85c4d8" />
 
+We observe that:
+
+* For select line `00`, output `y = i0`
+* For `01`, `y = i1`
+* For `10`, `y = i2`
+* For `11`, `y = i3`
+
+This mapping confirms correct multiplexer behavior. Using this structure is essential when scaling up to larger multiplexers (e.g., 8:1, 16:1, 32:1), as it avoids repetitive manual instantiation and allows parameterized design using loops or generate blocks.
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 141832" src="https://github.com/user-attachments/assets/273c407a-76ac-404a-981d-5216401685ab" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 141915" src="https://github.com/user-attachments/assets/1b5548b2-c32a-4fa0-892f-47993688eda9" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 142033" src="https://github.com/user-attachments/assets/fd4a28e5-5be1-42ce-8cac-cbe7ca67ced0" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 142103" src="https://github.com/user-attachments/assets/a4380b29-7e5b-4d92-b860-a52de0c8b57e" />
