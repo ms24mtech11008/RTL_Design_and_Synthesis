@@ -3864,4 +3864,144 @@ The moment select is becoming '11' or '10', y is latching to that value.
 
 <img width="3840" height="2160" alt="Screenshot 2025-07-18 182023" src="https://github.com/user-attachments/assets/1da0fc59-4451-4383-9782-57a071b0ac61" />
 
+---
+### Sky130RTL D5SK3 L2 Lab Incomplete overlapping Case part2
+---
+
+### **comp_case.v**
+
+**Simulation**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 114100" src="https://github.com/user-attachments/assets/af39589a-0bc8-42e2-b738-2554b4679a43" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 114301" src="https://github.com/user-attachments/assets/e6e1afb0-6bbf-4e71-88d0-7d33a95b0e10" />
+
+**Synthesis**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 114402" src="https://github.com/user-attachments/assets/2119a7d2-4e00-4f8a-9d60-ea1101e063e5" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 114438" src="https://github.com/user-attachments/assets/1a99dcbc-58f6-41e4-8340-1e00a80c48c8" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 114613" src="https://github.com/user-attachments/assets/731aafeb-e948-4f14-a4ca-4ed70886a148" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 114631" src="https://github.com/user-attachments/assets/9fe4c972-fc28-403d-8e3b-ffc57a3e89b8" />
+
+---
+### Sky130RTL D5SK3 L3 Lab Incomplete overlapping Case part3
+---
+
+**partial_case_assign.v**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 114131" src="https://github.com/user-attachments/assets/8c3d2ef6-7c1a-4352-9a63-7024c9cf05e7" />
+
+### **Partial Assignments in Case Statement**
+
+From the code:
+
+```verilog
+case(sel)
+  2'b00: begin
+    y = i0;
+    x = i2;
+  end
+
+  2'b01: y = i1;
+
+  default: begin
+    x = i1;
+    y = i2;
+  end
+endcase
+```
+
+### **Key Observations:**
+
+1. **For `sel = 2'b00`**:
+   Both `x` and `y` are properly assigned.
+
+2. **For `sel = 2'b01`**:
+   Only `y` is assigned. **`x` is left unassigned**, which leads to **latch inference for `x`**.
+
+3. **For all other values of `sel`** (`2'b10` and `2'b11`):
+   Both `x` and `y` are assigned in the `default` block — this part is complete.
+
+### **Hardware Implication:**
+
+* Because **`x` is not assigned in the `2'b01` case**, the synthesis tool will infer a **latch for `x`** to hold its value across cycles.
+* `y` is fully assigned in all conditions (`00`, `01`, and `default`), so **no latch is inferred for `y`**.
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 115311" src="https://github.com/user-attachments/assets/be726a02-aa3f-4d1f-8e8a-598c0928a1c6" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 115405" src="https://github.com/user-attachments/assets/b4c4e11d-2865-48f1-b742-4baab0144310" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 115442" src="https://github.com/user-attachments/assets/81e894d4-8189-4ddc-ba29-4b5b4a126fdb" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 115516" src="https://github.com/user-attachments/assets/cba66216-0f5a-4528-b592-2d922bf43edd" />
+
+---
+### Sky130RTL D5SK3 L4 Lab Incomplete overlapping Case part4
+---
+
+### **bad_case.v**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 114202" src="https://github.com/user-attachments/assets/cd3175ec-80d7-49b8-9957-c2615a5c7a49" />
+
+### **Overlapping Patterns in `case`**
+
+In the provided code:
+
+```verilog
+case(sel)
+  2'b00: y = i0;
+  2'b01: y = i1;
+  2'b10: y = i2;
+  2'b1?: y = i3;  // Overlapping condition
+endcase
+```
+### **Issue: Overlapping Case Conditions**
+
+* The pattern `2'b1?` matches **both** `2'b10` and `2'b11`.
+* However, `2'b10` is **already explicitly defined** above.
+* This leads to **ambiguous or conflicting assignments** when `sel = 2'b10`.
+
+### **Hardware Behavior:**
+
+* In synthesis, this **overlap creates uncertainty**, since the same input (`sel = 2'b10`) now matches **two different case items**:
+
+  * One maps `y = i2`
+  * The other maps `y = i3`
+* Depending on tool behavior, this can lead to:
+
+  * **Unpredictable simulation results**
+  * **Synthesis mismatches**
+  * **Inconsistent RTL to gate-level behavior**
+
+---
+
+**Simulation**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 120514" src="https://github.com/user-attachments/assets/455a8a31-122e-4d16-a1ed-f6e1b65ea961" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 120604" src="https://github.com/user-attachments/assets/a80039c6-e2ca-47a6-98f9-7f2b6b170fb2" />
+
+**Synthesis**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 120708" src="https://github.com/user-attachments/assets/e024391d-5e05-4b84-81b5-1559b9eb96f7" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 120746" src="https://github.com/user-attachments/assets/b6a74c50-c6f3-4fe7-9508-626974e9eb4e" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 120818" src="https://github.com/user-attachments/assets/c2598a28-c2a1-4fe4-b928-a136981b3560" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 120848" src="https://github.com/user-attachments/assets/a35705e5-ca58-4fcf-85a7-da26f6a3c73a" />
+
+**Gate level synthesis**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 120954" src="https://github.com/user-attachments/assets/672a0d64-9a01-4716-80e2-02cdf7c8d692" />
+
+<img width="3845" height="2160" alt="Screenshot 2025-07-19 121207" src="https://github.com/user-attachments/assets/ede116d6-32f7-4b1c-895e-37a309771f6f" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 121347" src="https://github.com/user-attachments/assets/6f8a591e-aa71-4865-8ab6-c2cb8df85b06" />
+
+---
+
 
