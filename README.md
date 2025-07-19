@@ -4153,7 +4153,7 @@ manually replicating hardware like full adders in a 32-bit Ripple Carry Adder (R
 
 ---
 
-<img width="1027" height="392" alt="image" src="https://github.com/user-attachments/assets/e13a0913-d9be-4ef5-8189-e5f46eb6d208" />
+<img width="2490" height="933" alt="image" src="https://github.com/user-attachments/assets/eac525f9-10c2-4238-ae04-51de23ec1ba2" />
 
 ### Example: 32-bit RCA Using Generate in Verilog
 
@@ -4199,4 +4199,87 @@ Using generate loops:
 
 This approach aligns with modern digital design best practices.
 
+---
+## Labs on "for loop" and "for generate"
+---
+### Sky130RTL D5SK5 L1 Lab For and For Generate part1
+---
+
+### **mux_generate.v**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 140617" src="https://github.com/user-attachments/assets/4403f4b4-42b6-49d8-a2f6-c0bcb16272ed" />
+
+This Verilog module implements a **4:1 multiplexer** using a `for` loop within a combinational logic block. A multiplexer selects one of several input signals and forwards it to the output, based on the value of a select signal.
+
+### 1. **Module Declaration**
+
+```verilog
+module mux_generate (
+    input i0, input i1, input i2, input i3,
+    input [1:0] sel,
+    output reg y
+);
+```
+
+* **Inputs:**
+
+  * `i0`, `i1`, `i2`, `i3` — four 1-bit input signals.
+  * `sel` — a 2-bit control signal used to select one of the inputs.
+
+* **Output:**
+
+  * `y` — the selected input is passed to this output.
+
+---
+
+### 2. **Input Vector Construction**
+
+```verilog
+wire [3:0] i_int;
+assign i_int = {i3, i2, i1, i0};
+```
+
+* This line groups the 4 inputs into a 4-bit vector `i_int` for easier indexing.
+* `{i3, i2, i1, i0}` forms the vector in descending priority:
+
+  * `i_int[3] = i3`, `i_int[0] = i0`.
+
+---
+
+### **For Loop for Multiplexing Logic**
+
+```verilog
+integer k;
+
+always @(*)
+begin
+    for (k = 0; k < 4; k = k + 1) begin
+        if (k == sel)
+            y = i_int[k];
+    end
+end
+```
+
+* `integer k;` — loop index variable.
+* `always @(*)` — this block will execute whenever any of its inputs change (combinational logic).
+* `for` loop — iterates over all possible input indices (0 to 3).
+* `if (k == sel)` — compares loop index `k` with the value of the `sel` input.
+* `y = i_int[k];` — if a match is found, assigns the corresponding input to output `y`.
+
+* If `sel = 2'b00`, then `y = i0`
+* If `sel = 2'b01`, then `y = i1`
+* If `sel = 2'b10`, then `y = i2`
+* If `sel = 2'b11`, then `y = i3`
+
+This behaves exactly like a 4:1 multiplexer.
+
+* The loop dynamically selects the input based on `sel` value.
+* `always @(*)` ensures combinational behavior (no latches).
+* `reg y;` is correctly used since the assignment is done inside an `always` block.
+
+---
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 141415" src="https://github.com/user-attachments/assets/47153e57-1675-4e5e-9b82-a17018275f4f" />
+
+<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/019d5223-ab6b-4615-af32-f49adb85c4d8" />
 
