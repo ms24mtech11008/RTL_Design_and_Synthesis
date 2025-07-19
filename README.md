@@ -3736,20 +3736,6 @@ This clearly shows that the absence of an `else` block causes the simulator to t
 
 <img width="3840" height="2160" alt="Screenshot 2025-07-18 180913" src="https://github.com/user-attachments/assets/f0d41ca7-9f99-486b-9916-590a5add3e82" />
 
-## **incomp_case.v**
-
-<img width="3840" height="2160" alt="Screenshot 2025-07-18 181622" src="https://github.com/user-attachments/assets/396b7b9a-ff7a-4b72-9592-8c8d7eef158c" />
-
-<img width="3840" height="2160" alt="Screenshot 2025-07-18 181654" src="https://github.com/user-attachments/assets/26b94212-ac1d-4e89-a828-66cb8b008b49" />
-
-<img width="3840" height="2160" alt="Screenshot 2025-07-18 181801" src="https://github.com/user-attachments/assets/b7a5fb22-19e1-4c47-9d01-774cbb66aaa4" />
-
-<img width="3840" height="2160" alt="Screenshot 2025-07-18 181908" src="https://github.com/user-attachments/assets/9dd6f98e-0dc5-4784-b56a-8718e58fe579" />
-
-<img width="3840" height="2160" alt="Screenshot 2025-07-18 182000" src="https://github.com/user-attachments/assets/9a329fc2-2677-476b-ad0d-3f862c707f70" />
-
-<img width="3840" height="2160" alt="Screenshot 2025-07-18 182023" src="https://github.com/user-attachments/assets/1da0fc59-4451-4383-9782-57a071b0ac61" />
-
 ---
 ### Sky130RTL D5SK2 L2 Lab Incomplete IF part2
 ---
@@ -3811,4 +3797,34 @@ when i2 is high --> output starts following i3
 <img width="3840" height="2160" alt="Screenshot 2025-07-19 111454" src="https://github.com/user-attachments/assets/13fe157f-df94-4386-aaa6-90a5301ca85c" />
 
 <img width="3840" height="2160" alt="Screenshot 2025-07-19 111524" src="https://github.com/user-attachments/assets/1eff7dc7-4b4e-4e57-84c2-e11863da0ae4" />
+
+---
+## Lab on "Incomplete overlapping case"
+---
+### Sky130RTL D5SK3 L1 Lab Incomplete overlapping Case part1
+---
+We will be working on the following files
+1) comp_case.v 
+2) incomp_case.v 
+3) partial_case_assign.v 
+4) bad_case.v
+
+## **incomp_case.v**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 181622" src="https://github.com/user-attachments/assets/396b7b9a-ff7a-4b72-9592-8c8d7eef158c" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 181654" src="https://github.com/user-attachments/assets/26b94212-ac1d-4e89-a828-66cb8b008b49" />
+
+When select is '00' y is following i0
+When select is '01' y is following i1
+The moment select is becoming '11' or '10', y is latching to that value.
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 181801" src="https://github.com/user-attachments/assets/b7a5fb22-19e1-4c47-9d01-774cbb66aaa4" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 181908" src="https://github.com/user-attachments/assets/9dd6f98e-0dc5-4784-b56a-8718e58fe579" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 182000" src="https://github.com/user-attachments/assets/9a329fc2-2677-476b-ad0d-3f862c707f70" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 182023" src="https://github.com/user-attachments/assets/1da0fc59-4451-4383-9782-57a071b0ac61" />
+
 
