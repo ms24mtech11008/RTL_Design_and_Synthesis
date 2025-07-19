@@ -3736,5 +3736,79 @@ This clearly shows that the absence of an `else` block causes the simulator to t
 
 <img width="3840" height="2160" alt="Screenshot 2025-07-18 180913" src="https://github.com/user-attachments/assets/f0d41ca7-9f99-486b-9916-590a5add3e82" />
 
+## **incomp_case.v**
 
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 181622" src="https://github.com/user-attachments/assets/396b7b9a-ff7a-4b72-9592-8c8d7eef158c" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 181654" src="https://github.com/user-attachments/assets/26b94212-ac1d-4e89-a828-66cb8b008b49" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 181801" src="https://github.com/user-attachments/assets/b7a5fb22-19e1-4c47-9d01-774cbb66aaa4" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 181908" src="https://github.com/user-attachments/assets/9dd6f98e-0dc5-4784-b56a-8718e58fe579" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 182000" src="https://github.com/user-attachments/assets/9a329fc2-2677-476b-ad0d-3f862c707f70" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-18 182023" src="https://github.com/user-attachments/assets/1da0fc59-4451-4383-9782-57a071b0ac61" />
+
+---
+### Sky130RTL D5SK2 L2 Lab Incomplete IF part2
+---
+### **incomp_if2.v**
+
+<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/1413ae69-6bc7-4045-be93-5e516c20a389" />
+
+### **Hardware Interpretation: Incomplete `if` Chain**
+
+Looking at the Verilog code in `incomp_if2.v`, the structure uses an incomplete `if-else` chain:
+
+```verilog
+if (i0)
+    y <= i1;
+else if (i2)
+    y <= i3;
+```
+
+This results in hardware with **two multiplexers**:
+
+1. The **first MUX** selects `i1` when `i0` is high.
+2. The **second MUX** selects `i3` when `i2` is high and `i0` is low.
+3. However, if **neither `i0` nor `i2` is high**, then `y` is **not assigned any value** — this leads to **latch inference**.
+
+### **D-Latch Behavior:**
+
+* This circuit behaves like a **D-latch**.
+* The **enable signal (EN)** for this latch is the logical **OR of `i0` and `i2`**.
+* When either `i0` or `i2` is high, one of the assignments to `y` becomes active and data is allowed through.
+* When both are low, `y` holds its **previous value**, mimicking **latch behavior**.
+
+### **Input Logic:**
+
+The actual data input to the latch is determined by a combination of the select signals and values:
+
+* If `i0 = 1` → `y = i1`
+* Else if `i2 = 1` → `y = i3`
+* Else → **no assignment**, so **latch holds**
+
+Thus, the hardware consists of:
+
+* A logic block to evaluate `i0` and `i2` for selection
+* A **MUX** structure that picks between `i1` and `i3`
+* A **latch** to retain the last value when neither condition is true
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 105626" src="https://github.com/user-attachments/assets/84b01f48-e7d8-48f2-a9a8-db135417030b" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 111233" src="https://github.com/user-attachments/assets/65f7f5d9-bd15-469e-981e-bd72174a3156" />
+
+We can see whenever i0 = 1--> Output 'y' is following i1.
+When i0 = 0 --> it looks towards i2:
+When i2 is low --> output is constant
+when i2 is high --> output starts following i3
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 111335" src="https://github.com/user-attachments/assets/28093324-0c1d-49af-8add-004ff906a6b9" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 111417" src="https://github.com/user-attachments/assets/5a110c54-2cdb-41c8-8b42-7a4aa169aa1e" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 111454" src="https://github.com/user-attachments/assets/13fe157f-df94-4386-aaa6-90a5301ca85c" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-19 111524" src="https://github.com/user-attachments/assets/1eff7dc7-4b4e-4e57-84c2-e11863da0ae4" />
 
