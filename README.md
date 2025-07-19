@@ -3811,6 +3811,41 @@ We will be working on the following files
 
 ## **incomp_case.v**
 
+<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/9979ace5-2976-4f36-8bdf-669e39b9d0e4" />
+
+Based on the Verilog code shown for `incomp_case.v`, we observe the following behavior:
+
+```verilog
+case (sel)
+  2'b00: y = i0;
+  2'b01: y = i1;
+endcase
+```
+
+* When `sel = 2'b00`, the output `y` is assigned the value of `i0`.
+* When `sel = 2'b01`, the output `y` is assigned the value of `i1`.
+* However, for `sel = 2'b10` and `2'b11`, **no assignment** is made.
+* Moreover, a `default` case is **missing**, which means in those conditions, **`y` retains its previous value**.
+
+### **Inferred Latch:**
+
+Due to incomplete case coverage:
+
+* A **latch is inferred** by the synthesis tool.
+* The **enable condition** for this latch is `sel[1]`, because it determines whether or not `y` gets a new value.
+
+### **D-Latch Behavior:**
+
+This circuit effectively behaves like a **D-latch**:
+
+* When `sel[1] = 0` (i.e., `sel` is either `00` or `01`), output `y` directly follows either `i0` or `i1`.
+* When `sel[1] = 1` (i.e., `sel` is `10` or `11`), since no assignment is made, `y` **holds its previous value**, which is a classic **latch behavior**.
+
+So the hardware formed here includes:
+
+* A multiplexer selecting between `i0` and `i1` for `sel = 00` or `01`.
+* A **latch** that holds `y` when `sel[1] = 1`.
+
 <img width="3840" height="2160" alt="Screenshot 2025-07-18 181622" src="https://github.com/user-attachments/assets/396b7b9a-ff7a-4b72-9592-8c8d7eef158c" />
 
 <img width="3840" height="2160" alt="Screenshot 2025-07-18 181654" src="https://github.com/user-attachments/assets/26b94212-ac1d-4e89-a828-66cb8b008b49" />
