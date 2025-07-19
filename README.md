@@ -3815,8 +3815,10 @@ We will be working on the following files
 
 <img width="3840" height="2160" alt="Screenshot 2025-07-18 181654" src="https://github.com/user-attachments/assets/26b94212-ac1d-4e89-a828-66cb8b008b49" />
 
-When select is '00' y is following i0
-When select is '01' y is following i1
+When select is '00' y is following i0,
+
+When select is '01' y is following i1,
+
 The moment select is becoming '11' or '10', y is latching to that value.
 
 <img width="3840" height="2160" alt="Screenshot 2025-07-18 181801" src="https://github.com/user-attachments/assets/b7a5fb22-19e1-4c47-9d01-774cbb66aaa4" />
