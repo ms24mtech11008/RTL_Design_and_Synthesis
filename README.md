@@ -1,4 +1,4 @@
-<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/86ad323c-ed7a-479b-8db3-87faf040bebe" /># RTL_Design_and_Synthesis
+# RTL_Design_and_Synthesis
 ## Table of contents
 - [Day 1 - Introduction to Verilog RTL design and Synthesis](#Day-1---Introduction-to-Verilog-RTL-design-and-Synthesis)
   - [Introduction to open-source simulator iverilog](#Introduction-to-open-source-simulator-iverilog)
