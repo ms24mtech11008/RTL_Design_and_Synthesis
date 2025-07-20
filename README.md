@@ -4428,8 +4428,11 @@ After simulation, you can visualize results in **GTKWave**, and right-click on s
 ---
 # References
 ---
+
 Google SkyWater PDK
+
 VSD Workshop GitHub Material
+
 NPTEL – Hardware Modelling Using Verilog by Prof. Indranil Sengupta
 
 ---
