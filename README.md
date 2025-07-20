@@ -1,4 +1,4 @@
-# RTL_Design_and_Synthesis
+<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/86ad323c-ed7a-479b-8db3-87faf040bebe" /># RTL_Design_and_Synthesis
 ## Table of contents
 - [Day 1 - Introduction to Verilog RTL design and Synthesis](#Day-1---Introduction-to-Verilog-RTL-design-and-Synthesis)
   - [Introduction to open-source simulator iverilog](#Introduction-to-open-source-simulator-iverilog)
@@ -4299,3 +4299,114 @@ This mapping confirms correct multiplexer behavior. Using this structure is esse
 <img width="3840" height="2160" alt="Screenshot 2025-07-19 142033" src="https://github.com/user-attachments/assets/fd4a28e5-5be1-42ce-8cac-cbe7ca67ced0" />
 
 <img width="3840" height="2160" alt="Screenshot 2025-07-19 142103" src="https://github.com/user-attachments/assets/a4380b29-7e5b-4d92-b860-a52de0c8b57e" />
+
+---
+### Sky130RTL D5SK5 L2 Lab For and For Generate part2
+---
+
+**Next example: Demultiplexers**
+
+In this example, we’re using the concept of **blocking statements**.
+
+* **Initialization**:
+  `y_int = 8'b0;` ensures all outputs are reset to 0 before setting one of them based on the `sel` value. This is **very important** to avoid *inferred latches*, which can cause unwanted storage elements in synthesis.
+
+* **Routing**:
+  The input `i` is routed to one of the 8 outputs based on the 3-bit `sel` signal.
+
+* **Code Structure**:
+
+  * The **`case`-based implementation** (right side) is functionally correct but **bulky**, especially as the demux size increases.
+  * The **`for` loop version** (left side) is **more concise and scalable**, reducing code repetition and error risk in higher-bit demux designs.
+
+<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/36e3f8ed-fffc-46d1-98bf-126f8577ad04" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 104524" src="https://github.com/user-attachments/assets/3fd3d770-e160-47b7-8943-d9ff2107f34a" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 104804" src="https://github.com/user-attachments/assets/11872f35-1261-4e96-84dd-75825e377496" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 104911" src="https://github.com/user-attachments/assets/ef056299-949d-409e-96a0-c6cff263bee6" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 104956" src="https://github.com/user-attachments/assets/bddd1408-b1ce-42e2-9163-04db86ca85b7" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 105055" src="https://github.com/user-attachments/assets/2ed814b4-d349-4af6-88bc-cd91b7f5a8c5" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 105134" src="https://github.com/user-attachments/assets/31538927-bcbd-4a38-bf26-cb16ce1002ea" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 105214" src="https://github.com/user-attachments/assets/4704c421-6c98-4e78-914b-565e8d262311" />
+
+### **demux_generate.v**
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 105331" src="https://github.com/user-attachments/assets/17201e79-ba4d-4552-86db-66e33dabcc3c" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 105422" src="https://github.com/user-attachments/assets/393b472c-726d-4292-856c-32b2032ce756" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 105538" src="https://github.com/user-attachments/assets/8356d5b1-10ac-488c-a4c6-468714edc708" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 105624" src="https://github.com/user-attachments/assets/e91e990c-0314-4297-82c4-11abda7c7e5b" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 105702" src="https://github.com/user-attachments/assets/19b7273d-d9ba-48a8-b49a-9abd2e09a846" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 105731" src="https://github.com/user-attachments/assets/0fcf9157-6615-46bc-91d9-968ccda8f33a" />
+
+---
+### Sky130RTL D5SK5 L3 Lab For and For Generate part3
+and
+### Sky130RTL D5SK5 L4 Lab For and For Generate part4
+---
+
+### **Ripple Carry Adder (RCA) and For-Generate in Verilog**
+
+A **Ripple Carry Adder** adds two binary numbers by cascading **Full Adders (FAs)**. Each FA adds a pair of bits and a carry input, generating a **sum** and **carry-out**. The carry-out ripples into the next FA as carry-in. This continues from the **Least Significant Bit (LSB)** to the **Most Significant Bit (MSB)**.
+
+<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/7f8ef7c4-6235-49df-83fa-afb77d99f0d8" />
+
+#### Why For-Generate?
+
+To avoid writing repetitive code for multiple FAs, Verilog provides the `generate for` construct. This automatically instantiates FAs in a loop, simplifying and scaling the design.
+
+#### RCA Design Summary:
+
+* Two 8-bit inputs: `num1`, `num2`
+* One 9-bit output: `sum` (8 bits for sum + 1 bit for carry-out)
+* `int_sum[7:0]` stores sum bits
+* `int_co[7:0]` stores intermediate carry bits
+* First FA is instantiated separately (with `c = 0`)
+* Remaining FAs use `generate for` to propagate carries
+
+#### Verilog Simulation Flow:
+
+```bash
+iverilog fa.v rca.v tb_rca.v
+./a.out
+gtkwave tb_rca.vcd
+```
+
+* `fa.v`: Contains the Full Adder module.
+* `rca.v`: Uses `for-generate` to build the 8-bit RCA.
+* `tb_rca.v`: Testbench to simulate the RCA.
+
+After simulation, you can visualize results in **GTKWave**, and right-click on signals to change the display format to decimal.
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 110742" src="https://github.com/user-attachments/assets/d0423486-0e49-4b64-9b69-a1c5a41b836d" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 111025" src="https://github.com/user-attachments/assets/3e4f8ad6-3b8f-439a-83e3-d7ddfcf65470" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 111407" src="https://github.com/user-attachments/assets/c6ac1b72-8a0a-4bff-9687-54d3f66c87ae" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 111453" src="https://github.com/user-attachments/assets/a040263d-6c79-41ec-a98b-f192e41c9a5f" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 111532" src="https://github.com/user-attachments/assets/cb2cf2b4-3c56-4e02-8f6a-3c2697f498ae" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 111634" src="https://github.com/user-attachments/assets/21964ae1-c665-4186-b015-741222682a12" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 111701" src="https://github.com/user-attachments/assets/e026ce95-6fe9-48bb-988e-49a1f24677a1" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 111826" src="https://github.com/user-attachments/assets/065c9061-2ea2-431c-a8d5-c0b2afe03981" />
+
+<img width="3840" height="2160" alt="Screenshot 2025-07-20 111806" src="https://github.com/user-attachments/assets/23da893a-95e5-40ac-bbaf-38062d7df38a" />
+
+---
+
+
+
