@@ -54,10 +54,33 @@
   - [Labs on synth-sim mismatch for blocking statement](#Labs-on-synth-sim-mismatch-for-blocking-statement)
     - [SKY130RTL D4SK3 L1 Lab Synth sim mismatch blocking statement part1](#SKY130RTL-D4SK3-L1-Lab-Synth-sim-mismatch-blocking-statement-part1)
     - [SKY130RTL D4SK3 L2 Lab Synth sim mismatch blocking statement part2](#SKY130RTL-D4SK3-L2-Lab-Synth-sim-mismatch-blocking-statement-part2)
-- [Day 5 - Optimization in synthesis](#Day-5---Optimization-in-synthesis)
-  - [If Case constructs](#If-Case-constructs)
-    - [SKY130RTL D5SK1 L1 IF CASE Constructs part1](#SKY130RTL-D5SK1-L1-IF-CASE-Constructs-part1)
-    - 
+
+  - [If Case constructs](#if-case-constructs)
+    - [Sky130RTL D5SK1 L1 IF CASE Constructs part1](#sky130rtl-d5sk1-l1-if-case-constructs-part1)
+    - [Sky130RTL D5SK1 L2 IF CASE Constructs part2](#sky130rtl-d5sk1-l2-if-case-constructs-part2)
+    - [Sky130RTL D5SK1 L3 IF CASE Constructs part3](#sky130rtl-d5sk1-l3-if-case-constructs-part3)
+
+  - [Labs on "Incomplete If Case"](#labs-on-incomplete-if-case)
+    - [Sky130RTL D5SK2 L1 Lab Incomplete IF part1](#sky130rtl-d5sk2-l1-lab-incomplete-if-part1)
+    - [Sky130RTL D5SK2 L2 Lab Incomplete IF part2](#sky130rtl-d5sk2-l2-lab-incomplete-if-part2)
+
+  - [Lab on "Incomplete overlapping case"](#lab-on-incomplete-overlapping-case)
+    - [Sky130RTL D5SK3 L1 Lab Incomplete overlapping Case part1](#sky130rtl-d5sk3-l1-lab-incomplete-overlapping-case-part1)
+    - [Sky130RTL D5SK3 L2 Lab Incomplete overlapping Case part2](#sky130rtl-d5sk3-l2-lab-incomplete-overlapping-case-part2)
+    - [Sky130RTL D5SK3 L3 Lab Incomplete overlapping Case part3](#sky130rtl-d5sk3-l3-lab-incomplete-overlapping-case-part3)
+    - [Sky130RTL D5SK3 L4 Lab Incomplete overlapping Case part4](#sky130rtl-d5sk3-l4-lab-incomplete-overlapping-case-part4)
+
+  - [for loop and for generate](#for-loop-and-for-generate)
+    - [Sky130RTL D5SK4 L1 For Loop and For Generate part1](#sky130rtl-d5sk4-l1-for-loop-and-for-generate-part1)
+    - [Sky130RTL D5SK4 L2 For Loop and For Generate part2](#sky130rtl-d5sk4-l2-for-loop-and-for-generate-part2)
+    - [Sky130RTL D5SK4 L3 For Loop and For Generate part3](#sky130rtl-d5sk4-l3-for-loop-and-for-generate-part3)
+
+  - [Labs on "for loop" and "for generate"](#labs-on-for-loop-and-for-generate)
+    - [Sky130RTL D5SK5 L1 Lab For and For Generate part1](#sky130rtl-d5sk5-l1-lab-for-and-for-generate-part1)
+    - [Sky130RTL D5SK5 L2 Lab For and For Generate part2](#sky130rtl-d5sk5-l2-lab-for-and-for-generate-part2)
+    - [Sky130RTL D5SK5 L3 Lab For and For Generate part3](#sky130rtl-d5sk5-l3-lab-for-and-for-generate-part3)
+    - [Sky130RTL D5SK5 L4 Lab For and For Generate part4](#sky130rtl-d5sk5-l4-lab-for-and-for-generate-part4)
+
 
 
 
