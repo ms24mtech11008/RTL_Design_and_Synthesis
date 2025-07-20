@@ -4426,6 +4426,16 @@ After simulation, you can visualize results in **GTKWave**, and right-click on s
 <img width="3840" height="2160" alt="Screenshot 2025-07-20 111806" src="https://github.com/user-attachments/assets/23da893a-95e5-40ac-bbaf-38062d7df38a" />
 
 ---
+# References
+---
+Google SkyWater PDK
+VSD Workshop GitHub Material
+NPTEL – Hardware Modelling Using Verilog by Prof. Indranil Sengupta
+
+---
+# Acknowledgement
+---
+I sincerely express my gratitude to Mr. Kunal Ghosh, Co-founder of VLSI System Design (VSD) Corp. Pvt. Ltd., and Mr. Nickson Jose for their exceptional guidance and for conducting the RTL_Design_and_Synthesis workshop. Their clear instruction, deep expertise, and structured sessions significantly enriched my understanding of Verilog-based simulation and synthesis processes. The workshop was meticulously organized, offering practical insights into RTL design flow, simulation strategies, and synthesis techniques using open-source tools. I am truly thankful to both Mr. Kunal Ghosh and Mr. Nickson Jose for their commitment to education and for delivering such a valuable and insightful learning experience.
 
 
 
