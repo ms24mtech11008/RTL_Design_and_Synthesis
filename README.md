@@ -4441,4 +4441,5 @@ NPTEL – Hardware Modelling Using Verilog by Prof. Indranil Sengupta
 I sincerely express my gratitude to Mr. Kunal Ghosh, Co-founder of VLSI System Design (VSD) Corp. Pvt. Ltd., and Mr. Nickson Jose for their exceptional guidance and for conducting the RTL_Design_and_Synthesis workshop. Their clear instruction, deep expertise, and structured sessions significantly enriched my understanding of Verilog-based simulation and synthesis processes. The workshop was meticulously organized, offering practical insights into RTL design flow, simulation strategies, and synthesis techniques using open-source tools. I am truly thankful to both Mr. Kunal Ghosh and Mr. Nickson Jose for their commitment to education and for delivering such a valuable and insightful learning experience.
 
 
+![RTL Workshop certificate_page-0001](https://github.com/user-attachments/assets/07552c94-e479-4854-9856-fab41c695291)
 
